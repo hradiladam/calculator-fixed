@@ -136,8 +136,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (/[0-9]/.test(value)) {
+            handleNumber(value);
+            return;
+        }
+
         else {
-            currentInput += value; // LEAVES INITIAL 0 IN DISPLAY AFTER AC AND THEN A NEW NUMBER IS PRESSED - FIX LATER
+            currentInput += value;
         }
     };
 
@@ -166,6 +171,16 @@ document.addEventListener('DOMContentLoaded', () => {
         lastButtonWasEquals = false;
     };
 
+
+    // Handle numbers if the '=' flag is false
+    const handleNumber = (value) => {
+        // If the current input is just "0" and a number is pressed, replace it
+        if (currentInput === '0') {
+            currentInput = value;
+        } else {
+            currentInput += value;
+        }
+    };
 
 
     // Function to add event listeners to buttons and connect buttons data-value with JS
