@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let recentHistory = ''; // Stores the previous operation
     let lastButtonWasEquals = false; // Flag to track if the last button pressed was '='
 
+    const operators = ['+', '-', '×', '÷']; // List of operators
 
     // Function to update the display of the calculator
     const updateDisplay = () => {
@@ -128,22 +129,41 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // Function to append value to the current input
+    // Function to handle appending values
     const appendValue = (value) => {
         if (lastButtonWasEquals) {
-            if (/\d/.test(value)) {
-                currentInput = value; // Start new input with the number
-            } else {
-                currentInput += ` ${value} `; // Continue with operator
-            }
-            lastButtonWasEquals = false; // Reset the equals flag
-        } else {
-            if (currentInput === '0' && /\d/.test(value)) {
-                currentInput = value; // Replace default '0' with the number
-            } else {
-                currentInput += value; // Append the value
-            }
+            handleEqualsFollowUp(value);
+            return;
         }
+
+        else {
+            currentInput += value; // LEAVES INITIAL 0 IN DISPLAY AFTER AC AND THEN A NEW NUMBER IS PRESSED - FIX LATER
+        }
+    };
+
+
+    /*
+        Helper functions for specific button presses
+    */
+
+    //Function to handle if the '=' flag is set to true
+    const handleEqualsFollowUp = (value) => {
+        if (value === '( )') {
+            // Append '(' directly after '='
+            currentInput += '(';
+        } else if (/[0-9]/.test(value)) {
+            // If a number is pressed, reset the input to just the number
+            currentInput = value;
+        } else if (value === '%') {
+            // Append '%' directly without spaces
+            currentInput += '%';
+        } else {
+            // For operators or other values, append them with spaces
+            currentInput += value;
+        }
+    
+        // Reset the equals flag to allow normal behavior afterward
+        lastButtonWasEquals = false;
     };
 
 
