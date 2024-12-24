@@ -134,3 +134,81 @@ body {
     transform: scale(0.9);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
+
+/* Dark theme */
+body.dark-theme {
+    background: linear-gradient(145deg, #292929, #0e0e0e);
+}
+
+body.dark-theme .calculator {
+    background: linear-gradient(145deg, #1a1a1a, #1a1a1a);
+    box-shadow: 0 3px 6px rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme #display {
+    background-color: #353535;
+    color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme #result {
+    color: #e0e0e0;
+}
+
+body.dark-theme .button {
+    background-color: #444444;
+    color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .button:hover {
+    background-color: #666666;
+}
+
+body.dark-theme .button:active {
+    transform: scale(0.99);
+    outline: 1px solid #bbbbbb;
+}
+
+body.dark-theme .operator {
+    background-color: #e07b7b;
+    color: #ffffff;
+}
+
+body.dark-theme .operator:hover {
+    background-color: #d06565;
+}
+
+body.dark-theme .additional {
+    background-color: #48a992;
+    color: #ffffff;
+}
+
+body.dark-theme .additional:hover {
+    background-color: #3a8c77;
+}
+
+body.dark-theme .button:nth-child(21) {
+    background: linear-gradient(145deg, #e07b7b, #af3d3d);
+    color: #f0f0f0;
+    font-size: 1.8rem;
+}
+
+body.dark-theme .button:nth-child(21):hover {
+    background: linear-gradient(145deg, #d06565, #af3d3d);
+}
+
+body.dark-theme #theme-switch {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #d6d6d6;
+}
+
+body.dark-theme #theme-switch:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+body.dark-theme #theme-switch:active {
+    transform: scale(0.9);
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.15);
+}
