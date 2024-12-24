@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentInput = ''; // What user types
     let recentHistory = ''; // Stores the previous operation
+    let lastButtonWasEquals = false; // Flag to track if the last button pressed was '='
 
 
     // Function to update the display of the calculator
@@ -21,20 +22,18 @@ document.addEventListener('DOMContentLoaded', () => {
             case '⌫':
                 console.log("Backspace button clicked - Functionality not implemented yet"); // Placeholder for backspace()
             case '=':
-                evaluateExpression(); // Evaluates expression (modified currentInput)
-                break; // End the switch here for this case
+                evaluateExpression(); // Evaluate the expression
+                lastButtonWasEquals = true; // Set the flag after pressing '='
+                break;
             default:
-                appendValue(value); // Appends other buttons' value to currentInput
+                appendValue(value); // Append value to the current input
         }
 
         updateDisplay(); // Update the display after each press
     };
 
-    // Append buttons' values to current input
-    const appendValue = (value) => {
-        currentInput += value;
-    };
 
+    
     /* 
     FUNCTIONALITY THAT IS TO BE IMPLEMENTED LATER: 
         - Parentheses
@@ -62,10 +61,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
             recentHistory = `${currentInput}=`; // Save the expression and result in recentHistory
             currentInput = result; // Update input to the result
-        } catch (error) {
+            lastButtonWasEquals = true; // Set the equals flag
+        } 
+        
+        catch (error) {
             currentInput = 'format error'; // Show error on invalid expressions
         }
     };
+
+
+    // Append value to the current input
+const appendValue = (value) => {
+    if (lastButtonWasEquals) {
+        // If the last button pressed was '=', use the result for new operation
+        if (['+', '-', '×', '÷'].includes(value)) {
+            // If the user presses an operator after '=', start a new calculation with the result
+            currentInput = currentInput + value;
+            lastButtonWasEquals = false; // Allow for the next input to be appended normally
+        } else {
+            // If the user presses a number, start a new expression with that number
+            currentInput = value;
+            lastButtonWasEquals = false;
+        }
+    } else {
+        // Otherwise, append normally
+        currentInput += value;
+    }
+};
+
 
 
     // Function to add event listeners to buttons and connect buttons data-value with JS
