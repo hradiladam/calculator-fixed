@@ -158,8 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        else {
-            currentInput += value;
+        if (value === '( )') {
+            handleParentheses(value);
+            return;
         }
     };
 
@@ -252,11 +253,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // handle the decimal point
     const handleDecimal = (value) => {
-       const lastNumber = currentInput.split(/[\+\-\×\÷]/).pop(); // Get the last number segment
-       if (!lastNumber.includes('.')) {
+        const lastNumber = currentInput.split(/[\+\-\×\÷]/).pop(); // Get the last number segment
+        if (!lastNumber.includes('.')) {
            currentInput += value; // Append the decimal point only if not already present
-       }
-   };
+        }
+    };
+
+
+    // Handle parentheses
+    const handleParentheses = () => {
+        const openParentheses = (currentInput.match(/\(/g) || []).length;
+        const closedParentheses = (currentInput.match(/\)/g) || []).length;
+    
+        // If the input is '0', replace it with '('
+        if (currentInput === '0') {
+            currentInput = '(';
+            return;
+        }
+    
+        // Add opening parenthesis if it's appropriate
+        if (
+            operators.includes(currentInput.trim().slice(-1)) ||
+            currentInput.trim().slice(-1) === '(' ||
+            currentInput === ''
+        ) {
+            currentInput += '(';
+            return;
+        }
+    
+        // Add closing parenthesis only if there are unmatched opening parentheses
+        if (openParentheses > closedParentheses) {
+            currentInput += ')';
+            return;
+        }
+    
+        // Default to adding an opening parenthesis
+        currentInput += '(';
+    };
 
 
     // Function to add event listeners to buttons and connect buttons data-value with JS
