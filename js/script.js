@@ -67,8 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
     /* 
     FUNCTIONALITY THAT IS TO BE IMPLEMENTED LATER: 
         - Parentheses
-        - Percentages
-        - Decimal points
         - etc.
     */
 
@@ -152,6 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (value === '%') { 
             handlePercentage();
+            return;
+        }
+
+        if (value === '.') {
+            handleDecimal(value);
             return;
         }
 
@@ -245,6 +248,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Append '%' to the input
         currentInput += '%';
     };
+
+
+    // handle the decimal point
+    const handleDecimal = (value) => {
+       const lastNumber = currentInput.split(/[\+\-\×\÷]/).pop(); // Get the last number segment
+       if (!lastNumber.includes('.')) {
+           currentInput += value; // Append the decimal point only if not already present
+       }
+   };
 
 
     // Function to add event listeners to buttons and connect buttons data-value with JS
