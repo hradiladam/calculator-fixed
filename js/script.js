@@ -64,12 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
-    /* 
-    FUNCTIONALITY THAT IS TO BE IMPLEMENTED LATER: 
-        - Parentheses
-        - etc.
-    */
-
 
     /*
     Function to evaluate calculations
@@ -294,10 +288,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to add event listeners to buttons and connect buttons data-value with JS
     document.querySelectorAll('button').forEach((button) => {
-        button.addEventListener('click', () => {
-            handleButtons(button.dataset.value); // Pass button's data-value to handleButtons
-        });
+        // Only add event listener to buttons that are not the theme switch button
+        if (button.id !== 'theme-switch') {
+            button.addEventListener('click', () => {
+                handleButtons(button.dataset.value);  // Grabs custom value in data- of HTML button elements and passes it as an argument
+            });
+        }
     });
+
 
     // Function to switch theme between light and dark
     const switchTheme = () => {
