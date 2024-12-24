@@ -13,26 +13,50 @@ document.addEventListener('DOMContentLoaded', () => {
         resultDisplay.textContent = currentInput || '0'; // Show current input or '0' if empty
     };
 
+    updateDisplay();
 
     // Function to handle button clicks
     const handleButtons = (value) => {
+        // Prevent any action except 'AC' if the current input is 'format error'
+        if (currentInput === 'format error' && value !== 'AC') {
+            return;
+        }
+
         switch (value) {
             case 'AC':
-                console.log("AC button clicked - Functionality not implemented yet"); // Placeholder for clearAll()
+                clearAll();
+                break;
             case '⌫':
-                console.log("Backspace button clicked - Functionality not implemented yet"); // Placeholder for backspace()
+                backspace();
+                break;
             case '=':
-                evaluateExpression(); // Evaluate the expression
-                lastButtonWasEquals = true; // Set the flag after pressing '='
+                evaluateExpression();
                 break;
             default:
-                appendValue(value); // Append value to the current input
+                appendValue(value);
         }
 
         updateDisplay(); // Update the display after each press
     };
 
 
+    // Function to clear all inputs
+    const clearAll = () => {
+        currentInput = '0'; // Reset the current input
+        recentHistory = ''; // Reset the recent history
+        lastButtonWasEquals = false; // Reset the equals flag
+    };
+
+
+    // Function to delete the last character (or operator with spaces)
+    const backspace = () => {
+        currentInput = currentInput.slice(0, -1); // Remove the last character
+
+        // Ensure currentInput doesn't end up empty
+        if (currentInput === '') {
+            currentInput = '0';
+        }
+    };
     
     /* 
     FUNCTIONALITY THAT IS TO BE IMPLEMENTED LATER: 
@@ -49,45 +73,42 @@ document.addEventListener('DOMContentLoaded', () => {
         - Implements Math.js to handle basic calculations and error handling
     */
 
+    // Function to evaluate calculations
     const evaluateExpression = () => {
         try {
             // Replace operators for math.js compatibility
             let expression = currentInput
-                .replace(/×/g, '*') // Change '×' into '*' for math.js
-                .replace(/÷/g, '/'); // Change '÷' into '/' for math.js
+                .replace(/×/g, '*') // Change '×' into '*'
+                .replace(/÷/g, '/'); // Change '÷' into '/'
 
-            // Evaluate the corrected expression
-            let result = math.evaluate(expression).toString();
+            let result = math.evaluate(expression).toString(); // Evaluate the expression
 
-            recentHistory = `${currentInput}=`; // Save the expression and result in recentHistory
+            recentHistory = `${currentInput} =`; // Update recent history with the evaluated expression
             currentInput = result; // Update input to the result
             lastButtonWasEquals = true; // Set the equals flag
-        } 
-        
-        catch (error) {
+        } catch (error) {
             currentInput = 'format error'; // Show error on invalid expressions
         }
     };
 
 
-    // Append value to the current input
-const appendValue = (value) => {
-    if (lastButtonWasEquals) {
-        // If the last button pressed was '=', use the result for new operation
-        if (['+', '-', '×', '÷'].includes(value)) {
-            // If the user presses an operator after '=', start a new calculation with the result
-            currentInput = currentInput + value;
-            lastButtonWasEquals = false; // Allow for the next input to be appended normally
+    // Function to append value to the current input
+    const appendValue = (value) => {
+        if (lastButtonWasEquals) {
+            if (/\d/.test(value)) {
+                currentInput = value; // Start new input with the number
+            } else {
+                currentInput += ` ${value} `; // Continue with operator
+            }
+            lastButtonWasEquals = false; // Reset the equals flag
         } else {
-            // If the user presses a number, start a new expression with that number
-            currentInput = value;
-            lastButtonWasEquals = false;
+            if (currentInput === '0' && /\d/.test(value)) {
+                currentInput = value; // Replace default '0' with the number
+            } else {
+                currentInput += value; // Append the value
+            }
         }
-    } else {
-        // Otherwise, append normally
-        currentInput += value;
-    }
-};
+    };
 
 
 
@@ -97,7 +118,6 @@ const appendValue = (value) => {
             handleButtons(button.dataset.value); // Pass button's data-value to handleButtons
         });
     });
-
 
     // Function to switch theme between light and dark
     const switchTheme = () => {
