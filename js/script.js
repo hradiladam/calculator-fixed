@@ -51,7 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to delete the last character (or operator with spaces)
     const backspace = () => {
-        currentInput = currentInput.slice(0, -1); // Remove the last character
+        // Check if the last characters match the pattern ' operator ' (e.g., ' + ')
+        if (/\s[+\-×÷]\s$/.test(currentInput)) {
+            currentInput = currentInput.slice(0, -3); // Remove the operator and surrounding spaces
+        } else {
+            currentInput = currentInput.slice(0, -1); // Otherwise, remove the last character
+        }
 
         // Ensure currentInput doesn't end up empty
         if (currentInput === '') {
@@ -64,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
         - Parentheses
         - Percentages
         - Decimal points
-        - Formatting for operators
         - etc.
     */
 
@@ -141,6 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (operators.includes(value)) {
+            handleOperator(value);
+            return;
+        }
+
         else {
             currentInput += value;
         }
@@ -164,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentInput += '%';
         } else {
             // For operators or other values, append them with spaces
-            currentInput += value;
+            currentInput += ` ${value} `;
         }
     
         // Reset the equals flag to allow normal behavior afterward
@@ -180,6 +189,32 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             currentInput += value;
         }
+    };
+
+
+    // Handle operators
+    const handleOperator = (value) => {
+        // Trim trailing spaces to focus on the meaningful part of the input
+        const trimmedInput = currentInput.trim();
+
+        // Prevent operator after '(' (allowing '-' after it)
+        if (trimmedInput.slice(-1) === '(' && value !== '-') {
+            return;
+        }
+
+        // Make '-' the only oeprator that replaces default zero
+        if (trimmedInput === '0' && value === '-') {
+            currentInput = '-';
+        }
+
+        // Prevent multiple consecutive operators
+        if (operators.includes(trimmedInput.slice(-1))) {
+            // Replace the last operator with the new one
+            currentInput = trimmedInput.slice(0, -1) + ` ${value} `; 
+        } else {
+            currentInput = `${trimmedInput} ${value} `;
+        }
+
     };
 
 
