@@ -71,6 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
     /*
     Function to evaluate calculations
         - Implements Math.js to handle basic calculations and error handling
+        - Replace consecutive percentages like 50%50% by inserting '*' between them
+        - Handle cases like '50%6' by converting them into valid mathematical expressions
+        - Update history display according to above mentioned changes for clarity 
+        - Implement logic to handle precision in decimals by limiting the number of decimal points to avoid JavaScript's issues with high-precision calculations
+        - Implement logic for when tu use scientific notations
+        - Format results to trim trailing zeroes and avoid ending with a period => safeguard 
+        
     */
 
     // Function to evaluate calculations
@@ -78,13 +85,42 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Replace operators for math.js compatibility
             let expression = currentInput
-                .replace(/×/g, '*') // Change '×' into '*'
-                .replace(/÷/g, '/'); // Change '÷' into '/'
-
-            let result = math.evaluate(expression).toString(); // Evaluate the expression
-
-            recentHistory = `${currentInput} =`; // Update recent history with the evaluated expression
-            currentInput = result; // Update input to the result
+                .replace(/×/g, '*') // Change '×' into '*' for math.js
+                .replace(/÷/g, '/'); // Change '÷' into '/' for math.js
+    
+            // Replace consecutive percentages by inserting '*' between them
+            expression = expression.replace(/(\d+%)\s*(\d+%)/g, '$1*$2');
+    
+            // Handle percentage followed by a number (e.g., '50%6' -> '50%*6')
+            expression = expression.replace(/(\d+%)\s*(\d+)/g, '$1*$2');
+    
+            // Evaluate the corrected expression
+            let result = math.evaluate(expression);
+    
+            // Format result
+            let formattedResult;
+    
+            const SCIENTIFIC_NOTATION_THRESHOLD = 1e15; // Numbers >= 10^15 switch to scientific notation
+            const MINIMUM_THRESHOLD = 1e-15; // Numbers <= 10^-15 switch to scientific notation
+            const MAX_DECIMAL_LENGTH = 12; // Number of decimal places
+    
+            if (
+                Math.abs(result) >= SCIENTIFIC_NOTATION_THRESHOLD ||
+                (Math.abs(result) <= MINIMUM_THRESHOLD && result !== 0)
+            ) {
+                formattedResult = result.toExponential(3); // Format to scientific notation
+            } else {
+                formattedResult = result
+                    .toFixed(MAX_DECIMAL_LENGTH) // Format to fixed decimal
+                    .replace(/(\.\d*?)0+$/, '$1') // Trim trailing zeros
+                    .replace(/\.$/, ''); // Avoid ending with a period
+            }
+    
+            recentHistory = `${currentInput
+                .replace(/(\d+%)\s*(\d+%)/g, '$1 * $2')  // Add space around * for consecutive percentages
+                .replace(/(\d+%)\s*(\d+)/g, '$1 * $2')} =`; // Add space around * for percentage followed by number
+                
+            currentInput = formattedResult; // Update input to the result
             lastButtonWasEquals = true; // Set the equals flag
         } catch (error) {
             currentInput = 'format error'; // Show error on invalid expressions
