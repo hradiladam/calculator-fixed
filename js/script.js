@@ -150,6 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (value === '%') { 
+            handlePercentage();
+            return;
+        }
+
         else {
             currentInput += value;
         }
@@ -214,7 +219,31 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             currentInput = `${trimmedInput} ${value} `;
         }
+    };
 
+
+    // Function to handle percentages
+    const handlePercentage = () => {
+        // Trim trailing spaces to focus on the meaningful part of the input
+        const trimmedInput = currentInput.trim();
+
+        // Check if the current input ends with a percentage
+        if (trimmedInput.slice(-1) === '%') {
+            // Check if the previous part of the string is a valid number followed by another percentage (e.g., '50%50%')
+            const lastNumber = currentInput.split(/[\+\-\×\÷\(\)]/).pop(); // Get the last number before operator or parentheses
+            if (lastNumber && !lastNumber.includes('%')) {
+                // If it's a valid number, we insert multiplication between percentages
+                currentInput += '*';
+            }
+        }
+
+        // Prevent invalid placement of '%' (e.g., directly after '(')
+        if (trimmedInput.slice(-1) === '(') {
+            return;
+        }
+
+        // Append '%' to the input
+        currentInput += '%';
     };
 
 
