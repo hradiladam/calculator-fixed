@@ -104,10 +104,14 @@ body {
 }
 
 /* Styling of the change theme button */
-#theme-switch {
+
+#theme-element {
     position: fixed;
     top: 2rem;
     right: 2rem;
+}
+
+#theme-switch {
     width: 4.4rem;
     height: 4.4rem;
     display: flex;
@@ -124,15 +128,14 @@ body {
 }
 
 #theme-switch:hover {
-    background-color: rgba(245, 250, 255, 0.3);
+    background-color: rgba(245, 250, 255, 0.5);
+    transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: scale(1.07);
-    color: #000000;
 }
 
 #theme-switch:active {
-    transform: scale(0.9);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transform: scale(0.95);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Dark theme */
@@ -213,46 +216,109 @@ body.dark-theme #theme-switch:active {
     box-shadow: 0 2px 6px rgba(255, 255, 255, 0.15);
 }
 
+
+
 @media (max-width: 600px) {
     body {
-        display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
         margin: 0;
+        box-shadow: none;
     }
 
     .calculator {
-        margin-top: 3rem; 
-        grid-template-columns: repeat(4, 4.5rem); 
-        grid-auto-rows: 4.5rem;
-        padding: 1rem;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 20vw;
         gap: 0.5rem;
+        width: 90vw;
+        max-width: 400px;
+        border-radius: 0;
+        box-shadow: none;
     }
 
     #display {
-        font-size: 1.8rem;
+        font-size: 1.9rem;
         padding: 0.5rem;
         margin-bottom: 0.5rem;
+        border-radius: 3px;
     }
 
     #recent-history {
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 
     .button {
         font-size: 1.4rem;
         width: 100%;
         height: auto;
+        border-radius: 3px;
+    }
+
+    #theme-element {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 4.2rem;
+        background-color: #c8d3db;
     }
 
     #theme-switch {
-        position: fixed;
-        top: auto; 
-        bottom: 1rem;
-        right: 1rem;
-        width: 3.5rem;
-        height: 3.5rem;
-        font-size: 2rem;
+        width: 4.4rem;
+        height: 4.4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+        color: #2c2c2c;
+        box-shadow: none;
+        font-size: 2.3rem;
+    }
+
+    #theme-switch:hover {
+        transform: none;
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    #theme-switch:active {
+        transform: none;
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+
+    /* dark theme phone screen */
+    
+    body.dark-theme .calculator {
+        background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+        box-shadow: none;
+    }
+
+    body.dark-theme #theme-element {
+        background-color: #0e0e0e;
+    }
+
+    body.dark-theme #theme-switch {
+        background-color: transparent;
+        color: #cacaca;
+    }
+
+    body.dark-theme #theme-switch:hover {
+        background-color: transparent;
+        color: #cacaca;
+    }
+
+    body.dark-theme #theme-switch:active {
+        background-color: transparent;
+        box-shadow: none;
     }
 }
