@@ -186,8 +186,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle numbers if the '=' flag is false
     const handleNumber = (value) => {
-        // If the current input is just "0" and a number is pressed, replace it
-        if (currentInput === '0') {
+        // If the last char is %, insert ' * ' before the number
+        if (currentInput.slice(-1) === '%') {
+            currentInput += ' × ' + value;
+        } else if (currentInput === '0') { // If the current input is just "0" and a number is pressed, replace it
             currentInput = value;
         } else {
             currentInput += value;
@@ -224,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const handlePercentage = () => {
         // Trim trailing spaces to focus on the meaningful part of the input
         const trimmedInput = currentInput.trim();
+        const lastChar = trimmedInput.slice(-1);
 
         // Check if the current input ends with a percentage
         if (trimmedInput.slice(-1) === '%') {
