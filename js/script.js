@@ -77,54 +77,42 @@ document.addEventListener('DOMContentLoaded', () => {
         
     */
 
-    // Function to evaluate calculations
     const evaluateExpression = () => {
         try {
-            // Replace operators for math.js compatibility
+            // Prepare expression for math.js
             let expression = currentInput
                 .replace(/×/g, '*') // Change '×' into '*' for math.js
-                .replace(/÷/g, '/'); // Change '÷' into '/' for math.js
-    
-            // Replace consecutive percentages by inserting '*' between them
-            expression = expression.replace(/(\d+%)\s*(\d+%)/g, '$1*$2');
-    
-            // Handle percentage followed by a number (e.g., '50%6' -> '50%*6')
-            expression = expression.replace(/(\d+%)\s*(\d+)/g, '$1*$2');
-    
-            // Evaluate the corrected expression
+                .replace(/÷/g, '/') // Change '÷' into '/' for math.js
+                .replace(/(\d+%)\s*(\d+%)/g, '$1*$2') // Handle 50%50% → 50%*50%
+                .replace(/(\d+%)\s*(\d+)/g, '$1*$2'); // Handle 50%6 → 50%*6
+        
+            // Evaluate expression using math.js
             let result = math.evaluate(expression);
-    
+        
             // Format result
-            let formattedResult;
-    
-            const SCIENTIFIC_NOTATION_THRESHOLD = 1e15; // Numbers >= 10^15 switch to scientific notation
-            const MINIMUM_THRESHOLD = 1e-15; // Numbers <= 10^-15 switch to scientific notation
-            const MAX_DECIMAL_LENGTH = 12; // Number of decimal places
-    
-            if (
-                Math.abs(result) >= SCIENTIFIC_NOTATION_THRESHOLD ||
-                (Math.abs(result) <= MINIMUM_THRESHOLD && result !== 0)
-            ) {
-                formattedResult = result.toExponential(3); // Format to scientific notation
-            } else {
-                formattedResult = result
-                    .toFixed(MAX_DECIMAL_LENGTH) // Format to fixed decimal
+            const MAX_DECIMALS = 12;  // Numbers >= 10^15 switch to scientific notation
+            const SCI_NOTATION_UPPER = 1e15; // Numbers <= 10^-15 switch to scientific notation
+            const SCI_NOTATION_LOWER = 1e-15; // Number of decimal places
+        
+            let formattedResult = (Math.abs(result) >= SCI_NOTATION_UPPER || (Math.abs(result) <= SCI_NOTATION_LOWER && result !== 0))
+                ? result.toExponential(3)  // Format to scientific notation
+                : result
+                    .toFixed(MAX_DECIMALS)  // Format to fixed decimal
                     .replace(/(\.\d*?)0+$/, '$1') // Trim trailing zeros
                     .replace(/\.$/, ''); // Avoid ending with a period
-            }
-    
+                
             // Update history and input
             recentHistory = `${currentInput
                 .replace(/(\d+%)\s*(\d+%)/g, '$1 × $2') // Add space around * for consecutive percentages
                 .replace(/(\d+%)\s*(\d+)/g, '$1 × $2')} =`; // Add space around * for percentage followed by number
-                
+                        
             currentInput = formattedResult; // Update input to the result
             lastButtonWasEquals = true; // Set the equals flag
-        } catch (error) {
+            
+        } catch {
             currentInput = 'format error'; // Show error on invalid expressions
         }
     };
-
 
     // Function to handle appending values
     const appendValue = (value) => {
