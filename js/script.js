@@ -113,9 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     .replace(/\.$/, ''); // Avoid ending with a period
             }
     
+            // Update history and input
             recentHistory = `${currentInput
-                .replace(/(\d+%)\s*(\d+%)/g, '$1 * $2')  // Add space around * for consecutive percentages
-                .replace(/(\d+%)\s*(\d+)/g, '$1 * $2')} =`; // Add space around * for percentage followed by number
+                .replace(/(\d+%)\s*(\d+%)/g, '$1 × $2') // Add space around * for consecutive percentages
+                .replace(/(\d+%)\s*(\d+)/g, '$1 × $2')} =`; // Add space around * for percentage followed by number
                 
             currentInput = formattedResult; // Update input to the result
             lastButtonWasEquals = true; // Set the equals flag
@@ -186,15 +187,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle numbers if the '=' flag is false
     const handleNumber = (value) => {
-        // If the last char is %, insert ' * ' before the number
+        // If last char is %, just append number directly (do NOT insert × visually)
         if (currentInput.slice(-1) === '%') {
-            currentInput += ' × ' + value;
-        } else if (currentInput === '0') { // If the current input is just "0" and a number is pressed, replace it
+            currentInput += value; // Let evaluateExpression() insert * for logic
+        } else if (currentInput === '0') {
             currentInput = value;
         } else {
             currentInput += value;
         }
     };
+    
 
 
     // Handle operators
