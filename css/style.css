@@ -1,3 +1,5 @@
+/* styles.css */
+
 body {
     font-family: 'Roboto', sans-serif;
     display: flex;
@@ -42,6 +44,10 @@ body {
     text-overflow: clip;
 }
 
+/* #result::-webkit-scrollbar {
+  display: none;
+} */
+
 #recent-history {
     font-size: 1.3rem;
     color: #7a8a97;
@@ -68,6 +74,12 @@ body {
 }
 
 .button:active {
+    transform: scale(0.99);
+    transition: transform 0.2s ease;
+    outline: 1px solid #7e8e9c;
+}
+
+.button.press-active {
     transform: scale(0.99);
     transition: transform 0.2s ease;
     outline: 1px solid #7e8e9c;

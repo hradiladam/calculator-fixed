@@ -5,11 +5,11 @@ import state from './state.js';
 
 // function to update the display of the calculator
 export const updateDisplay = (recentHistoryDisplay, resultDisplay) => {
-    // 1️⃣ update the history and result text
+    // update the history and result text
     recentHistoryDisplay.textContent = state.recentHistory || 'None';
     resultDisplay.textContent     = state.currentInput   || '0';
 
-    // 2️⃣ force the hidden-scroll container to stay scrolled all the way right
+    // force the hidden-scroll container to stay scrolled all the way right
     resultDisplay.scrollLeft = resultDisplay.scrollWidth;
 };
 
@@ -31,6 +31,3 @@ export const backspace = () => {
 
     if (state.currentInput === '') state.currentInput = '0'; // ensure currentInput doesn't end up empty
 }
-
-
-
