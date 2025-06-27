@@ -15,10 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     keyboard(recentHistoryDisplay, resultDisplay); // keyboard shortcuts
 
     // add event listeners to buttons and connect buttons data-value with JS
-    document.querySelectorAll('button').forEach((button) => {
-        button.addEventListener('click', () => {
+    document.querySelectorAll('button[data-value]').forEach((button) => {
+        button.addEventListener('click', async () => {
             try {
-                handleButtons(button.dataset.value);  // grabs custom value in data- of HTML button elements and passes it as an argument
+                await handleButtons(button.dataset.value);  // grabs custom value in data- of HTML button elements and passes it as an argument
                 updateDisplay(recentHistoryDisplay, resultDisplay); // resets the display
                 button.blur(); // remove keyboard focus from that button immediately after it’s been clicked
             } catch (err) {
