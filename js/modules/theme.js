@@ -1,4 +1,4 @@
-// theme.js
+// js/modules/theme.js
 // ——— Switches themes ———
 
 const themeSwitch = () => {
