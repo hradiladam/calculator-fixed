@@ -6,7 +6,7 @@ import state from './state.js';
 // function to update the display of the calculator
 export const updateDisplay = (recentHistoryDisplay, resultDisplay) => {
     // update the history and result text
-    recentHistoryDisplay.textContent = state.recentHistory || 'None';
+    recentHistoryDisplay.textContent = state.recentHistory || 'No history';
     resultDisplay.textContent     = state.currentInput   || '0';
 
     // force the hidden-scroll container to stay scrolled all the way right

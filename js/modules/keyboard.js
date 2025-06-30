@@ -15,7 +15,7 @@ const keyMap = {
 
 // listen for keydown and send it to handleButtons
 export const keyboard = (recentHistoryDisplay, resultDisplay) => {
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', async (e) => {
         const mapped = keyMap[e.key];
         if (!mapped) return;
         e.preventDefault();
@@ -25,7 +25,7 @@ export const keyboard = (recentHistoryDisplay, resultDisplay) => {
         if (btn) btn.classList.add('press-active');
         
         try {
-            handleButtons(mapped);
+            await handleButtons(mapped);
             updateDisplay(recentHistoryDisplay, resultDisplay);
         } catch (error) {
             console.error("Keyboard handling error:", error);

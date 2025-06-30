@@ -5,13 +5,13 @@ import { clearAll, backspace } from './display.js';
 import { evaluateExpression } from './evaluator.js';
 
 // function to handle button clicks
-export const handleButtons = (value) => {
+export const handleButtons = async (value) => {
     if (state.currentInput === 'format error' && value !== 'AC') return;
 
     switch (value) {
         case 'AC': clearAll(); break;
         case '⌫': backspace(); break;
-        case '=': evaluateExpression(); break;
+        case '=': await evaluateExpression(); break;
         default: appendValue(value);
     }
 };
@@ -34,11 +34,11 @@ export const appendValue = (value) => {
 
 //function to handle if the '=' flag is set to true
 const handleEqualsFollowUp = (value) => {
-    if (value === '( )') state.currentInput += '('; // append '(' directly after '='
-    else if (/[0-9]/.test(value)) state.currentInput = value; // if a number is pressed, reset the input to just the number
-    else if (value === '%') state.currentInput += '%'; // append '%' directly without spaces
-    else state.currentInput += ` ${value} `; // for operators or other values, append them with spaces
-    state.lastButtonWasEquals = false; // reset the equals flag to allow normal behavior afterward
+    if (value === '( )') state.currentInput += '(';             // append '(' directly after '='
+    else if (/[0-9]/.test(value)) state.currentInput = value;   // if a number is pressed, reset the input to just the number
+    else if (value === '%') state.currentInput += '%';          // append '%' directly without spaces
+    else state.currentInput += ` ${value} `;                    // for operators or other values, append them with spaces
+    state.lastButtonWasEquals = false;                          // reset the equals flag to allow normal behavior afterward
 };
 
 // handle numbers if the '=' flag is false
@@ -81,7 +81,6 @@ const handleOperator = (value) => {
 const handlePercentage = () => {
     // trim trailing spaces to focus on the meaningful part of the input
     const trimmedInput = state.currentInput.trim();
-    const lastChar = trimmedInput.slice(-1);
     // check if the current input ends with a percentage
     if (trimmedInput.slice(-1) === '%') {
         // check if the previous part of the string is a valid number followed by another percentage (e.g., '50%50%')
@@ -101,9 +100,9 @@ const handlePercentage = () => {
 
 // handle the decimal point
 const handleDecimal = (value) => {
-    const lastNumber = state.currentInput.split(/[\+\-×÷]/).pop(); // get the last number segment
+    const lastNumber = state.currentInput.split(/[\+\-×÷]/).pop();  // get the last number segment
     if (!lastNumber.includes('.')) {
-       state.currentInput += value; // append the decimal point only if not already present
+       state.currentInput += value;                                 // append the decimal point only if not already present
     }
 };
 
