@@ -5,7 +5,7 @@ import state from './state.js';
 
 export const evaluateExpression = async () => {
     try {
-        const response = await fetch('https://calculator-hdnq.onrender.com/evaluate', {
+        const response = await fetch('https://calculator-ihdr.onrender.com/evaluate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ expression: state.currentInput })
@@ -30,6 +30,6 @@ export const evaluateExpression = async () => {
 
     } catch (error) {
         console.error("fetch/eval error: ", error)
-        state.currentInput = 'format error';
+        state.currentInput = 'Format Error';
     }
 };

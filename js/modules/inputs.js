@@ -6,7 +6,7 @@ import { evaluateExpression } from './evaluator.js';
 
 // function to handle button clicks
 export const handleButtons = async (value) => {
-    if (state.currentInput === 'format error' && value !== 'AC') return;
+    if (state.currentInput === 'Format Error' && value !== 'AC') return;
 
     switch (value) {
         case 'AC': clearAll(); break;
