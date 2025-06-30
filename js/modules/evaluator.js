@@ -17,9 +17,12 @@ export const evaluateExpression = async () => {
 
         // Format the history and display output 
         const formattedHistory = state.currentInput
-            .replace(/(\d+%)\s*(\d+%)/g, '$1 × $2')   // percent followed by percent
-            .replace(/(\d+%)\s*(\d+)/g, '$1 × $2')    // percent followed by number
-            .replace(/(\d+%)\s*\(/g, '$1 × (')        // percent followed by parenthesis
+            .replace(/(\d+%)\s*(\d+%)/g, '$1 × $2')   // percent followed by percent, e.g., "20%30%" → "20% × 30%"
+            .replace(/(\d+%)\s*(\d+)/g, '$1 × $2')    // percent followed by number, e.g., "20%3" → "20% × 3"
+            .replace(/(\d+%)\s*\(/g, '$1 × (')        // percent followed by '(', e.g., "20%(" → "20% × ("
+            .replace(/([0-9%])\s*\(/g, '$1 × (')      // number or percent before '(', e.g., "9(" → "9 × (", "20%(" → "20% × ("
+            .replace(/\)\s*\(/g, ') × (')             // closing ')' before '(', e.g., ")(" → ") × ("
+            .replace(/\)\s*([0-9%])/g, ') × $1')      // closing ')' before number/percent, e.g., ")9" → ") × 9", ")%" → ") × %"
         
             state.recentHistory = `${formattedHistory} =`;
             state.currentInput = data.result;
