@@ -37,11 +37,13 @@ app.post('/evaluate', (req, res) => {
         // Preprocess the expression for safe and valid mathjs parsing
         // let expr = expression
         let expr = expression
-            .replace(/×/g, '*')                   // visual × → *
-            .replace(/÷/g, '/')                   // visual ÷ → /
-            .replace(/(\d+%)\s*(\d+%)/g, '$1*$2')  // 50%50% → 50%*50%
-            .replace(/(\d+%)\s*(\d+)/g, '$1*$2')   // 50%6 → 50%*6
-            .replace(/(\d+%)\s*\(/g, '$1*(');      // 10%(10) → 10%*(10)
+            .replace(/×/g, '*')                     // visual × → *
+            .replace(/÷/g, '/')                     // visual ÷ → /
+            .replace(/(\d+%)\s*(\d+%)/g, '$1*$2')   // chained percentages
+            .replace(/(\d+%)\s*(\d+)/g, '$1*$2')    // percent then number
+            .replace(/(\d+%)\s*\(/g, '$1*(')        // percent then '('
+            .replace(/(\d|\))\s*\(/g, '$1*(')       // number or ')' then '('
+            .replace(/\)\s*(\d)/g, ')*$1');         // ')' then number
 
         // Evaluate under BigNumber
         const rawResult = math.evaluate(expr);
