@@ -14,7 +14,6 @@
 - index.js, package.json for a Node.js + Express API
 
 ## Features
-
 **Basic operations:** Addition, subtraction, multiplication, division.
 **Percentage Calculations:** Handles percentages in a way that mirrors how most calculators work. Simple values like 50% are interpreted as 50 / 100. Multiplication and division involving a percentage follow standard math:A × B% becomes A × (B / 100).
 **Decimal Support:** Enables precise decimal calculations. Addition and subtraction use a "discount-style" approach for intuitiveness:
@@ -39,26 +38,11 @@ A + B% is interpreted as A + (A × B / 100) — meaning you’re increasing or d
 - Math.js using BigNumber mode
 - Hosted on Render
 
-
 ## How to Access
 
 1. **Online:** Open the application directly in your browser by visiting the following link: [Calculator](https://hradiladam.github.io/calculator/)
 
-2. **Locally** You need to serve the files over HTTP to allow ES modules to load correctly (browsers block modules on file://):  
-   
-   ```bash
-   # Clone the repo
-   git clone https://github.com/hradiladam/calculator.git
-   cd calculator
-
-   # Option C: Run the backend API
-   cd BACKEND
-   npm install
-   npm start
-   ```
-
 ## Features in Detail
-
 - **Basic operations:** Basic operations are evaluated using Math.js to ensure accurate calculations. 
 - **Percentage Logic:** Custom logic handles percent expressions intuitively: 50%50% → 50% * 50%, 50%6 → 50% * 6, 10%(10) → 10% * (10)
 - **Precision & Formatting:** Uses Math.js BigNumber with 64-digit precision. Results are rounded to 12 significant digits. Scientific notation is applied when results are extremely large or small (e.g., 1.23e+15).
