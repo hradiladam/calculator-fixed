@@ -51,20 +51,11 @@ A + B% is interpreted as A + (A × B / 100) — meaning you’re increasing or d
    git clone https://github.com/hradiladam/calculator.git
    cd calculator
 
-   # Option A: Serve the frontend via npm
-   npx serve -s .
-
-   # Option B: Serve the frontend via Python
-   python3 -m http.server 8000
-
-   # Then open http://localhost:3000 (or 8000) in your browser.
-
    # Option C: Run the backend API
    cd BACKEND
    npm install
    npm start
    ```
-
 
 ## Features in Detail
 
