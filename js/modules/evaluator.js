@@ -5,7 +5,7 @@ import state from './state.js';
 
 export const evaluateExpression = async () => {
     try {
-        const response = await fetch('https://calculator-new-1ova.onrender.com/evaluate', {
+        const response = await fetch('https://calculator-hdnq.onrender.com/evaluate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ expression: state.currentInput })
