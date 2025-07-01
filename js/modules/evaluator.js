@@ -4,6 +4,10 @@
 import state from './state.js';
 
 export const evaluateExpression = async () => {
+    // Remove any previous error messages
+    const resultDisplay = document.getElementById('result');
+    resultDisplay.classList.remove('error-text');
+
     try {
         const response = await fetch('https://calculator-ihdr.onrender.com/evaluate', {
             method: 'POST',
@@ -12,7 +16,13 @@ export const evaluateExpression = async () => {
         });
 
         const data = await response.json();
-        if (!response.ok) throw new Error(data.error || 'Format Error');
+        if (!response.ok) {
+            // Show the backend’s error text
+            state.currentInput = data.error || 'Unexpected error';
+            // Add the error-text class so CSS will shrink + recolor
+            resultDisplay.classList.add('error-text');
+            return;
+        }
 
 
         // Format the history and display output 
@@ -22,14 +32,17 @@ export const evaluateExpression = async () => {
             .replace(/(\d+%)\s*\(/g, '$1 × (')        // percent followed by '(', e.g., "20%(" → "20% × ("
             .replace(/([0-9%])\s*\(/g, '$1 × (')      // number or percent before '(', e.g., "9(" → "9 × (", "20%(" → "20% × ("
             .replace(/\)\s*\(/g, ') × (')             // closing ')' before '(', e.g., ")(" → ") × ("
-            .replace(/\)\s*([0-9%])/g, ') × $1')      // closing ')' before number/percent, e.g., ")9" → ") × 9", ")%" → ") × %"
+            .replace(/\)\s*([0-9%])/g, ') × $1');     // closing ')' before number/percent, e.g., ")9" → ") × 9", ")%" → ") × %"
         
             state.recentHistory = `${formattedHistory} =`;
             state.currentInput = data.result;
             state.lastButtonWasEquals = true;
 
     } catch (error) {
-        console.error("fetch/eval error: ", error)
-        state.currentInput = 'Format Error';
+        console.error("fetch/eval error:", error);
+        state.currentInput = 'Network error';
+
+        // Add the error-text class so CSS will shrink + recolor
+        resultDisplay.classList.add('error-text');
     }
 };

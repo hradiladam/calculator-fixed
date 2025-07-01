@@ -4,7 +4,7 @@
 import { handleButtons } from './inputs.js';
 import { updateDisplay } from './display.js';
 
-// map physical keys to our button values
+// Map physical keys to our button values
 const keyMap = {
     '0':'0','1':'1','2':'2','3':'3','4':'4','5':'5','6':'6','7':'7','8':'8','9':'9',
     '.':'.','%':'%','+':'+','-':'-','*':'×','/':'÷',
@@ -13,14 +13,14 @@ const keyMap = {
     'Backspace':'⌫','Escape':'AC'
 };
 
-// listen for keydown and send it to handleButtons
+// Listen for keydown and send it to handleButtons
 export const keyboard = (recentHistoryDisplay, resultDisplay) => {
     document.addEventListener('keydown', async (e) => {
         const mapped = keyMap[e.key];
         if (!mapped) return;
         e.preventDefault();
 
-        // give the matching button style with class "press-active" when pressed
+        // Give the matching button style with class "press-active" when pressed
         const btn = document.querySelector(`button[data-value="${mapped}"]`);
         if (btn) btn.classList.add('press-active');
         
