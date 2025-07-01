@@ -49,6 +49,7 @@ A + B% is interpreted as A + (A × B / 100) — meaning you’re increasing or d
 - **Floating-Point Fixes:** Prevents common JS issues like 0.1 + 0.2 = 0.30000000000000004. All calculations are handled server-side for consistency.
 - **Scientific Notation:** Large or small results are formatted using scientific notation when they exceed 10^15 or fall below 10^-15 (e.g., 1.23e+15 or 1.23e-15).
 - **Regular Expressions:** Used to rewrite expressions before evaluation—for example, inserting * where needed between % and numbers/parentheses.
+- **Error hanfdling:** The backend detects and returns specific errors: divide by zero, incomplete expressions, unmatched parentheses, invalid % usage, infinity, and undefined results. The frontend displays these as clear red error messages.
 
 ---
 
