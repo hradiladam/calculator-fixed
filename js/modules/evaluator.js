@@ -6,9 +6,6 @@ import state from './state.js';
 export const evaluateExpression = async () => {
     // Remove any previous error messages
     const resultDisplay = document.getElementById('result');
-    
-    // Don't evaluate again if we’re already showing an error
-    if (resultDisplay.classList.contains('error-text')) return;
 
     resultDisplay.classList.remove('error-text');
 

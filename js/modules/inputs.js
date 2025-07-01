@@ -125,19 +125,18 @@ const handleParentheses = () => {
 
 // Function to handle button clicks
 export const handleButtons = async (value) => {
-    // Always remove error styling on any button press
     const resultDisplay = document.getElementById('result');
-
-    // 1. Were we showing an error?
     const wasError = resultDisplay.classList.contains('error-text');
 
-    // 2. Always clear out the styling
+    // 1. If we're showing an error and "=" is pressed, do absolutely nothing
+    if (wasError && value === '=') return;
+
+    // 2. Always clear error styling on any button press
     resultDisplay.classList.remove('error-text');
 
-    // And if we were in error, clear the error text too
-    if (wasError && value === '=') return;          // If they pressed "=", just stop here
-    if (wasError) clearAll();                       // Otherwise clear the display (removes the old error text)
-        
+    // 3. If there was an error and it's not "=", reset state before continuing
+    if (wasError) clearAll();
+    
     // Normal handling
     switch (value) {
         case 'AC':
