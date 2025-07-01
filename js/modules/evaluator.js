@@ -10,7 +10,13 @@ export const evaluateExpression = async () => {
     resultDisplay.classList.remove('error-text');
 
     try {
-        const response = await fetch('https://calculator-ihdr.onrender.com/evaluate', {
+
+        const API_URL = 
+        location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        ? 'http://localhost:3000/evaluate'
+        : 'https://calculator-ihdr.onrender.com/evaluate';
+
+        const response = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ expression: state.currentInput })
