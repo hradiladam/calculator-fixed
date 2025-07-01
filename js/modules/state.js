@@ -2,10 +2,10 @@
 // ——— Shared State ———
 
 const state = {
-  currentInput: '',                 //  what user types
-  recentHistory: '',                // stores the previous operation
-  lastButtonWasEquals: false,       // flag to track if last button pressed was '='
-  operators: ['+', '-', '×', '÷']   // list of operators
+  currentInput: '',                   // What user types
+  recentHistory: '',                  // Stores the previous operation
+  lastButtonWasEquals: false,         // Flag to track if last button pressed was '='
+  operators: ['+', '-', '×', '÷'],    // List of operators
 };
 
 export default state;

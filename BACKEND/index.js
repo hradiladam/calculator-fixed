@@ -5,6 +5,14 @@ import express from 'express';          // Web framework to build the HTTP API
 import cors from 'cors';                // Middleware to handle Cross-Origin Resource Sharing
 import { create, all } from 'mathjs';   // Math.js factory function
 
+import {
+    hasUnmatchedParentheses,
+    endsWithOperator,
+    hasInvalidPercentUsage,
+    hasDivisionByZero
+} from './utils/validate.js';  // ← import helpers
+
+
 // Create an Express app instance
 const app = express();
 
@@ -45,8 +53,34 @@ app.post('/evaluate', (req, res) => {
             .replace(/(\d|\))\s*\(/g, '$1*(')       // number or ')' then '('
             .replace(/\)\s*(\d)/g, ')*$1');         // ')' then number
 
-        // Evaluate under BigNumber
+        // Validation for errors before evaluation
+            if (hasDivisionByZero(expr)) {
+                return res.status(400).json({ error: "Can't divide by 0" });
+            }
+
+            if (endsWithOperator(expr)) {
+                return res.status(400).json({ error: 'Incomplete expression' });
+            }
+
+            if (hasUnmatchedParentheses(expr)) {
+                return res.status(400).json({ error: 'Unmatched parentheses' });
+            }
+
+            if (hasInvalidPercentUsage(expr)) {
+                return res.status(400).json({ error: 'Misplaced percent sign' });
+            }
+
+        // EVALUATION
         const rawResult = math.evaluate(expr);
+
+        // Final check for invalid result
+        const nativeResult = Number(rawResult);
+        if (!isFinite(nativeResult)) {
+            return res.status(400).json({ error: 'Infinity' });
+        }
+        if (isNaN(nativeResult)) {
+            return res.status(400).json({ error: 'Undefined result' });
+        }
 
         // Format the result with auto notation for display
         const formattedResult = math.format(rawResult, {
@@ -63,11 +97,11 @@ app.post('/evaluate', (req, res) => {
         });
         
     } catch (error) {
-        // Catch and report any formatting or evaluation failures
         console.error('Evaluate Failed:', error);
-        res.status(400).json({ error: 'Format Error' });
+        res.status(400).json({ error: 'Unexpected evaluation error' });
     }
 });
+
 
 // —— START SERVER ——
 

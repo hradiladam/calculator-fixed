@@ -48,6 +48,11 @@ body {
   display: none;
 } */
 
+#result.error-text {
+  font-size: 1.5rem;
+  color: #eb4d45;
+}
+
 #recent-history {
     font-size: 1.3rem;
     color: #7a8a97;
@@ -168,6 +173,10 @@ body.dark-theme #display {
 
 body.dark-theme #result {
     color: #e0e0e0;
+}
+
+body.dark-theme #result.error-text {
+  color: #ec6f6f;
 }
 
 body.dark-theme .button {
