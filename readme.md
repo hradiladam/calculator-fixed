@@ -100,9 +100,10 @@ node index.js
 - **Regular Expressions:** Used to rewrite expressions before evaluation—for example, inserting * where needed between % and numbers/parentheses.
 - **Error hanfdling:** The backend detects and returns specific errors: divide by zero, incomplete expressions, unmatched parentheses, invalid % usage, infinity, and undefined results. The frontend displays these as clear red error messages.
 
+
 ## Licence
 MIT — Free to use, modify, and build upon.
->>>>>>> fbcbc07 (Adjust readme to correspond to How To Access options)
+
 
 ---
 
