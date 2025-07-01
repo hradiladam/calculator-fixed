@@ -19,10 +19,16 @@ const app = express();
 
 // —— MIDDLEWARE SETUP ——
 
-// Allow only the GitHub Pages frontend to access this API.
-// Adds appropriate CORS headers to all responses.
-// Without this, the browser would block the frontend from making requests.
-app.use(cors({ origin: 'https://hradiladam.github.io' }));
+// Allow requests from both GitHub Pages (production) and localhost (development)
+// Adds appropriate CORS headers so the browser allows frontend → backend requests
+app.use(cors({
+    origin: [
+        'https://hradiladam.github.io',
+        'http://localhost:5500',
+        'http://127.0.0.1:5500',
+        'http://localhost:8000'
+    ]
+}));
 
 // Enable Express to parse incoming JSON bodies.
 // Required to access `req.body` in POST requests.
