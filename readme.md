@@ -99,17 +99,11 @@ node index.js
 - **Scientific Notation:** Large or small results are formatted using scientific notation when they exceed 10^15 or fall below 10^-15 (e.g., 1.23e+15 or 1.23e-15).
 - **Regular Expressions:** Used to rewrite expressions before evaluation—for example, inserting * where needed between % and numbers/parentheses.
 - **Error hanfdling:** The backend detects and returns specific errors: divide by zero, incomplete expressions, unmatched parentheses, invalid % usage, infinity, and undefined results. The frontend displays these as clear red error messages.
-<<<<<<< HEAD
 
 
 ## Licence
 MIT — Free to use, modify, and build upon.
-=======
 
-
-## Licence
-MIT — Free to use, modify, and build upon.
->>>>>>> fbcbc07 (Adjust readme to correspond to How To Access options)
 
 ---
 
