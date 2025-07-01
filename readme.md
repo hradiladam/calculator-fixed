@@ -107,6 +107,10 @@ MIT — Free to use, modify, and build upon.
 =======
 
 
+## Licence
+MIT — Free to use, modify, and build upon.
+>>>>>>> fbcbc07 (Adjust readme to correspond to How To Access options)
+
 ---
 
 > This project is a work in progress and it will be gradually updated and enhanced. Rewrite to Typescript (better typing and IDE support). Refactor to OOP (Encapsulate logic and state into classes for clearer structure and easier testing)
