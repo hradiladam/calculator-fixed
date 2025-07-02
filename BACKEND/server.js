@@ -30,17 +30,17 @@ app.use(express.json());
 // —— ROUTES ——
 
 // Handle POST requests to /evaluate
-app.post('/evaluate', async (req, res) => {
+app.post('/evaluate', async (request, response) => {
   try {
     // Evaluate the expression using our calculator logic
-    const { expression } = req.body;
+    const { expression } = request.body;
     const result = await calculator.evaluate(expression);
 
-    res.json({ result }); // Send back the result
+    response.json({ result }); // Send back the result
 
   } catch (err) {
     // Send error details (e.g., invalid input, divide by zero, etc.)
-    res.status(400).json({ error: err.message });
+    response.status(400).json({ error: err.message });
   }
 });
 

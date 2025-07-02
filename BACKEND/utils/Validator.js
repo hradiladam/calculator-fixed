@@ -1,4 +1,4 @@
-//BACKEND/utils/validator.js
+//BACKEND/utils/Validator.js
 
 // —— HELPER VALIDATION FUNCTIONS ——
 // Helper methods to validate expressions before evaluation
