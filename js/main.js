@@ -1,30 +1,40 @@
 // main.js
 // ——— Main script that wires everything together ———
 
-import themeSwitch from './modules/theme.js'; // import theme toggle module
-import { keyboard } from './modules/keyboard.js'; 
-import { updateDisplay } from './modules/display.js'; // import display control
-import { handleButtons } from './modules/inputs.js'; // import input handler — make sure filename matches!
+import State from './modules/State.js';                               // Encapsulates calculator state
+import DisplayControl from './modules/DisplayControl.js';               // Controls UI updates
+import Evaluator from './modules/Evaluator.js';                         // Handles backend calls and formatting
+import InputHandler from './modules/InputHandler.js';                   // Processes button inputs
+import ThemeSwitch from './modules/ThemeSwitch.js';                    // Toggles dark/light themes
+import KeyboardHandler from './modules/KeyboardHandler.js';             // Maps phusical keys to calculator
 
+
+// Wait until the DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    const recentHistoryDisplay = document.getElementById('recent-history'); // get recent-history element
-    const resultDisplay = document.getElementById('result'); // get result element
+    const historyElement = document.getElementById('recent-history');   // Get recent-history element
+    const resultElement = document.getElementById('result');            // Get recent-history element
+    const themeButton = document.getElementById('theme-switch');        // Get dark theme switch button
 
-    themeSwitch.init(); // initialize dark mode switch
-    updateDisplay(recentHistoryDisplay, resultDisplay); // initiates the display
-    keyboard(recentHistoryDisplay, resultDisplay); // keyboard shortcuts
+     // Instantiate main modules
+    const state = new State();                                                          // Holds current input & history
+    const displayControl = new DisplayControl(historyElement, resultElement, state);    // Updates the UI
+    const evaluator = new Evaluator(state, displayControl);                             // Runs & formats calculations
+    const inputHandler = new InputHandler(state, evaluator, displayControl);            // Handles button inputs 
 
-    // add event listeners to buttons and connect buttons data-value with JS
+    displayControl.update();   // Sets initial display to “0” / “No history” 
+
+    // Wire up button clicks
     document.querySelectorAll('button[data-value]').forEach((button) => {
-        button.addEventListener('click', async () => {
-            try {
-                await handleButtons(button.dataset.value);  // grabs custom value in data- of HTML button elements and passes it as an argument
-                updateDisplay(recentHistoryDisplay, resultDisplay); // resets the display
-                button.blur(); // remove keyboard focus from that button immediately after it’s been clicked
-            } catch (err) {
-                console.error("Button handling error:", err); // logs error if button logic fails
-            }
-        });       
+        button.addEventListener('click', () => {
+            inputHandler.handleButtons(button.dataset.value);     // Pass the button’s data-value into InputHandler to process the action and update state/display  
+            button.blur();                                        // Remove focus to reset style
+        });
+        
     });
-});
 
+    // Initialize dark/light theme switch behavior
+        new ThemeSwitch(themeButton).init();
+
+        // Initialize keyboard support (maps physical keys to calculator buttons)
+        new KeyboardHandler(inputHandler).init();
+});

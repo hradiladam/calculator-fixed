@@ -4,7 +4,7 @@
 // Encapsulates evaluation logic and formatting
 
 import { create, all } from 'mathjs';
-import Validator from './utils/validator.js';
+import Validator from './utils/Validator.js';
 
 export default class Calculator {
     constructor() {
