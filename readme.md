@@ -9,7 +9,6 @@
 - js/ directory with: 
    - main.js
    - modules/ subfolder with DisplayControl.js, InputsHandler.js, Evaluator.js, KeyboardHandler.js, ThemeSwitch.js, and State.js for UI logic and API requests
-- BACKEND/ directory with:
    
 ### Backend (BACKEND/ folder)
 - server.js
