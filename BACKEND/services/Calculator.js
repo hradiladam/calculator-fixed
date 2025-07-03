@@ -27,20 +27,28 @@ export default class Calculator {
 
     // Preprocess the expression for safe and valid mathjs parsing
     preprocess(expression) {
-        return expression                               // Discount style for +/– not in a * or / chain                                   
-            .replace(
-                /(\d+(?:\.\d+)?)(\s*[+\-]\s*)(\d+(?:\.\d+)?)%(?!\s*[*\/])/g,  
-                (_, left, op, pct) => `${left}${op}(${left}*${pct}/100)`
-            )
+        return expression
+            // — normalize the × and ÷ signs first
+            .replace(/×/g, '*')
+            .replace(/÷/g, '/')
 
-            .replace(/(\d+(?:\.\d+)?)%/g, '($1/100)')   // Generic percent sequenc→ divide by 100: "10%%%" → "(((10/100)/100)/100)"
-            .replace(/×/g, '*')                         // Visual × → *
-            .replace(/÷/g, '/')                         // Visual ÷ → /
-            .replace(/(\d+%)\s*(\d+%)/g, '$1*$2')       // Add * between two chained percentages: e.g. 5%5% → 5%*5%
-            .replace(/(\d+%)\s*(\d+)/g, '$1*$2')        // Add * between percent and number: e.g. 5%2 → 5%*2
-            .replace(/(\d+%)\s*\(/g, '$1*(')            // Add * between percent and opening parenthesis: e.g. 5%( → 5%*(
-            .replace(/(\d|\))\s*\(/g, '$1*(')           // Add * between number or closing ) and opening (: e.g. 2( → 2*( or )( → )*(
-            .replace(/\)\s*(\d)/g, ')*$1');             // Add * between closing ) and number: e.g. )5 → )*5
+            // — implicit multiplication: e.g. “2(” or “)(” → “2*(” or “)*(
+            .replace(/(\d|\))\s*\(/g, '$1*(')
+            .replace(/\)\s*(\d)/g, ')*$1')
+
+            // — handle chained-percent syntax *before* converting “%” → “/100”
+            .replace(/(\d+)%\s*(\d+)%/g,   '$1%*$2%')  // e.g. 5%5% → 5%*5%
+            .replace(/(\d+)%\s*(\d+)/g,     '$1%*$2')   // e.g. 5%2   → 5%*2
+            .replace(/(\d+)%\s*\(/g,        '$1%*(')    // e.g. 5%(   → 5%*(
+
+            // — generic percent → divide by 100
+            .replace(/(\d+(?:\.\d+)?)%/g, '($1/100)')
+
+            // — “discount” style only for +/– (not in * or /)
+            .replace(
+            /(\d+(?:\.\d+)?)(\s*[+\-]\s*)\(\s*([\d.]+)\s*\/\s*100\s*\)(?!\s*[*\/])/g,
+            (_, left, op, pct) => `${left}${op}(${left}*${pct}/100)`
+            );
     }
 
 
