@@ -1,4 +1,7 @@
 # Calculator Project
+- This is a modern, web-based calculator built with vanilla JavaScript, HTML, and CSS, featuring a clean UI, robust input validation, advanced percentage handling, parentheses, and scientific notation. The frontend communicates with a Node.js + Express backend hosted on Render.com, which evaluates expressions using Math.js with BigNumber support for high-precision calculations.
+
+- IMPORTANT NOTE: Since the backend is hosted on Render.com, it may take up to 30 seconds to respond on the first request. This delay happens because Render loads the backend from cold storage (a feature of their free tier) when it's not actively in use. 
 
 
 ## Project Structure
@@ -10,11 +13,11 @@
    - main.js
    - modules/ subfolder with DisplayControl.js, InputsHandler.js, Evaluator.js, KeyboardHandler.js, ThemeSwitch.js, and State.js for UI logic and API requests
    
-### Backend (BACKEND/ folder)
+### Backend (BACKEND/)
 - server.js
-   - utils/ subfolder with Validator.js
-   - services/ subfolder with Calculator.js
-   - server.js
+- utils/ subfolder with Validator.js
+- services/ subfolder with Calculator.js
+- server.js
 
 
 ## Technologies Used
@@ -97,5 +100,5 @@ MIT — Free to use, modify, and build upon.
 
 ---
 
-> This project is a work in progress and it will be gradually updated and enhanced. Add testing scripts, rewrite and develop the project in TypeScript.
+> This project is a work in progress and will be gradually updated and improved. Planned future enhancements include adding testing scripts using Playwright and Jest, as well as a full rewrite in TypeScript for better type safety and maintainability.
 
