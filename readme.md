@@ -8,24 +8,13 @@
 - css/ directory containing reset.css and style.css for layout and theming
 - js/ directory with: 
    - main.js
-   - modules/ subfolder with display.js, inputs.js, evaluator.js, keyboard.js, theme.js, and state.js for UI logic
-- BACKEND/ directory with:
-   - index.js
-   - utils/ subfolder with validate.js
-
+   - modules/ subfolder with DisplayControl.js, InputsHandler.js, Evaluator.js, KeyboardHandler.js, ThemeSwitch.js, and State.js for UI logic and API requests
+   
 ### Backend (BACKEND/ folder)
-- index.js, package.json for a Node.js + Express API
-
-## Features
-**Basic operations:** Addition, subtraction, multiplication, division.
-**Percentage Calculations:** Handles percentages in a way that mirrors how most calculators work. Simple values like 50% are interpreted as 50 / 100. Multiplication and division involving a percentage follow standard math:A × B% becomes A × (B / 100).
-**Decimal Support:** Enables precise decimal calculations. Addition and subtraction use a "discount-style" approach for intuitiveness:
-A + B% is interpreted as A + (A × B / 100) — meaning you’re increasing or decreasing A by B percent of A.
-**Parentheses Support:** Lets you group operations for more complex expressions. Expressions like 50%5 or 10%(10) are parsed as 50% × 5 and 10% × (10), respectively.
-**Clear & Delete:** Use "AC" to clear the entire input or "⌫" to delete the last character or operator
-**Theme Toggle:** Switch between light and dark themes.
-**Keyboard Shortcuts:** Type directly using your keyboard—Enter, numbers, operators, backspace, etc.
-**Format Error Handling:** Invalid input formats result in a "Format Error" message for now, without crashing the app.
+- server.js
+   - utils/ subfolder with Validator.js
+   - services/ subfolder with Calculator.js
+   - server.js
 
 
 ## Technologies Used
@@ -40,6 +29,17 @@ A + B% is interpreted as A + (A × B / 100) — meaning you’re increasing or d
 - Node.js + Express
 - Math.js using BigNumber mode
 - Hosted on Render
+
+## Features
+- **Basic operations:** Basic operations are evaluated using Math.js to ensure accurate calculations.
+- **Clear & Delete:** Use "AC" to clear the entire input or "⌫" to delete the last character or operator 
+- **Theme Toggle:** Switch between light and dark themes.
+- **Percentage Calculations:** Handles percentages in a way that mirrors how most calculators work. Simple values like 50% are interpreted as 50 / 100. Multiplication and division involving a percentage follow standard math: A × B% becomes A × (B/100).  Addition and subtraction use a "discount-style" approach for intuitiveness: A = B% becomes A + (A × B / 100)
+- **Precision & Formatting:** Uses Math.js BigNumber with 64-digit precision. Results are rounded to 12 significant digits. Large or small results are formatted using scientific notation when they exceed 10^12 or fall below 10^-12.
+- **Parentheses Support:** Lets you group operations for more complex expressions. Expressions like 50%5 or 10%(10) are parsed as 50% × 5 and 10% × (10), respectively.
+- **Keyboard Shortcuts:** Type directly using your keyboard: Enter, numbers, operators, backspace, Esc.
+- **Error Handling:** The backend detects and returns specific errors: divide by zero, incomplete expressions, unmatched parentheses, invalid % usage, infinity, and undefined results. The frontend displays these as clear red error messages.
+
 
 ## How to Access
 
@@ -91,21 +91,11 @@ node index.js
 - go to: http://localhost:8000/index.html
 
 
-## Features in Detail
-- **Basic operations:** Basic operations are evaluated using Math.js to ensure accurate calculations. 
-- **Percentage Logic:** Custom logic handles percent expressions intuitively: 50%50% → 50% * 50%, 50%6 → 50% * 6, 10%(10) → 10% * (10)
-- **Precision & Formatting:** Uses Math.js BigNumber with 64-digit precision. Results are rounded to 12 significant digits. Scientific notation is applied when results are extremely large or small (e.g., 1.23e+15).
-- **Floating-Point Fixes:** Prevents common JS issues like 0.1 + 0.2 = 0.30000000000000004. All calculations are handled server-side for consistency.
-- **Scientific Notation:** Large or small results are formatted using scientific notation when they exceed 10^15 or fall below 10^-15 (e.g., 1.23e+15 or 1.23e-15).
-- **Regular Expressions:** Used to rewrite expressions before evaluation—for example, inserting * where needed between % and numbers/parentheses.
-- **Error hanfdling:** The backend detects and returns specific errors: divide by zero, incomplete expressions, unmatched parentheses, invalid % usage, infinity, and undefined results. The frontend displays these as clear red error messages.
-
-
 ## Licence
 MIT — Free to use, modify, and build upon.
 
 
 ---
 
-> This project is a work in progress and it will be gradually updated and enhanced. Rewrite to Typescript (better typing and IDE support). Refactor to OOP (Encapsulate logic and state into classes for clearer structure and easier testing)
+> This project is a work in progress and it will be gradually updated and enhanced. Add testing scripts, rewrite and develop the project in TypeScript.
 
