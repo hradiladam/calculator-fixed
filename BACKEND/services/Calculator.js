@@ -27,7 +27,13 @@ export default class Calculator {
 
     // Preprocess the expression for safe and valid mathjs parsing
     preprocess(expression) {
-        return expression
+        return expression                               // Discount style for +/– not in a * or / chain                                   
+            .replace(
+                /(\d+(?:\.\d+)?)(\s*[+\-]\s*)(\d+(?:\.\d+)?)%(?!\s*[*\/])/g,  
+                (_, left, op, pct) => `${left}${op}(${left}*${pct}/100)`
+            )
+
+            .replace(/(\d+(?:\.\d+)?)%/g, '($1/100)')   // Generic percent sequenc→ divide by 100: "10%%%" → "(((10/100)/100)/100)"
             .replace(/×/g, '*')                         // Visual × → *
             .replace(/÷/g, '/')                         // Visual ÷ → /
             .replace(/(\d+%)\s*(\d+%)/g, '$1*$2')       // Add * between two chained percentages: e.g. 5%5% → 5%*5%
