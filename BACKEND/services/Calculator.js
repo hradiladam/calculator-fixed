@@ -16,17 +16,6 @@ export default class Calculator {
         this.validator = new Validator();
     }
 
-    // Preprocess the expression for safe and valid mathjs parsing
-    preprocess(expression) {
-        return expression.replace(/×/g, '*')        // visual × → *
-            .replace(/÷/g, '/')                     // visual ÷ → /
-            .replace(/(\d+%)\s*(\d+%)/g, '$1*$2')   // chained percentages
-            .replace(/(\d+%)\s*(\d+)/g, '$1*$2')    // percent then number
-            .replace(/(\d+%)\s*\(/g, '$1*(')        // percent then '('
-            .replace(/(\d|\))\s*\(/g, '$1*(')       // number or ')' then '('
-            .replace(/\)\s*(\d)/g, ')*$1');         // ')' then number
-    }
-
     /**
         * Evaluate the given expression string:
         * 1. Preprocess it
@@ -35,6 +24,19 @@ export default class Calculator {
         * 4. Final check for infinities or NaN
         * 5. Format the final result for display
         */
+
+    // Preprocess the expression for safe and valid mathjs parsing
+    preprocess(expression) {
+        return expression
+            .replace(/×/g, '*')                         // Visual × → *
+            .replace(/÷/g, '/')                         // Visual ÷ → /
+            .replace(/(\d+%)\s*(\d+%)/g, '$1*$2')       // Add * between two chained percentages: e.g. 5%5% → 5%*5%
+            .replace(/(\d+%)\s*(\d+)/g, '$1*$2')        // Add * between percent and number: e.g. 5%2 → 5%*2
+            .replace(/(\d+%)\s*\(/g, '$1*(')            // Add * between percent and opening parenthesis: e.g. 5%( → 5%*(
+            .replace(/(\d|\))\s*\(/g, '$1*(')           // Add * between number or closing ) and opening (: e.g. 2( → 2*( or )( → )*(
+            .replace(/\)\s*(\d)/g, ')*$1');             // Add * between closing ) and number: e.g. )5 → )*5
+    }
+
 
     async evaluate(expression) {
         // Validation for errors before evaluation
@@ -75,6 +77,3 @@ export default class Calculator {
         })
     }
 }
-
-
-
