@@ -27,7 +27,7 @@ export default class Calculator {
 
     // Preprocess the expression for safe and valid mathjs parsing
     preprocess(expression) {
-        //- Normalize visual multiplication and division symbols
+        // - Normalize visual multiplication and division symbols
         let expr = expression
             .replace(/×/g, '*')                         // Visual × → *
             .replace(/÷/g, '/');                        // Visual ÷ → /
@@ -38,9 +38,10 @@ export default class Calculator {
             .replace(/(\d+%)\s*(\d+)/g, '$1*$2')        // Add * between percent and number: e.g. 5%2 → 5%*2
             .replace(/(\d+%)\s*\(/g, '$1*(');           // Add * between percent and parenthesis: e.g. 5%( → 5%*(
 
-        // - Generic percent sequenc→ divide by 100: "10%%%" → "(((10/100)/100)/100)"
+        // - Generic percent sequence → divide by 100: "10%%%" → "(((10/100)/100)/100)"
+        //   Peel off every trailing % (whether after a digit or a ')' group):
         while (/%/.test(expr)) {
-            expr = expr.replace(/(\d+(?:\.\d+)?)%/g, '($1/100)');
+            expr = expr.replace(/(\d+(?:\.\d+)?|\))%/g, '($1/100)');
         }
 
         // - Fix implicit multiplication:
@@ -56,8 +57,6 @@ export default class Calculator {
 
         return expr;
     }
-
-    
 
 
     async evaluate(expression) {
