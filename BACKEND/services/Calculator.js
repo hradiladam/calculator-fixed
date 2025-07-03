@@ -27,15 +27,40 @@ export default class Calculator {
 
     // Preprocess the expression for safe and valid mathjs parsing
     preprocess(expression) {
-        return expression
+        // - Normalize visual multiplication and division symbols
+        let expr = expression
             .replace(/×/g, '*')                         // Visual × → *
-            .replace(/÷/g, '/')                         // Visual ÷ → /
+            .replace(/÷/g, '/');                        // Visual ÷ → /
+
+        // - Add * between percent and other characters:
+        expr = expr
             .replace(/(\d+%)\s*(\d+%)/g, '$1*$2')       // Add * between two chained percentages: e.g. 5%5% → 5%*5%
             .replace(/(\d+%)\s*(\d+)/g, '$1*$2')        // Add * between percent and number: e.g. 5%2 → 5%*2
-            .replace(/(\d+%)\s*\(/g, '$1*(')            // Add * between percent and opening parenthesis: e.g. 5%( → 5%*(
-            .replace(/(\d|\))\s*\(/g, '$1*(')           // Add * between number or closing ) and opening (: e.g. 2( → 2*( or )( → )*(
-            .replace(/\)\s*(\d)/g, ')*$1');             // Add * between closing ) and number: e.g. )5 → )*5
+            .replace(/(\d+%)\s*\(/g, '$1*(');           // Add * between percent and parenthesis: e.g. 5%( → 5%*(
+
+        // - Generic percent sequence → divide by 100: "10%%%" → "(((10/100)/100)/100)"
+        //   Collapse any run of % after a number in one pass:
+        expr = expr.replace(
+            /(\d+(?:\.\d+)?)(%+)/g,
+            (_, num, pctSigns) =>
+                // for each % in pctSigns, wrap the prior expr in (/100)
+                [...pctSigns].reduce((acc) => `(${acc}/100)`, num)
+        );
+
+        // - Fix implicit multiplication:
+        expr = expr
+            .replace(/(\d|\))\s*\(/g, '$1*(')            // Add * between number or closing ) and opening (: e.g. 2( → 2*( or )( → )*(
+            .replace(/\)\s*(\d)/g, ')*$1');              // Add * between closing ) and number: e.g. )5 → )*5
+
+        // - Discount style for +/– not in a * or / chain: turns 100+10% → 100+(100*10/100)
+        expr = expr.replace(
+            /(\d+(?:\.\d+)?)(\s*[+\-]\s*)\(\s*([\d.]+)\s*\/\s*100\s*\)(?!\s*[*\/])/g,
+            (_, left, op, pct) => `${left}${op}(${left}*${pct}/100)`
+        );
+
+        return expr;
     }
+
 
 
     async evaluate(expression) {
