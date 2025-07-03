@@ -39,10 +39,13 @@ export default class Calculator {
             .replace(/(\d+%)\s*\(/g, '$1*(');           // Add * between percent and parenthesis: e.g. 5%( → 5%*(
 
         // - Generic percent sequence → divide by 100: "10%%%" → "(((10/100)/100)/100)"
-        //   Peel off every trailing % (whether after a digit or a ')' group):
-        while (/%/.test(expr)) {
-            expr = expr.replace(/(\d+(?:\.\d+)?|\))%/g, '($1/100)');
-        }
+        //   Collapse any run of % after a number in one pass:
+        expr = expr.replace(
+            /(\d+(?:\.\d+)?)(%+)/g,
+            (_, num, pctSigns) =>
+                // for each % in pctSigns, wrap the prior expr in (/100)
+                [...pctSigns].reduce((acc) => `(${acc}/100)`, num)
+        );
 
         // - Fix implicit multiplication:
         expr = expr
@@ -57,6 +60,7 @@ export default class Calculator {
 
         return expr;
     }
+
 
 
     async evaluate(expression) {
