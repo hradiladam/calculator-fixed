@@ -12,9 +12,8 @@
    
 ### Backend (BACKEND/ folder)
 - server.js
-   - utils/ subfolder with Validator.js
-   - services/ subfolder with Calculator.js
-   - server.js
+- utils/ subfolder with Validator.js
+- services/ subfolder with Calculator.js
 
 
 ## Technologies Used
@@ -35,7 +34,7 @@
 - **Clear & Delete:** Use "AC" to clear the entire input or "⌫" to delete the last character or operator 
 - **Theme Toggle:** Switch between light and dark themes.
 - **Percentage Calculations:** Handles percentages in a way that mirrors how most calculators work. Simple values like 50% are interpreted as 50 / 100. Multiplication and division involving a percentage follow standard math: A × B% becomes A × (B/100).  Addition and subtraction use a "discount-style" approach for intuitiveness: A = B% becomes A + (A × B / 100)
-- **Precision & Formatting:** Uses Math.js BigNumber with 64-digit precision. Results are rounded to 12 significant digits. Large or small results are formatted using scientific notation when they exceed 10^12 or fall below 10^-12.
+- **Precision & Formatting:** Uses Math.js BigNumber with 64-digit precision. Results are rounded to 12 significant digits and automatically switch to scientific notation for values above 10⁹ or below 10⁻⁶.
 - **Parentheses Support:** Lets you group operations for more complex expressions. Expressions like 50%5 or 10%(10) are parsed as 50% × 5 and 10% × (10), respectively.
 - **Keyboard Shortcuts:** Type directly using your keyboard: Enter, numbers, operators, backspace, Esc.
 - **Error Handling:** The backend detects and returns specific errors: divide by zero, incomplete expressions, unmatched parentheses, invalid % usage, infinity, and undefined results. The frontend displays these as clear red error messages.
