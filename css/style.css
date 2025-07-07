@@ -56,6 +56,11 @@ body {
 #recent-history {
     font-size: 1.3rem;
     color: #7a8a97;
+    white-space: normal;        
+    word-break: break-all;      /* allow breaks anywhere if needed */
+    overflow-y: auto;           /* enable vertical scroll if content overflows */
+    max-height: 4rem;           
+    line-height: 1.4;           
 }
 
 .button {
