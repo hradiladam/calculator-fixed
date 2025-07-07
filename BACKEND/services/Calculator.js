@@ -94,7 +94,7 @@ export default class Calculator {
         }
 
         // Format the result with auto notation for display
-        this.math.format(rawResult, {
+        return this.math.format(rawResult, {
             notation: 'auto',
             precision: 12,     // Typical real-world display
             lowerExp: -6,      // Switch for tiny values
