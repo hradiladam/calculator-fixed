@@ -96,7 +96,6 @@ export default class Calculator {
         // Format the result with auto notation for display
         return this.math.format(rawResult, {
             notation: 'auto',
-            precision: 12,
             lowerExp: -12,
             upperExp: 12
         })
