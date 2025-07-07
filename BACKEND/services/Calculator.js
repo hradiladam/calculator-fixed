@@ -94,10 +94,11 @@ export default class Calculator {
         }
 
         // Format the result with auto notation for display
-        return this.math.format(rawResult, {
+        this.math.format(rawResult, {
             notation: 'auto',
-            lowerExp: -12,
-            upperExp: 12
+            precision: 12,     // Typical real-world display
+            lowerExp: -6,      // Switch for tiny values
+            upperExp: 9        // switch for billions and above
         })
     }
 }
