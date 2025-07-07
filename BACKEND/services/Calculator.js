@@ -25,42 +25,48 @@ export default class Calculator {
         * 5. Format the final result for display
         */
 
-    // Preprocess the expression for safe and valid mathjs parsing
-    preprocess(expression) {
-        // - Normalize visual multiplication and division symbols
-        let expr = expression
-            .replace(/×/g, '*')                         // Visual × → *
-            .replace(/÷/g, '/');                        // Visual ÷ → /
 
-        // - Add * between percent and other characters:
-        expr = expr
-            .replace(/(\d+%)\s*(\d+%)/g, '$1*$2')       // Add * between two chained percentages: e.g. 5%5% → 5%*5%
-            .replace(/(\d+%)\s*(\d+)/g, '$1*$2')        // Add * between percent and number: e.g. 5%2 → 5%*2
-            .replace(/(\d+%)\s*\(/g, '$1*(');           // Add * between percent and parenthesis: e.g. 5%( → 5%*(
+    // Preprocesses an expression string by normalizing operators,expanding percentage arithmetic and implicit multiplication.
+    preprocess(expr) {
+    // Step 1: Normalize × and ÷
+    expr = expr.replace(/×/g, '*').replace(/÷/g, '/');
 
-        // - Generic percent sequence → divide by 100: "10%%%" → "(((10/100)/100)/100)"
-        //   Collapse any run of % after a number in one pass:
+    // Step 2: Apply "E ± Y%" as E*(1±P/100), recursively,
+    // and also handle bare N% or (... )% as bases.
+    let prev;
+    do {
+        prev = expr;
         expr = expr.replace(
-            /(\d+(?:\.\d+)?)(%+)/g,
-            (_, num, pctSigns) =>
-                // for each % in pctSigns, wrap the prior expr in (/100)
-                [...pctSigns].reduce((acc) => `(${acc}/100)`, num)
+        /(\([^%]*\)%|\d+(?:\.\d+)?%|\d+(?:\.\d+)?|\([^%]*\))\s*([+\-])\s*(\d+(?:\.\d+)?)%/g,
+        (_, base, op, pct) => {
+            // If base ends with '%', strip '%' then divide by 100:
+            if (base.endsWith('%')) {
+            const val = base.slice(0, -1);
+            // (val/100) ± pct% → (val/100 * (1±pct/100))
+            return `(${val}/100*(1${op}${pct}/100))`;
+            }
+            // Otherwise treat as plain number or parenthesis group:
+            return `(${base}*(1${op}${pct}/100))`;
+        }
         );
+    } while (expr !== prev);
 
-        // - Fix implicit multiplication:
+    // Step 3: Convert any remaining "(... )%" or "N%" into division by 100
+    do {
+        prev = expr;
         expr = expr
-            .replace(/(\d|\))\s*\(/g, '$1*(')            // Add * between number or closing ) and opening (: e.g. 2( → 2*( or )( → )*(
-            .replace(/\)\s*(\d)/g, ')*$1');              // Add * between closing ) and number: e.g. )5 → )*5
+        .replace(/(\([^()]*\))%/g, '($1/100)')
+        .replace(/(\d+(?:\.\d+)?)%/g, '($1/100)');
+    } while (expr !== prev);
 
-        // - Discount style for +/– not in a * or / chain: turns 100+10% → 100+(100*10/100)
-        expr = expr.replace(
-            /(\d+(?:\.\d+)?)(\s*[+\-]\s*)\(\s*([\d.]+)\s*\/\s*100\s*\)(?!\s*[*\/])/g,
-            (_, left, op, pct) => `${left}${op}(${left}*${pct}/100)`
-        );
+    // Step 4: Restore implicit multiplication: 2(3) → 2*(3), (2)3 → (2)*3, etc.
+    expr = expr
+        .replace(/(\d|\))\s*\(/g, '$1*(')
+        .replace(/\)\s*(\d)/g, ')*$1')
+        .replace(/\)\s*\(/g, ')*(');
 
-        return expr;
+    return expr;
     }
-
 
 
     async evaluate(expression) {
