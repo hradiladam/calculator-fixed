@@ -31,27 +31,22 @@ export default class Calculator {
     // Step 1: Normalize × and ÷
     expr = expr.replace(/×/g, '*').replace(/÷/g, '/');
 
-    // Step 2: Apply "E ± Y%" as E*(1±P/100), recursively,
-    // and also handle bare N% or (... )% as bases.
+    // Step 2: Apply "E ± Y%" → E*(1±Y/100), recursively,
+    // but only if the Y% isn't immediately followed by * or /
     let prev;
+    const pctExpand = /(\([^%]*\)%|\d+(?:\.\d+)?%|\d+(?:\.\d+)?|\([^%]*\))\s*([+\-])\s*(\d+(?:\.\d+)?)%(?!\s*[*\/])/g;
     do {
         prev = expr;
-        expr = expr.replace(
-        /(\([^%]*\)%|\d+(?:\.\d+)?%|\d+(?:\.\d+)?|\([^%]*\))\s*([+\-])\s*(\d+(?:\.\d+)?)%/g,
-        (_, base, op, pct) => {
-            // If base ends with '%', strip '%' then divide by 100:
-            if (base.endsWith('%')) {
+        expr = expr.replace(pctExpand, (_, base, op, pct) => {
+        if (base.endsWith('%')) {
             const val = base.slice(0, -1);
-            // (val/100) ± pct% → (val/100 * (1±pct/100))
             return `(${val}/100*(1${op}${pct}/100))`;
-            }
-            // Otherwise treat as plain number or parenthesis group:
-            return `(${base}*(1${op}${pct}/100))`;
         }
-        );
+        return `(${base}*(1${op}${pct}/100))`;
+        });
     } while (expr !== prev);
 
-    // Step 3: Convert any remaining "(... )%" or "N%" into division by 100
+    // Step 3: Convert any remaining "N%" or "(... )%" into division by 100
     do {
         prev = expr;
         expr = expr
@@ -59,7 +54,7 @@ export default class Calculator {
         .replace(/(\d+(?:\.\d+)?)%/g, '($1/100)');
     } while (expr !== prev);
 
-    // Step 4: Restore implicit multiplication: 2(3) → 2*(3), (2)3 → (2)*3, etc.
+    // Step 4: Restore implicit multiplication: 2(3) → 2*(3), etc.
     expr = expr
         .replace(/(\d|\))\s*\(/g, '$1*(')
         .replace(/\)\s*(\d)/g, ')*$1')
