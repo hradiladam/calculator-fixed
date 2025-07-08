@@ -5,6 +5,7 @@
 
 import { create, all } from 'mathjs';
 import Validator from '../utils/Validator.js';
+import { preprocess } from '../utils/preprocessor.js'
 
 export default class Calculator {
     constructor() {
@@ -23,55 +24,11 @@ export default class Calculator {
         * 3. Ask math.js to compute a BigNumber result
         * 4. Final check for infinities or NaN
         * 5. Format the final result for display
-        */
+        */ 
 
-
-    // Preprocesses an expression string by normalizing operators,expanding percentage arithmetic and implicit multiplication.
-    preprocess(expr) {
-    // Step 1: Normalize × and ÷
-    expr = expr.replace(/×/g, '*').replace(/÷/g, '/');
-
-    // Step 2: Apply "E ± Y%" as E*(1±P/100), recursively,
-    // and also handle bare N% or (... )% as bases.
-    let prev;
-    do {
-        prev = expr;
-        expr = expr.replace(
-        /(\([^%]*\)%|\d+(?:\.\d+)?%|\d+(?:\.\d+)?|\([^%]*\))\s*([+\-])\s*(\d+(?:\.\d+)?)%/g,
-        (_, base, op, pct) => {
-            // If base ends with '%', strip '%' then divide by 100:
-            if (base.endsWith('%')) {
-            const val = base.slice(0, -1);
-            // (val/100) ± pct% → (val/100 * (1±pct/100))
-            return `(${val}/100*(1${op}${pct}/100))`;
-            }
-            // Otherwise treat as plain number or parenthesis group:
-            return `(${base}*(1${op}${pct}/100))`;
-        }
-        );
-    } while (expr !== prev);
-
-    // Step 3: Convert any remaining "(... )%" or "N%" into division by 100
-    do {
-        prev = expr;
-        expr = expr
-        .replace(/(\([^()]*\))%/g, '($1/100)')
-        .replace(/(\d+(?:\.\d+)?)%/g, '($1/100)');
-    } while (expr !== prev);
-
-    // Step 4: Restore implicit multiplication: 2(3) → 2*(3), (2)3 → (2)*3, etc.
-    expr = expr
-        .replace(/(\d|\))\s*\(/g, '$1*(')
-        .replace(/\)\s*(\d)/g, ')*$1')
-        .replace(/\)\s*\(/g, ')*(');
-
-    return expr;
-    }
-
-
-    async evaluate(expression) {
+    evaluate(expression) {
         // Validation for errors before evaluation
-        const expr = this.preprocess(expression);
+        const expr = preprocess(expression);
 
         // Validation: catch obvious errors
         if (this.validator.hasDivisionByZero(expr)) {
@@ -99,24 +56,12 @@ export default class Calculator {
             throw new Error('Undefined result');
         }
 
-        // Turn decimal points into scientific notation after 25 places
-        let str = rawResult.toString();                     // BigNumber’s full output
-        if (str.includes('.') && !str.includes('e')) {      // Skips result s that are already in scientific notation
-            const decimals = str.split('.')[1] || '';
-            // Enforce scientific notation if more than 15 decimal places
-            if (decimals.length > 15) {
-                return this.math.format(rawResult, {
-                    notation: 'exponential',
-                    precision: 15
-                });
-            }
-        }
-
         // Format the result with auto notation for display
         return this.math.format(rawResult, {
             notation: 'auto',
+            precision: 12,     // Typical real-world display
             lowerExp: -6,      // Switch for tiny values
             upperExp: 9        // switch for billions and above
-        });
+        })
     }
 }
