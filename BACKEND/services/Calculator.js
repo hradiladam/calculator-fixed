@@ -99,12 +99,24 @@ export default class Calculator {
             throw new Error('Undefined result');
         }
 
+        // Turn decimal points into scientific notation after 25 places
+        let str = rawResult.toString();                     // BigNumber’s full output
+        if (str.includes('.') && !str.includes('e')) {      // Skips result s that are already in scientific notation
+            const decimals = str.split('.')[1] || '';
+            // Enforce scientific notation if more than 15 decimal places
+            if (decimals.length > 15) {
+                return this.math.format(rawResult, {
+                    notation: 'exponential',
+                    precision: 15
+                });
+            }
+        }
+
         // Format the result with auto notation for display
         return this.math.format(rawResult, {
             notation: 'auto',
-            precision: 12,     // Typical real-world display
             lowerExp: -6,      // Switch for tiny values
             upperExp: 9        // switch for billions and above
-        })
+        });
     }
 }
