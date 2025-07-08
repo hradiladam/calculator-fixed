@@ -5,6 +5,7 @@
 
 import { create, all } from 'mathjs';
 import Validator from '../utils/Validator.js';
+import { preprocess } from '../utils/preprocessor.js'
 
 export default class Calculator {
     constructor() {
@@ -23,50 +24,11 @@ export default class Calculator {
         * 3. Ask math.js to compute a BigNumber result
         * 4. Final check for infinities or NaN
         * 5. Format the final result for display
-        */
+        */ 
 
-
-    // Preprocesses an expression string by normalizing operators,expanding percentage arithmetic and implicit multiplication.
-    preprocess(expr) {
-    // Step 1: Normalize × and ÷
-    expr = expr.replace(/×/g, '*').replace(/÷/g, '/');
-
-    // Step 2: Apply "E ± Y%" → E*(1±Y/100), recursively,
-    // but only if the Y% isn't immediately followed by * or /
-    let prev;
-    const pctExpand = /(\([^%]*\)%|\d+(?:\.\d+)?%|\d+(?:\.\d+)?|\([^%]*\))\s*([+\-])\s*(\d+(?:\.\d+)?)%(?!\s*[*\/])/g;
-    do {
-        prev = expr;
-        expr = expr.replace(pctExpand, (_, base, op, pct) => {
-        if (base.endsWith('%')) {
-            const val = base.slice(0, -1);
-            return `(${val}/100*(1${op}${pct}/100))`;
-        }
-        return `(${base}*(1${op}${pct}/100))`;
-        });
-    } while (expr !== prev);
-
-    // Step 3: Convert any remaining "N%" or "(... )%" into division by 100
-    do {
-        prev = expr;
-        expr = expr
-        .replace(/(\([^()]*\))%/g, '($1/100)')
-        .replace(/(\d+(?:\.\d+)?)%/g, '($1/100)');
-    } while (expr !== prev);
-
-    // Step 4: Restore implicit multiplication: 2(3) → 2*(3), etc.
-    expr = expr
-        .replace(/(\d|\))\s*\(/g, '$1*(')
-        .replace(/\)\s*(\d)/g, ')*$1')
-        .replace(/\)\s*\(/g, ')*(');
-
-    return expr;
-    }
-
-
-    async evaluate(expression) {
+    evaluate(expression) {
         // Validation for errors before evaluation
-        const expr = this.preprocess(expression);
+        const expr = preprocess(expression);
 
         // Validation: catch obvious errors
         if (this.validator.hasDivisionByZero(expr)) {
