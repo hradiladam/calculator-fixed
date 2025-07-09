@@ -1,0 +1,409 @@
+{
+	"info": {
+		"_postman_id": "10bc641b-2126-4d1d-ba65-ac9f621e38f3",
+		"name": "Calculator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44160976"
+	},
+	"item": [
+		{
+			"name": "Basic Calculations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"const expr = pm.iterationData.get(\"expression\");\r",
+							"const expected = pm.iterationData.get(\"expected\");\r",
+							"\r",
+							"pm.test(`Expression ${expr} should equal ${expected}`, function () {\r",
+							"    pm.expect(Number(res.result)).to.eql(Number(expected));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"expression\": \"{{expression}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://calculator-ihdr.onrender.com/evaluate",
+					"protocol": "https",
+					"host": [
+						"calculator-ihdr",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"evaluate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Formated Results",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"const expr = pm.iterationData.get(\"expression\");\r",
+							"const expected = pm.iterationData.get(\"expected\");\r",
+							"\r",
+							"pm.test(`Expression ${expr} should equal ${expected}`, function () {\r",
+							"    pm.expect(Number(res.result)).to.eql(Number(expected));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"expression\": \"{{expression}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://calculator-ihdr.onrender.com/evaluate",
+					"protocol": "https",
+					"host": [
+						"calculator-ihdr",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"evaluate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Likely Error Cases",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"const expr = pm.iterationData.get(\"expression\");\r",
+							"const expected = pm.iterationData.get(\"expected\");\r",
+							"\r",
+							"pm.test(`Expression ${expr} should return error '${expected}'`, function () {\r",
+							"    pm.expect(res.error).to.include(expected);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"expression\": \"{{expression}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://calculator-ihdr.onrender.com/evaluate",
+					"protocol": "https",
+					"host": [
+						"calculator-ihdr",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"evaluate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unlikely Error Cases",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"const expr = pm.iterationData.get(\"expression\");\r",
+							"const expected = pm.iterationData.get(\"expected\");\r",
+							"\r",
+							"pm.test(`Expression ${expr} should return error '${expected}'`, function () {\r",
+							"    pm.expect(res.error).to.include(expected);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"expression\": \"{{expression}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://calculator-ihdr.onrender.com/evaluate",
+					"protocol": "https",
+					"host": [
+						"calculator-ihdr",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"evaluate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Percent Calculations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"const expr = pm.iterationData.get(\"expression\");\r",
+							"const expected = pm.iterationData.get(\"expected\");\r",
+							"\r",
+							"pm.test(`Expression ${expr} should equal ${expected}`, function () {\r",
+							"    pm.expect(Number(res.result)).to.eql(Number(expected));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"expression\": \"{{expression}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://calculator-ihdr.onrender.com/evaluate",
+					"protocol": "https",
+					"host": [
+						"calculator-ihdr",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"evaluate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parentheses Calculations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"const expr = pm.iterationData.get(\"expression\");\r",
+							"const expected = pm.iterationData.get(\"expected\");\r",
+							"\r",
+							"pm.test(`Expression ${expr} should equal ${expected}`, function () {\r",
+							"    pm.expect(Number(res.result)).to.eql(Number(expected));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"expression\": \"{{expression}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://calculator-ihdr.onrender.com/evaluate",
+					"protocol": "https",
+					"host": [
+						"calculator-ihdr",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"evaluate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Overall Complex Calculations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"const expr = pm.iterationData.get(\"expression\");\r",
+							"const expected = pm.iterationData.get(\"expected\");\r",
+							"\r",
+							"pm.test(`Expression ${expr} should equal ${expected}`, function () {\r",
+							"    pm.expect(Number(res.result)).to.eql(Number(expected));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"expression\": \"{{expression}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://calculator-ihdr.onrender.com/evaluate",
+					"protocol": "https",
+					"host": [
+						"calculator-ihdr",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"evaluate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Decimal Precision",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"const expr = pm.iterationData.get(\"expression\");\r",
+							"const expected = pm.iterationData.get(\"expected\");\r",
+							"\r",
+							"pm.test(`Expression ${expr} should equal ${expected}`, function () {\r",
+							"    pm.expect(Number(res.result)).to.eql(Number(expected));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"expression\": \"{{expression}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://calculator-ihdr.onrender.com/evaluate?Content_type=application/json",
+					"protocol": "https",
+					"host": [
+						"calculator-ihdr",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"evaluate"
+					],
+					"query": [
+						{
+							"key": "Content_type",
+							"value": "application/json"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

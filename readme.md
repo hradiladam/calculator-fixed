@@ -19,6 +19,10 @@
 - services/ subfolder with Calculator.js
 
 
+### Tests (TESTS/)
+- postman-tests/
+
+
 ## Technologies Used
 
 **Frontend:** 
@@ -93,11 +97,16 @@ node index.js
 - go to: http://localhost:8000/index.html
 
 
+## Tests
+
+This project includes a Postman test suite located in `/TESTS/postman-tests`. It covers valid and invalid calculator expressions using CSV-based data testing. See `TESTS/postman-tests/README.md` for details.
+
 ## Licence
 MIT — Free to use, modify, and build upon.
 
 
 ---
 
-> This project is a work in progress and will be gradually updated and improved. Planned future enhancements include adding testing scripts using Playwright and Jest, as well as a full rewrite in TypeScript for better type safety and maintainability.
+
+> This project is a work in progress and will be gradually updated and improved. Planned future enhancements include adding E2E testing scripts using Playwright and unit and integration tests using Jest, as well as a full rewrite in TypeScript for better type safety and maintainability.
 

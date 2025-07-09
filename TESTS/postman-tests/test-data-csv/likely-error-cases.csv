@@ -1,0 +1,5 @@
+expression,expected
+3+,Incomplete expression
+10/0,Can't divide by 0
+(2+3,Unmatched parentheses
+(%),Misplaced percent sign
