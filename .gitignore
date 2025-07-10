@@ -3,3 +3,12 @@
 
 # Ignore VSCode workspace settings
 .vscode/
+
+# Ignore Playwright test results and cache
+**/test-results/
+**/.last-run.json
+**/.playwright/
+
+# Optional: Ignore OS / editor files
+.DS_Store
+Thumbs.db

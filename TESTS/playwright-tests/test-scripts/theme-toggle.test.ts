@@ -114,7 +114,7 @@ test.describe('Theme Toggle', () => {
 // RUN TEST
 // cd TESTS/playwright-tests
 // ALL BROWSERS: npx playwright test
-// CHROMIUM: npx playwright test --project=chromium --headed
+// CHROMIUM: npx playwright test --project=chromium
 // CHROMIUM AND OPENED BROWSER: npx playwright test --project=chromium --headed
 
 
