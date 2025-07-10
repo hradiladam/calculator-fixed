@@ -13,8 +13,12 @@ export default class DisplayControl {
         this.historyElement.textContent = this.state.recentHistory || 'No history to show';     // Update the history text
         this.resultElement.textContent = this.state.currentInput || '0';                        // Update the result text
 
-        // Force the container to stay scrolled all the way right
-        this.resultElement.scrollLeft = this.resultElement.scrollWidth;                     
+        // Only auto-scroll if we are NOT showing the final result (equals was no tjust pressed)
+        if (!this.state.lastButtonWasEquals) {
+            this.resultElement.scrollLeft = this.resultElement.scrollWidth;
+        } else {
+            this.resultElement.scrollLeft = 0; // Shows the beginning of result natually  
+        }     
     }
 
     // Method to reset the calculator’s internal state back to its default
