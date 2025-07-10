@@ -1,1 +1,5 @@
-.vscode/settings.json
+# Ignore all node_modules folders recursively
+**/node_modules/
+
+# Ignore VSCode workspace settings
+.vscode/
