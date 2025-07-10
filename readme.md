@@ -1,4 +1,7 @@
 # Calculator Project
+- This is a modern, web-based calculator built with vanilla JavaScript, HTML, and CSS, featuring a clean UI, robust input validation, advanced percentage handling, parentheses, and scientific notation. The frontend communicates with a Node.js + Express backend hosted on Render.com, which evaluates expressions using Math.js with BigNumber support for high-precision calculations.
+
+- IMPORTANT NOTE: Since the backend is hosted on Render.com, it may take up to 30 seconds to respond on the first request. This delay happens because Render loads the backend from cold storage (a feature of their free tier) when it's not actively in use. 
 
 
 ## Project Structure
@@ -10,10 +13,14 @@
    - main.js
    - modules/ subfolder with DisplayControl.js, InputsHandler.js, Evaluator.js, KeyboardHandler.js, ThemeSwitch.js, and State.js for UI logic and API requests
    
-### Backend (BACKEND/ folder)
+### Backend (BACKEND/)
 - server.js
 - utils/ subfolder with Validator.js
 - services/ subfolder with Calculator.js
+
+
+### Tests (TESTS/)
+- postman-tests/
 
 
 ## Technologies Used
@@ -34,7 +41,7 @@
 - **Clear & Delete:** Use "AC" to clear the entire input or "⌫" to delete the last character or operator 
 - **Theme Toggle:** Switch between light and dark themes.
 - **Percentage Calculations:** Handles percentages in a way that mirrors how most calculators work. Simple values like 50% are interpreted as 50 / 100. Multiplication and division involving a percentage follow standard math: A × B% becomes A × (B/100).  Addition and subtraction use a "discount-style" approach for intuitiveness: A = B% becomes A + (A × B / 100)
-- **Precision & Formatting:** Uses Math.js with BigNumber mode and 100-digit precision. Results automatically switch to scientific notation if they contain more than 15 decimal places. Scientific notation is also used for values larger than 10⁹ or smaller than 10⁻⁶.
+- **Precision & Formatting:** Uses Math.js BigNumber with 64-digit precision. Results are rounded to 12 significant digits and automatically switch to scientific notation for values above 10⁹ or below 10⁻⁶.
 - **Parentheses Support:** Lets you group operations for more complex expressions. Expressions like 50%5 or 10%(10) are parsed as 50% × 5 and 10% × (10), respectively.
 - **Keyboard Shortcuts:** Type directly using your keyboard: Enter, numbers, operators, backspace, Esc.
 - **Error Handling:** The backend detects and returns specific errors: divide by zero, incomplete expressions, unmatched parentheses, invalid % usage, infinity, and undefined results. The frontend displays these as clear red error messages.
@@ -90,11 +97,16 @@ node index.js
 - go to: http://localhost:8000/index.html
 
 
+## Tests
+
+This project includes a Postman test suite located in `/TESTS/postman-tests`. It covers valid and invalid calculator expressions using CSV-based data testing. See `TESTS/postman-tests/README.md` for details.
+
 ## Licence
 MIT — Free to use, modify, and build upon.
 
 
 ---
 
-> This project is a work in progress and it will be gradually updated and enhanced. Add testing scripts, rewrite and develop the project in TypeScript.
+
+> This project is a work in progress and will be gradually updated and improved. Planned future enhancements include adding E2E testing scripts using Playwright and unit and integration tests using Jest, as well as a full rewrite in TypeScript for better type safety and maintainability.
 
