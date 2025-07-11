@@ -51,19 +51,27 @@ export class CalculatorPage {
         await this.page.goto('https://hradiladam.github.io/calculator/');
     }
 
+    // Normalize a parentheses symbols from actual input display to actual button label
+    private normalizeParentheses = (parentheses: string): ButtonLabel => {
+        if (parentheses === '(' || parentheses === ')') return '( )';
+        return parentheses as ButtonLabel;
+    }
+
     // Press a button
-    press = async (label: ButtonLabel): Promise<void> => {
-        const button = this.buttons[label];
+    press = async (label: ButtonLabel | string): Promise<void> => {
+        const normalized = this.normalizeParentheses(label);
+        const button = this.buttons[normalized];
         if (!button) {
             throw new Error(`No button found for label: '${label}'`);
         }
         await button.click();
-    }
+    };
 
     // Simulate a ful lsequence of button presses like 100+30% 
     pressSequence = async (sequence: string): Promise<void> => {
         for (const char of sequence) {
-            const button = this.buttons[char as ButtonLabel];
+            const parentheses = this.normalizeParentheses(char);
+            const button = this.buttons[parentheses as ButtonLabel];
             if (!button) {
                 console.error(`DEBUG: No button mapped for '${char}'`);
                 throw new Error(`No button found for character: '${char}'`);
