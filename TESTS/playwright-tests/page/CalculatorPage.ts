@@ -42,7 +42,7 @@ export class CalculatorPage {
 
         for (const label of buttonNames) {
             // All buttons use: <button data-value="X" aria-label="X">
-            this.buttons[label] = page.getByRole('button', { name: label });
+            this.buttons[label] = page.locator(`[data-value='${label}']`)
         }
     }
 
@@ -58,7 +58,6 @@ export class CalculatorPage {
             throw new Error(`No button found for label: '${label}'`);
         }
         await button.click();
-        console.log(`DEBUG: Pressed button '${label}'`);
     }
 
     // Simulate a ful lsequence of button presses like 100+30% 
@@ -69,10 +68,8 @@ export class CalculatorPage {
                 console.error(`DEBUG: No button mapped for '${char}'`);
                 throw new Error(`No button found for character: '${char}'`);
             }
-            console.log(`DEBUG: -> Pressing '${char}'`);
             await button.click();
         }
-        console.log(`DEBUG: Finished input sequence: "${sequence}"`);
     }
 
     // Get result text from result display
@@ -81,7 +78,6 @@ export class CalculatorPage {
         if (result ) {
             return result .trim();
         }
-        console.log(`DEBUG: Result display text is "${result }"`);
         return '';
     }
 
@@ -91,13 +87,11 @@ export class CalculatorPage {
         if (history ) {
             return history .trim();
         }
-        console.log(`DEBUG: Result display text is "${history }"`);
         return ''; 
     }
 
     // Click the theme toggle button
     switchTheme = async (): Promise<void> => {
         await this.themeToggle.click()
-        console.log(`DEBUG: Theme button clicked`);
     }
 }

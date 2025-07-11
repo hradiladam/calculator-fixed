@@ -1,6 +1,6 @@
 ## End-to-end testing with Playwright
 
-This project includes automated E2E tests for the calculator using **Playwright**. The tests are written in TypeScript and verify user interactions across both the frontend UI and backend API.
+This project includes automated E2E and UI tests for the calculator using **Playwright**. The tests are written in TypeScript and verify user interactions across both the frontend UI and backend API.
 
 
 ### Test Overview
@@ -34,14 +34,14 @@ npm install
 npx playwright install
 ```
 
-3. Run all tests:
+3. Run all tests: with custom config to activate cold storage wake up
 ``` bash
-npx playwright test
+npx playwright test --config=TESTS/playwright-tests/playwright.config.ts
 ```
 
-Optional: RUn only in chromium
+Optional: Run only in chromium
 ```bash
-npx playwright test --project=chromium
+npx playwright test --config=TESTS/playwright-tests/playwright.config.ts --project=chromium
 ```
 
 
@@ -51,6 +51,9 @@ npx playwright test --project=chromium
     - CalculatorPage.ts
 - test-scripts/
     - theme-toggle.test.ts
+    - basic-inputs.test
+    - operator-inputs.test.ts
+    - functional-buttons-behaviour.test.ts
 - playwright.config.ts
 - globalSetup.ts
 - package.json

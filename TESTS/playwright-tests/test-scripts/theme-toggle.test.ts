@@ -108,19 +108,13 @@ test.describe('Theme Toggle', () => {
 });
 
 
+// PLAYWRIGHT CODEGEN: "npx playwright codegen https://hradiladam.github.io/calculator/"
 
+// npx playwright test --config=TESTS/playwright-tests/playwright.config.ts
+// npx playwright test --config=TESTS/playwright-tests/playwright.config.ts --project=chromium
 
+// npx playwright test TESTS/playwright-tests/test-scripts/theme-toggle.test.ts --config=TESTS/playwright-tests/playwright.config.ts
+// npx playwright test TESTS/playwright-tests/test-scripts/theme-toggle.test.ts --config=TESTS/playwright-tests/playwright.config.ts --project=Chromium
 
-// RUN TEST
-// cd TESTS/playwright-tests
-// ALL BROWSERS: npx playwright test
-// CHROMIUM: npx playwright test --project=chromium
-// CHROMIUM AND OPENED BROWSER: npx playwright test --project=chromium --headed
-
-
-
-// PLAYWRIGHT CODEGEN 
-// cd TESTS/playwright-tests
-// npx playwright codegen https://hradiladam.github.io/calculator/
 
 
