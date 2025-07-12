@@ -4,6 +4,19 @@
 - IMPORTANT NOTE: Since the backend is hosted on Render.com, it may take up to 30 seconds to respond on the first request. This delay happens because Render loads the backend from cold storage (a feature of their free tier) when it's not actively in use. 
 
 
+## Tests
+
+This project includes:
+### Postman test suite (/TESTS/postman-tests)
+- Covers valid and invalid calculator expressions using CSV-based data-driven testing.
+- See /TESTS/postman-tests/README.md for details.
+
+### Playwright test suite (/TESTS/playwright-tests)
+- Provides automated UI and end-to-end tests using the Playwright Test Runner in TypeScript.
+- Tests cover expression evaluation, button interaction, visual behavior (hover/active), theme switching, and error styling.
+- See /TESTS/playwright-tests/README.md for details.
+
+
 ## Project Structure
 
 ### Frontend (root folder)
@@ -21,6 +34,7 @@
 
 ### Tests (TESTS/)
 - postman-tests/
+- playwright-tests/
 
 
 ## Technologies Used
@@ -96,10 +110,6 @@ node index.js
 - open browser
 - go to: http://localhost:8000/index.html
 
-
-## Tests
-
-This project includes a Postman test suite located in `/TESTS/postman-tests`. It covers valid and invalid calculator expressions using CSV-based data testing. See `TESTS/postman-tests/README.md` for details.
 
 ## Licence
 MIT — Free to use, modify, and build upon.

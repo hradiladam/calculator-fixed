@@ -1,6 +1,6 @@
 ## End-to-end testing with Playwright
 
-This project includes automated E2E and UI tests for the calculator using **Playwright**. The tests are written in TypeScript and verify user interactions across both the frontend UI and backend API.
+This project includes automated E2E and UI tests for the calculator using Playwright. The tests are written in TypeScript and validate user interactions and visual feedback across the frontend interface. API behavior is tested separately using Postman.
 
 
 ### Test Overview
@@ -54,6 +54,9 @@ npx playwright test --config=TESTS/playwright-tests/playwright.config.ts --proje
     - basic-inputs.test
     - operator-inputs.test.ts
     - functional-buttons-behaviour.test.ts
+    - ui-behavior.test.ts
+    - expression-evaluation.test.ts
+    - error-handling.testts
 - playwright.config.ts
 - globalSetup.ts
 - package.json
