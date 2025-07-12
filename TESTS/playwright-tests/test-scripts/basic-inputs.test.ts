@@ -70,14 +70,14 @@ test.describe('Input Handling', () => {
             await calculator.pressSequence('1÷0=');   // Must use ÷ instead of / since the UI displays ÷ symbol
 
             // Await the calculation to be done
-            await expect(calculator.result).toHaveText(/divide|error/i);
+            await expect(calculator.result).toHaveText(/can't divide by 0/i);
         });
 
         await test.step('press 1 to reset', async () => {
             await calculator.press('1');
 
             // Wait until error disappears
-            await expect(calculator.result).not.toHaveText(/divide|error/i);
+            await expect(calculator.result).not.toHaveText(/can't divide by 0/i);
             await expect(calculator.result).toHaveText('1');
         });
     });

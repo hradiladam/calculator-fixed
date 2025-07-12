@@ -23,10 +23,10 @@ test.describe('Operator Handling', () => {
     // Test each operator can be input after a number
     test('can input + - × ÷ after a number', async () => {
         for (const operator of ['+', '-', '×', '÷'] as const) {
-        await calculator.pressSequence('2');
-        await calculator.press(operator);
-        await expect(calculator.result).toHaveText(`2 ${operator} `);
-        await calculator.press('AC'); // reset for next operator
+            await calculator.press('2');
+            await calculator.press(operator);
+            await expect(calculator.result).toHaveText(`2 ${operator} `);
+            await calculator.press('AC'); // reset for next operator
         }
     });
 
@@ -69,7 +69,7 @@ test.describe('Operator Handling', () => {
     // Operator after "(" only minus is allowed
     test('operator after "(" only minus allowed', async () => {
         await test.step('open parenthesis then press +', async () => {
-            await calculator.press('( )');
+            await calculator.press('(');
             await expect(calculator.result).toHaveText('(');
             await calculator.press('+');
             await expect(calculator.result).toHaveText('('); // '+' ignored

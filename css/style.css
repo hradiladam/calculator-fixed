@@ -199,6 +199,11 @@ body.dark-theme .button:active {
     outline: 1px solid #bbbbbb;
 }
 
+body.dark-theme .button.press-active {
+    transform: scale(0.99);
+    outline: 1px solid #bbbbbb;
+}
+
 body.dark-theme .operator {
     background-color: #e07b7b;
     color: #ffffff;

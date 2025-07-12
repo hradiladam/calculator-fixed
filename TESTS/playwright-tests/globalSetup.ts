@@ -1,10 +1,10 @@
 // TESTS/playwright-tests/globalSetup.ts
 // ---GLOBAL SETUP TO FIRE UP BACKEND LOCCATED IN COLD STORAGE---
 
-console.log('[DEBUG] globalSetup.ts loaded');
+console.log('globalSetup.ts loaded');
 
 const globalSetup = async (): Promise<void> => {
-    console.log('[DEBUG] Running backend warmup...');
+    console.log('Running backend warmup...');
     console.time('Backend warmup time');
 
     try {
