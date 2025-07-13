@@ -13,7 +13,7 @@ test.describe('UI Behavior & Layout', () => {
     });
 
     // Typing a long number should cause the result section of display to scroll right automatically, so the newest digits stay visible on screen.
-        test('long input scrolls result section of display display horizontally', async () => {
+    test('long input scrolls result section of display display horizontally', async () => {
         const longInput = '1234567890'.repeat(5);
         await calculator.pressSequence(longInput);
 

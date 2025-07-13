@@ -102,4 +102,14 @@ export class CalculatorPage {
     switchTheme = async (): Promise<void> => {
         await this.themeToggle.click()
     }
+
+    // Simulate typing directly (keyboard input)
+    async typeExpression(expr: string): Promise<void> {
+        const normalized = expr
+            .replace(/×/g, '*')
+            .replace(/÷/g, '/')
+            .replace(/−/g, '-')
+        await this.page.keyboard.type(normalized);
+        console.log(`DEBUG: Typed expression "${normalized}"`);
+    }
 }

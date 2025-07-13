@@ -33,6 +33,7 @@ test.describe('Error Handling (UI states)', () => {
         await expect(calculator.result).toHaveText(/incomplete expression/i);
     });
 
+    
     // misplaced percent sign (e.g. "1+%") → should show error
     test('misplaced percent sign shows error', async () => {
         await calculator.pressSequence('1+%=');
