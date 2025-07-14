@@ -19,22 +19,36 @@ This project includes:
 
 ## Project Structure
 
-### Frontend (root folder)
-- index.html
-- css/ directory containing reset.css and style.css for layout and theming
-- js/ directory with: 
-   - main.js
-   - modules/ subfolder with DisplayControl.js, InputsHandler.js, Evaluator.js, KeyboardHandler.js, ThemeSwitch.js, and State.js for UI logic and API requests
-   
-### Backend (BACKEND/)
-- server.js
-- utils/ subfolder with Validator.js
-- services/ subfolder with Calculator.js
-
-
-### Tests (TESTS/)
-- postman-tests/
-- playwright-tests/
+calculator/
+├── index.html
+├── css/
+│   ├── reset.css
+│   └── style.css
+├── js/
+│   ├── main.js
+│   └── modules/
+│        ├── DisplayControl.js
+│        ├── State.js
+│        ├── InputsHandler.js
+│        ├── Evaluator.js
+│        ├── KeyboardHandler.js
+│        └── ThemeSwitch.js 
+├── package.json
+├── package-lock.json
+│
+├── BACKEND/
+│   ├── server.js
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── utils/
+│   │   ├── Validator.js
+│   │   └── preprocessor.js
+│   └── services/
+│       └── Calculator.js
+│
+└── TESTS/
+    ├── postman-tests/
+    └── playwright-tests/
 
 
 ## Technologies Used
@@ -118,5 +132,5 @@ MIT — Free to use, modify, and build upon.
 ---
 
 
-> This project is a work in progress and will be gradually updated and improved. Planned future enhancements include adding E2E testing scripts using Playwright and unit and integration tests using Jest, as well as a full rewrite in TypeScript for better type safety and maintainability.
+> This project is a work in progress and will be gradually updated and improved. Planned future enhancements include unit and integration tests using Jest, full rewrite in TypeScript for better type safety and maintainability, changing recent history display into database with its own tests
 

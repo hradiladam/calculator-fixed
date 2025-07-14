@@ -19,7 +19,7 @@ test.describe('Keyboard Input', () => {
     });
 
     test('should evaluate a complex expression with keyboard input', async () => {
-        // Simulate typing: ((1.2+3.8)*2 - 4%) = 9.6 - 0.384 = 9.216
+        // Simulate typing: ((1.2+3.8)*2 - 4%) = 9.6 - 0.384 = 9.6
         await calculator.typeExpression('((1.2+3.8)×2-4%)');
         await calculator.page.keyboard.press('Enter');
         await calculator.page.waitForTimeout(100);
