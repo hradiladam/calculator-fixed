@@ -19,6 +19,7 @@ This project includes:
 
 ## Project Structure
 
+```
 calculator/
 ├── index.html
 ├── css/
@@ -27,29 +28,27 @@ calculator/
 ├── js/
 │   ├── main.js
 │   └── modules/
-│        ├── DisplayControl.js
-│        ├── State.js
-│        ├── InputsHandler.js
-│        ├── Evaluator.js
-│        ├── KeyboardHandler.js
-│        └── ThemeSwitch.js 
+│       ├── DisplayControl.js
+│       ├── State.js
+│       ├── InputsHandler.js
+│       ├── Evaluator.js
+│       ├── KeyboardHandler.js
+│       └── ThemeSwitch.js
 ├── package.json
 ├── package-lock.json
-│
 ├── BACKEND/
 │   ├── server.js
-│   ├── package.json
-│   ├── package-lock.json
+│   ├── services/
+│   │   └── Calculator.js
 │   ├── utils/
 │   │   ├── Validator.js
 │   │   └── preprocessor.js
-│   └── services/
-│       └── Calculator.js
-│
+│   ├── package.json
+│   └── package-lock.json
 └── TESTS/
     ├── postman-tests/
     └── playwright-tests/
-
+```
 
 ## Technologies Used
 
