@@ -110,8 +110,10 @@ test.describe('Theme Toggle', () => {
 
 // PLAYWRIGHT CODEGEN: "npx playwright codegen https://hradiladam.github.io/calculator/"
 
+// ALL PLAYWRIGHT TESTS
 // npx playwright test --config=TESTS/playwright-tests/playwright.config.ts
 // npx playwright test --config=TESTS/playwright-tests/playwright.config.ts --project=chromium
+
 
 // npx playwright test TESTS/playwright-tests/test-scripts/theme-toggle.test.ts --config=TESTS/playwright-tests/playwright.config.ts
 // npx playwright test TESTS/playwright-tests/test-scripts/theme-toggle.test.ts --config=TESTS/playwright-tests/playwright.config.ts --project=Chromium

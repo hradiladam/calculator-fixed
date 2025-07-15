@@ -1,5 +1,3 @@
-// TESTS/playwright-tests/tsconfig.ts
-
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -11,7 +9,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": ["node"]
+    "types": ["node", "@playwright/test", "jest"]
   },
-  "include": ["**/*.ts"]
+  "include": [
+    "js/",
+    "BACKEND/",
+    "TESTS/"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
