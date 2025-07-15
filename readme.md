@@ -59,7 +59,7 @@ calculator/
 - Hosted on GitHub Pages
 
 **Backend:**
-- Node.js + Express
+- Node.js + Express (TypeScript)
 - Math.js using BigNumber mode
 - Hosted on Render
 
@@ -99,8 +99,9 @@ cd calculator
 
 ```bash
 cd BACKEND
-npm install
-node index.js
+npm install     # First-time setup (only once)
+npm run build   # Compile TypeScript to JavaScript
+npm start       # Start the server (runs compiled JS)
 ```
 
 

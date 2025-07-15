@@ -18,7 +18,7 @@ export default class Evaluator {
             // chooses the correct backend URL depending on whether you’re running locally (for development) or in production.
             const API_URL = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
                 ?  'http://localhost:3000/evaluate'
-                :   'https://calculator-ihdr.onrender.com/evaluate';
+                :  'https://calculator-yzjs.onrender.com/evaluate';
 
             // Sends a POST request with a JSON body containing the user’s current expression (state.currentInput)
             const response = await fetch(API_URL, {
