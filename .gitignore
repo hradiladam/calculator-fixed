@@ -1,14 +1,30 @@
-# Ignore all node_modules folders recursively
+# Node dependencies
 **/node_modules/
 
-# Ignore VSCode workspace settings
+# VSCode workspace settings
 .vscode/
 
-# Ignore Playwright test results and cache
+# Playwright test results and cache
+**/playwright-report/
 **/test-results/
 **/.last-run.json
 **/.playwright/
 
-# Optional: Ignore OS / editor files
+# Jest coverage and cache
+**/coverage/
+**/.jest-cache/
+**/.jest/
+
+# Optional: OS / editor files
 .DS_Store
 Thumbs.db
+
+# Optional: environment or secrets
+**/.env
+
+# Optional: build artifacts
+**/dist/
+**/build/
+
+# Optional: log files
+*.log
