@@ -3,11 +3,15 @@
 // —— CALCULATOR ENDPOINT ——
 // Encapsulates evaluation logic and formatting
 
-import { create, all } from 'mathjs';
+import { create, all, MathJsInstance } from 'mathjs';
 import Validator from '../utils/Validator.js';
 import { preprocess } from '../utils/preprocessor.js'
 
 export default class Calculator {
+    private math: MathJsInstance;     // Declare the math.js instance type
+    private validator: Validator;
+
+
     constructor() {
         // Initialize a math.js instance configured for high-precision BigNumber calculations
         this.math = create(all);
@@ -26,7 +30,7 @@ export default class Calculator {
         * 5. Format the final result for display
         */ 
 
-    evaluate(expression) {
+    evaluate(expression: string): string {
         // Validation for errors before evaluation
         const expr = preprocess(expression);
 

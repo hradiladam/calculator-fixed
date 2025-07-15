@@ -1,19 +1,30 @@
-// BACKEND/utils/preprocessor.js
+// BACKEND/utils/preprocessor.ts
 // —— PREPROCESSING HELPER ——
 
 
 // Preprocesses an expression string by normalizing operators,expanding percentage arithmetic and implicit multiplication.
-export const preprocess = (expr) => {
+/**
+ * Preprocess a raw input expression by:
+ * - Normalizing operators (×, ÷ → *, /)
+ * - Expanding percentage additions/subtractions
+ * - Converting isolated percentages to fractions
+ * - Restoring implicit multiplication
+ * 
+ * @param expr - The raw input expression (e.g., "100+20%")
+ * @returns string - A cleaned and transformed expression ready for math.js
+ */
+
+export const preprocess = (expr: string): string => {
     // Step 1: Normalize × and ÷
     expr = expr.replace(/×/g, '*').replace(/÷/g, '/');
 
     // Step 2: Apply "E ± Y%" → E*(1±Y/100), recursively,
     // but only if the Y% isn't immediately followed by * or /
-    let prev;
+    let prev: string;
     const pctExpand = /(\([^%]*\)%|\d+(?:\.\d+)?%|\d+(?:\.\d+)?|\([^%]*\))\s*([+\-])\s*(\d+(?:\.\d+)?)%(?!\s*[*\/])/g;
     do {
         prev = expr;
-        expr = expr.replace(pctExpand, (_, base, op, pct) => {
+        expr = expr.replace(pctExpand, (_: string, base: string, op: string, pct: string) => {
         if (base.endsWith('%')) {
             const val = base.slice(0, -1);
             return `(${val}/100*(1${op}${pct}/100))`;
