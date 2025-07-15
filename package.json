@@ -1,6 +1,15 @@
 {
   "devDependencies": {
     "@playwright/test": "^1.54.0",
-    "@types/node": "^24.0.13"
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.13",
+    "jest": "^30.0.4",
+    "jest-environment-jsdom": "^30.0.4",
+    "ts-jest": "^29.4.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:backend": "jest --selectProjects backend",
+    "test:frontend": "jest --selectProjects frontend"
   }
 }
