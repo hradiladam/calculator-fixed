@@ -2,9 +2,9 @@
 
 // —— IMPORT DEPENDENCIES ——
 
-import express, { Request, Response } from 'express';              // Express powers our HTTP API
-import cors from 'cors';                    // CORS lets browsers from different origins talk to us
-import Calculator from './services/Calculator.js';   // Our calculator service that handles the actual math logic
+import express, { Request, Response } from 'express';          // Express powers our HTTP API
+import cors from 'cors';                                       // CORS lets browsers from different origins talk to us
+import Calculator from './services/Calculator';                // Our calculator service that handles the actual math logic
 
 // Create the Express app
 const app = express();

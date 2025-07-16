@@ -4,8 +4,8 @@
 // Encapsulates evaluation logic and formatting
 
 import { create, all, MathJsInstance } from 'mathjs';
-import Validator from '../utils/Validator.js';
-import { preprocess } from '../utils/preprocessor.js'
+import Validator from '../utils/Validator';
+import { preprocess } from '../utils/preprocessor'
 
 export default class Calculator {
     private math: MathJsInstance;     // Declare the math.js instance type
