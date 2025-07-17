@@ -47,6 +47,9 @@ export default class Calculator {
         if (this.validator.hasInvalidPercentUsage(expr)) {
             throw new Error('Misplaced percent sign');
         }
+        if (this.validator.hasPercentDotAtEnd(expr)) {
+            throw new Error('Expression cannot end with "%."');
+        }
 
         // EVALUATION
         const rawResult = this.math.evaluate(expr);
