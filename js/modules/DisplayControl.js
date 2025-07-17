@@ -1,6 +1,8 @@
 // js/modules/DisplayControl.js
 // ——— Handles updating and clearing the UI ———
 
+import { formatForDisplay } from './formatter.js';
+
 export default class DisplayControl {
     constructor(historyElement, resultElement, state) {
         this.historyElement = historyElement;
@@ -8,16 +10,16 @@ export default class DisplayControl {
         this.state = state;
     }
 
-    // Update the content of teh display elements frpm state
+    // Update the content of the display elements frpm state
     update = () => {
         this.historyElement.textContent = this.state.recentHistory || 'No history to show';     // Update the history text
-        this.resultElement.textContent = this.state.currentInput || '0';                        // Update the result text
+        this.resultElement.textContent = formatForDisplay(this.state.currentInput || '0');      // Update the result text
 
-        // Only auto-scroll if we are NOT showing the final result (equals was no tjust pressed)
+        // Only auto-scroll if we are NOT showing the final result (equals was not just pressed)
         if (!this.state.lastButtonWasEquals) {
             this.resultElement.scrollLeft = this.resultElement.scrollWidth;
         } else {
-            this.resultElement.scrollLeft = 0; // Shows the beginning of result natually  
+            this.resultElement.scrollLeft = 0; // Shows the beginning of result naturally  
         }     
     }
 
