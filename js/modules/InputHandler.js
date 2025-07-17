@@ -140,7 +140,6 @@ export default class InputHandler {
     };
 
 
-
     // Function to handle button clicks
     handleButtons = async (value) => {
         const resultElement = this.display.resultElement;
