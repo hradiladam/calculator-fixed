@@ -1,5 +1,3 @@
-// BACKEND/calculator.js
-
 // —— CALCULATOR ENDPOINT ——
 // Encapsulates evaluation logic and formatting
 
@@ -10,7 +8,6 @@ import { preprocess } from '../utils/preprocessor.js'
 export default class Calculator {
     private math: MathJsInstance;     // Declare the math.js instance type
     private validator: Validator;
-
 
     constructor() {
         // Initialize a math.js instance configured for high-precision BigNumber calculations
@@ -23,38 +20,44 @@ export default class Calculator {
 
     /**
         * Evaluate the given expression string:
-        * 1. Preprocess it
-        * 2. Run validation checks
-        * 3. Ask math.js to compute a BigNumber result
-        * 4. Final check for infinities or NaN
-        * 5. Format the final result for display
+        * 1. Run raw-input syntax checks
+        * 2. Preprocess (normalize operators, expand % etc.)
+        * 3. Run semantic/math-level checks
+        * 4. Ask math.js to compute a BigNumber result
+        * 5. Final check for infinities or NaN
+        * 6. Format the final result for display
         */ 
+    evaluate(raw: string): string {
+        // ——— Phase 1 ———
+        // Raw‑input syntax validation ———
+        if (this.validator.hasPercentDotAtEnd(raw)) {
+            throw new Error('Expression cannot end with "%."');
+        }
+        if (this.validator.hasInvalidPercentUsage(raw)) {
+            throw new Error('Misplaced percent sign');
+        }
+        if (this.validator.hasUnmatchedParentheses(raw)) {
+            throw new Error('Unmatched parentheses');
+        }
+        if (this.validator.endsWithOperator(raw)) {
+            throw new Error('Incomplete expression');
+        }
 
-    evaluate(expression: string): string {
-        // Validation for errors before evaluation
-        const expr = preprocess(expression);
+        // ——— Phase 2 ———
+        // Preprocess the expression - normalize & semantic validation - normalize operators, expand percentages, restore implicit multiplication
+        const expr = preprocess(raw);
 
-        // Validation: catch obvious errors
+        // Semantic validation: catch direct division by zero
         if (this.validator.hasDivisionByZero(expr)) {
             throw new Error("Can't divide by 0");
         }
-        if (this.validator.endsWithOperator(expr)) {
-            throw new Error('Incomplete expression');
-        }
-        if (this.validator.hasUnmatchedParentheses(expr)) {
-            throw new Error('Unmatched parentheses');
-        }
-        if (this.validator.hasInvalidPercentUsage(expr)) {
-            throw new Error('Misplaced percent sign');
-        }
-        if (this.validator.hasPercentDotAtEnd(expr)) {
-            throw new Error('Expression cannot end with "%."');
-        }
-
-        // EVALUATION
+        
+        // ——— Phase 3 ———
+        // Actual evaluation
         const rawResult = this.math.evaluate(expr);
 
-        // Final check for invalid result
+        // ——— Phase 4 ———
+        // Final check for invalid result 
         const nativeResult = Number(rawResult);
         if (!isFinite(nativeResult)) {
             throw new Error('Infinity');
@@ -63,12 +66,13 @@ export default class Calculator {
             throw new Error('Undefined result');
         }
 
+        // ——— Phase 5 ———
         // Format the result with auto notation for display
         return this.math.format(rawResult, {
             notation: 'auto',
             precision: 12,     // Typical real-world display
             lowerExp: -6,      // Switch for tiny values
             upperExp: 9        // switch for billions and above
-        })
+        });
     }
 }
