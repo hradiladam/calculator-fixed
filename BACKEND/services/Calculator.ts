@@ -31,7 +31,7 @@ export default class Calculator {
         // ——— Phase 1 ———
         // Raw‑input syntax validation ———
         if (this.validator.hasPercentDotAtEnd(raw)) {
-            throw new Error('Expression cannot end with "%."');
+            throw new Error("Cannot end with '%.'");
         }
         if (this.validator.hasInvalidPercentUsage(raw)) {
             throw new Error('Misplaced percent sign');
