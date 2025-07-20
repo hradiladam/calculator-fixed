@@ -65,10 +65,16 @@ app.post('/evaluate', async (
     }
 });
 
-// —— START SERVER ——
 
-// Use environment port if available (for Render), fallback to 3000
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Calculator API listening on port ${PORT}`);
-});
+// —— EXPORT & START SERVER ——
+
+export default app;
+
+if (require.main === module) {
+    // Use environment port if available (for Render), fallback to 3000
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Calculator API listening on port ${PORT}`);
+    });
+}
+
