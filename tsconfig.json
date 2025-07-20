@@ -2,21 +2,12 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "commonjs",
-    "lib": ["ES2022", "DOM"],
+    "types": ["node", "jest"],
     "strict": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "types": ["node", "@playwright/test", "jest"]
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "js/",
-    "BACKEND/",
-    "TESTS/"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["js/", "BACKEND/", "TESTS/"],
+  "exclude": ["node_modules"]
 }
