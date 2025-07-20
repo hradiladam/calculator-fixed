@@ -31,4 +31,9 @@ export default class Validator {
     hasDivisionByZero(expr: string): boolean {
         return /\/\s*0+(?![.\d])/.test(expr);
     }
+
+    // Return true if expression ends with '%' followed (possibly after spaces) by a '.' at end of string
+    hasPercentDotAtEnd(expr: string): boolean {
+        return /%\s*\.$/.test(expr);
+    }   
 }
