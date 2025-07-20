@@ -108,33 +108,33 @@ describe('Calculator.evaluate()', () => {
     // Verify that very small and very large results are auto‑formatted in exponential notation
     describe('auto‑scientific formatting for extreme values', () => {
         test('formats very small results in scientific notation', () => {
-        // 1e-5 * 1e-5 = 1e-10, which is below the lowerExp threshold (-6)
-            expect(calculator.evaluate('1e-5*1e-5')).toBe('1e-10');
+            // 0.00001 * 0.00001 = 0.0000000001 = 1e-10
+            expect(calculator.evaluate('0.00001*0.00001')).toBe('1e-10');
         });
 
         test('formats very large results in scientific notation', () => {
-        // 1e5 * 1e5 = 1e10, which is over the upperExp threshold (9)
-            expect(calculator.evaluate('1e5*1e5')).toBe('1e+10');
+            // 100000 * 100000 = 10000000000 = 1e+10
+            expect(calculator.evaluate('100000*100000')).toBe('1e+10');
         });
 
         // Edge case for lowerExp exponential
         test('preserves decimal notation at the lowerExp threshold', () => {
             // lowerExp = -6, so 1e-6 (0.000001) should NOT switch to exponential 
-            // becasue mathjs auto notation is inclusive at the lower limit
+            // because mathjs auto notation is inclusive at the lower limit
             expect(calculator.evaluate('0.000001')).toBe('0.000001');
         });
 
         // Edge case for upperExp exponential
         test('preserves decimal notation at the upperExp threshold', () => {
             // upperExp = 9, so 1e9 (1 000 000 000) should switch to exponential
-            // becasue mathjs auto notation is exclusive at the upper limit
+            // because mathjs auto notation is exclusive at the upper limit
             expect(calculator.evaluate('1000000000')).toBe('1e+9');
         });
     });
 
     // DECIMAL POINT PRECISION AND FORMATTING
     describe('decimal point precision and formatting', () => {
-        test('accurate preccision', () => {
+        test('accurate precision', () => {
             // 0.1 + 0.2 results in 0.3 and not 0.03000000000001
             expect(calculator.evaluate('0.1+0.2')).toBe('0.3');
         });
@@ -211,10 +211,10 @@ describe('Calculator.evaluate()', () => {
     });
 
     test('short-circuits on division-by-zero via Validator', () => {
-    // Force Validator.hasDivisionByZero() to return true, regardless of input
-    const divZeroSpy = jest
-        .spyOn(Validator.prototype, 'hasDivisionByZero')
-        .mockReturnValue(true);
+        // Force Validator.hasDivisionByZero() to return true, regardless of input
+        const divZeroSpy = jest
+            .spyOn(Validator.prototype, 'hasDivisionByZero')
+            .mockReturnValue(true);
 
         // Now pick a “safe” expression (e.g. '1+1') that would normally return 2
         // but because of our spy it must throw the division‑by‑zero error

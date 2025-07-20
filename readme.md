@@ -34,18 +34,23 @@ calculator/
 │       ├── Evaluator.js
 │       ├── KeyboardHandler.js
 │       └── ThemeSwitch.js
+├── jest.config.cjs
+├── tsconfig.ts
 ├── package.json
 ├── package-lock.json
 ├── BACKEND/
-│   ├── server.js
+│   ├── app.ts
+│   ├── index.ts
 │   ├── services/
-│   │   └── Calculator.js
+│   │   └── Calculator.ts
 │   ├── utils/
-│   │   ├── Validator.js
-│   │   └── preprocessor.js
+│   │   ├── Validator.ts
+│   │   └── preprocessor.ts
+│   ├── package-lock.json
 │   ├── package.json
-│   └── package-lock.json
+│   └── tsconfig.json
 └── TESTS/
+    ├── jest-tests/
     ├── postman-tests/
     └── playwright-tests/
 ```
