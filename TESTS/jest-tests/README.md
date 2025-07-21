@@ -8,27 +8,34 @@ This project uses a multi-project Jest configuration to separate backend and fro
 ```
 calculator/
 ├── TESTS/
-│   ├── jest-tests/
-│   │   ├── backend/                    # Backend unit tests
-│   │   │   ├── Calculator.test.ts
-│   │   │   ├── preprocessor.test.ts           
-│   │   │   └── Validator.test.ts
-│   │   └── frontend/                   # Frontend DOM/unit tests
+│   └── jest-tests/
+│       ├── backend/                    # Backend unit tests
+│       │   └──unit
+│       │   │   ├── Calculator.test.ts
+│       │   │   ├── preprocessor.test.ts           
+│       │   │   └── Validator.test.ts
+│       │   └──integration
+│       │       └── app.integration.test.ts
+│       └── frontend/                   # Frontend DOM/unit tests
 └── jest-config.cjs                     # Root Jest config (multi-project setup)
 ```
 
 
 ### How to run
 
-1. install in app ROOT 
+1. install Jest in app ROOT 
 
 ``` bash
 npm install --save-dev jest ts-jest @types/jest
-npx ts-jest config:init
-npx jest
 ```
 
-2. Run tests:
+2. Install SuperTest in the root as well so that the test files, wherever they live, can import it
+
+``` bash
+npm install --save-dev supertest @types/supertest
+```
+
+3. Run tests:
 
 **Run all tests**
 ``` bash
@@ -44,5 +51,6 @@ npx jest --selectProjects backend --config jest.config.cjs
 ``` bash
 npx jest --selectProjects frontend --config jest.config.cjs
 ```
+
 
 
