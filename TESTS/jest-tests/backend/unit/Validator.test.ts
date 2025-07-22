@@ -13,63 +13,58 @@ describe('Validator', () => {
         validator = new Validator;
     });
 
-    // Test the unmatched parentheses validator
+    // ———————————————————————————
+    // hasUnmatchedParentheses()
+    // ———————————————————————————
     describe('hasUnmatchedParentheses', () => {
-         // Should return true when there's an unmatched opening parenthesis
-        test('returns true for unmatched open paren', () => {
-            expect(validator.hasUnmatchedParentheses('(1 + 2')).toBe(true);
-        });
-
-        // Should return false for a properly closed parenthesis pair
-        test('returns false for matched parentheses', () => {
-            expect(validator.hasUnmatchedParentheses('(1 + 2)')).toBe(false);
+        test.each([
+            ['(1+2', true, 'unmatched opening parenthesis'],
+            ['(1+2)', false, 'properly matched parentheses'],
+            ['((1+2)', true, 'nested unmatched open paretheses'],
+            ['1 + 2)', true, 'unmatched closing parenthesis'],
+        ])('returns %s for "%s" - %s', (input, expected, description) => {
+            expect(validator.hasUnmatchedParentheses(input)).toBe(expected);
         });
     });
 
-    // Test the logic that checks if the expression ends with an operator
+    // ———————————————————————————
+    // endsWithOperator()
+    // ———————————————————————————
     describe('endsWithOperator', () => {
-        // Should return true if expression ends with an operator
-        test('returns true if expression ends with operator', () => {
-            expect(validator.endsWithOperator('5+')).toBe(true);
-            expect(validator.endsWithOperator('3/')).toBe(true);
-        });
-
-        // Should return false if expression ends with a valid operand
-        test('returns false if expression ends properly', () => {
-            expect(validator.endsWithOperator('1+1')).toBe(false);
+        test.each([
+            ['1 +', true, 'trailing "+" operator'],
+            ['3 * ', true, 'trailing "*" operator with space'],
+            ['4 + 5', false, 'complete binary expression'],
+        ])('returns %s for "%s" - %s', (input, expected, description) => {
+            expect(validator.endsWithOperator(input)).toBe(expected);
         });
     });
 
-    // Test of invalid percent placement
+    // ———————————————————————————
+    // hasInvalidPercentPlacement()
+    // ———————————————————————————
     describe('hasInvalidePercentUsage', () => {
-        // Test that results in an error if % follows an operator -> returns true
-        test('returns true for % directly after aoperator', () => {
-            expect(validator.hasInvalidPercentUsage('1+%')).toBe(true);
-        });
-
-        // Should return true when percent sign directly follows an open parenthesis
-        test('returns true for percent directly after open paren', () => {
-            expect(validator.hasInvalidPercentUsage('(%20 + 5)')).toBe(true);
-        });
-
-        // Should return false for valid percent usage
-        test('returns false for valid percent use', () => {
-            expect(validator.hasInvalidPercentUsage('5 + 20%')).toBe(false);
+        test.each([
+            ['1+%', true, 'percent sign directly after operator'],
+            ['(%20 + 5)', true, 'percent sign directly after open parenthesis'],
+            ['5 + 20%', false, 'valid percent usage after number'],
+            ['(100 + 50)%', false, 'valid percent after closing parenthesis'],
+        ])('returns %s for "%s" - %s', (input, expected, description) => {
+            expect(validator.hasInvalidPercentUsage(input)).toBe(expected);
         });
     });
     
-    // Test detection of divide-by-zero
-    describe('', () => {
-        // Should return true for any division by zero
-        test('returns true for direct division by 0', () => {
-            expect(validator.hasDivisionByZero('10 / 0')).toBe(true);
-            expect(validator.hasDivisionByZero('10/000')).toBe(true);
-        });
-
-        // Should return false for valid non-zero division
-        test('returns false for safe divisions', () => {
-            expect(validator.hasDivisionByZero('10 / 2')).toBe(false);
-            expect(validator.hasDivisionByZero('10 / 0.5')).toBe(false);
+    // ———————————————————————————
+    // hasDivisionByZero()  
+    // ———————————————————————————
+    describe('hasDivisionByZero', () => {
+        test.each([
+            ['10 / 0', true, 'simple division by zero'],
+            ['10/000', true, 'division by zero with multiple zeros'],
+            ['100 / 2', false, 'valid integer division'],
+            ['5 / 0.5', false, 'valid division by a non-zero decimal'],
+        ])('returns %s for "%s" - %s', (input, expected, description) => {
+            expect(validator.hasDivisionByZero(input)).toBe(expected);
         });
     });
 });

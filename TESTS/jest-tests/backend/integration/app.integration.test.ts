@@ -1,125 +1,61 @@
-import request from 'supertest'; 
-import app from '../../../../BACKEND/app';      // Import the Express application (without starting the server)
-
+import request from 'supertest';
+import app from '../../../../BACKEND/app'; // Import the Express application (without starting the server)
 
 // All tests for the evaluate endpoint
-describe('POST /evaluete', () => {
-    // TEst a simple valid expression
-    it('should return 200 and the result for a simple expression', async () => {
-        // Request is the default export from the supertest module
-        // - it gives SuperTest an Express application instance and tells it it will send HTTP calls to it
-        const response = await request(app)
-            .post('/evaluate')                  // Send a POST request to /evaluate with expression 2+2
-            .send({ expression: '2+2' })        // Body must have an expression string
-            .expect('Content-Type', /json/)     // Expect JSON response header
-            .expect(200);                       // Expect HTTP 200 OK
-
-        // The API wraps the result in { result: string }
-        expect(response.body).toEqual({ result: '4' });     // 2 + 2 = "4" (formatted as string)                       
-    });
-
-    // Test percentage handling logic
-    it ('should handle percentages correctly', async () => {
-        const response = await request(app)
+describe('POST /evaluate', () => {
+    // ——————————————————————————————————————————————
+    // Successful evaluation cases
+    // ——————————————————————————————————————————————
+    describe('successful expression evaluations', () => {
+        test.each([
+        ['2+2', '4', 'simple addition'],
+        ['100+20%', '120', 'percentage addition'], // 100 + (100 * 20 / 100) = 120
+        ['1/8', '0.125', 'trims trailing zeros but keeps precision'], // 1/8 = 0.125 exactly
+        ['1/3', '0.333333333333', 'rounds to 12 significant digits by default'], // 1/3 → 0.333333333333
+        ['2×3÷2', '3', 'normalizes × and ÷ operators'], // 2×3=6, 6÷2=3
+        ['2(3+4)', '14', 'handles implicit multiplication'], // 2*(3+4)=14
+        ])('returns "%s" → "%s" — %s', async (expression, expected, description) => {
+        const res = await request(app)
             .post('/evaluate')
-            .send({ expression: '100+20%' })
+            .send({ expression })
+            .expect('Content-Type', /json/)
             .expect(200);
 
-        // 100+20% = 100 + (100 * 20/100) = 120
-        expect(response.body.result).toBe('120');
-    });
+        expect(res.body).toEqual({ result: expected }); // Result should match expected string
+        });
+  });
 
-    // Test rejection of empty or whitespace-only expressions
-    it ('should reject empty expressions', async () => {
-        const response = await request(app)
-            .post('/evaluate')
-            .send({ expression: '    ' })
-            .expect(400);
-
+  // ——————————————————————————————————————————————
+  // Error validation responses
+  // ——————————————————————————————————————————————
+  describe('validation and error handling', () => {
+        test.each([
         // The validator in app.ts returns this exact error message
-        expect(response.body).toHaveProperty(
-            'error', 
-            'Expression must be a non-empty string'
-        );
-    });
-
-    // Test unmatched parentheses validation
-    it ('should reject unmatched parentheses', async () => {
-        const response = await request(app)
-            .post('/evaluate')
-            .send({ expression: '(2+3' })
-            .expect(400);
+        ['    ', 400, 'Expression must be a non-empty string', 'rejects empty or whitespace-only expressions'],
 
         // Error message should mention "Unmatched parentheses"
-        expect(response.body.error).toMatch('Unmatched parentheses');
-    });
+        ['(2+3', 400, 'Unmatched parentheses', 'rejects unmatched parentheses'],
 
-    // Test division-by-zero semantic check
-    it ('should reject division by zero', async () => {
-        const response = await request(app)
+        // Semantic validation: can't divide by zero
+        ['5/0', 400, "Can't divide by 0", 'rejects division by zero'],
+
+        // Incomplete expression ends in '+'
+        ['5+', 400, 'Incomplete expression', 'rejects expressions ending with operator'],
+
+        // A percent sign immediately after operator is invalid
+        ['5+%', 400, 'Misplaced percent sign', 'rejects misplaced percent sign'],
+        ])('returns %d for "%s" — %s', async (expression, status, errorMsg, description) => {
+        const res = await request(app)
             .post('/evaluate')
-            .send({ expression: '5/0' })
-            .expect(400);
+            .send({ expression })
+            .expect(status);
 
-        //
-        expect(response.body.error).toMatch("Can't divide by 0");
+        expect(res.body).toHaveProperty('error');
+        expect(res.body.error).toMatch(errorMsg); // Error string should contain the message
+        });
     });
+});
 
-    // Test expression ending in operator validation
-    it ('should reject expressions ending with operator', async () => {
-        const response = await request(app)
-            .post('/evaluate')
-            .send({ expression: '5+' })
-            .expect(400);
-
-        //
-        expect(response.body.error).toMatch('Incomplete expression');
-    });
-
-    // TEst of remocing trailign zeroes
-    it('should trim trailing zeros but keep precision', async () => {
-        // 1/8 = 0.125 exactly, no trailing zeros
-        const res = await request(app)
-        .post('/evaluate')
-        .send({ expression: '1/8' })
-        .expect(200);
-
-        expect(res.body).toEqual({ result: '0.125' });
-    });
-
-    // Test formatting to round to 12 significant digits
-    it('should round to 12 significant digits by default', async () => {
-    // 1/3 in infinite decimal, trimmed+rounded to 12 significant figures -> 0.333333333333
-        const res = await request(app)
-        .post('/evaluate')
-        .send({ expression: '1/3' })
-        .expect(200);
-
-        expect(res.body).toEqual({ result: '0.333333333333' });
-    });
-
-    // Test preprocessing normalizatioon of × and ÷ in an integration test
-    it('should normalize × and ÷ operators', async () => {
-        const response = await request(app)
-        .post('/evaluate')
-        .send({ expression: '2×3÷2' })
-        .expect(200);
-
-        // 2×3=6, 6÷2=3
-        expect(response.body.result).toBe('3');
-    });
-
-    // Test preprocessin for implicit multiplication test
-    it('should handle implicit multiplication', async () => {
-        const res = await request(app)
-        .post('/evaluate')
-        .send({ expression: '2(3+4)' })
-        .expect(200);
-
-        // 2*(3+4)=14
-        expect(res.body).toEqual({ result: '14' });
-    });
-})
 
 
 // npx jest TESTS/jest-tests/backend/integration/app.integration.test.ts
