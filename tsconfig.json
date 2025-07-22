@@ -1,13 +1,24 @@
+// tsconfig.json (root)
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "commonjs",
-    "types": ["node", "jest"],
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["js/", "BACKEND/", "TESTS/"],
-  "exclude": ["node_modules"]
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "types": ["node", "jest"],
+        "outDir": "dist",
+        "rootDir": "ts"
+    },
+    "include": [
+        "ts/**/*.ts"                  // ← only your frontend code
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "BACKEND",
+        "TESTS"
+    ]
 }

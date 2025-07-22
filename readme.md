@@ -25,19 +25,20 @@ calculator/
 ├── css/
 │   ├── reset.css
 │   └── style.css
-├── js/
-│   ├── main.js
+├── ts/
+│   ├── main.ts
 │   └── modules/
-│       ├── DisplayControl.js
-│       ├── State.js
-│       ├── InputsHandler.js
-│       ├── Evaluator.js
-│       ├── KeyboardHandler.js
-│       └── ThemeSwitch.js
+│       ├── DisplayControl.ts
+│       ├── State.ts
+│       ├── InputsHandler.ts
+│       ├── Evaluator.ts
+│       ├── KeyboardHandler.ts
+│       └── ThemeSwitch.ts
 ├── jest.config.cjs
-├── tsconfig.ts
+├── tsconfig.json
 ├── package.json
 ├── package-lock.json
+├── dist/ ← compiled frontend lives here
 ├── BACKEND/
 │   ├── app.ts
 │   ├── index.ts
@@ -58,7 +59,7 @@ calculator/
 ## Technologies Used
 
 **Frontend:** 
-- HTML, CSS, and modular JavaScript
+- HTML, CSS, and TypeScript
 - Font Awesome for button icons
 - Google Fonts
 - Hosted on GitHub Pages
@@ -98,19 +99,28 @@ If you downloaded the ZIP, unzip it and open the folder.
 ```bash
 git clone https://github.com/hradiladam/calculator.git
 cd calculator
+npm install            # installs dev tools (TypeScript, Jest, Playwright…)
 ```
 
-2. Start the Backend: This project uses a backend powered by Node.js and Express, with mathjs for calculations.
+2. Start the Backend: 
+- This project uses a backend powered by Node.js and Express, with mathjs for calculations.
+- The backend is now written in **TypeScript**. You must compile it before running:
 
 ```bash
 cd BACKEND
-npm install     # First-time setup (only once)
-npm run build   # Compile TypeScript to JavaScript
-npm start       # Start the server (runs compiled JS)
+npm install     # First-time setup
+npm run build   # Compiles TypeScript into dist/ using BACKEND/tsconfig.json (equivalent to: tsc -p .)
+npm start       # Start the server (runs dist/index.js)
 ```
 
+3. Compile the Frontend (TypeScript)
+- From the project root, compile frontend `.ts` files into `/dist`:
 
-3. . Start the frontend: Choose one of the two options below
+```bash
+npm run watch:frontend
+```
+
+4. Start the frontend: Choose one of the two options below
 
 ### Option A: VS Code + Live Server
 - Open the project folder in VS Code with Live Extention installed
@@ -137,5 +147,5 @@ MIT — Free to use, modify, and build upon.
 ---
 
 
-> This project is a work in progress and will be gradually updated and improved. Planned future enhancements include unit and integration tests using Jest, full rewrite in TypeScript for better type safety and maintainability, changing recent history display into database with its own tests
+> This project is a work in progress and will be gradually updated and improved. Planned future enhancements include unit and integration tests using Jest, changing recent history display into database with its own tests
 
