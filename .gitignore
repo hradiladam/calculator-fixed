@@ -26,5 +26,8 @@ Thumbs.db
 **/dist/
 **/build/
 
+# EXCEPTION: Keep root-level frontend dist for GitHub Pages
+!/dist/
+
 # Optional: log files
 *.log
