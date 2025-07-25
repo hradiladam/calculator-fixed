@@ -8,7 +8,7 @@ const globalSetup = async (): Promise<void> => {
     console.time('Backend warmup time');
 
     try {
-        const response = await fetch('https://calculator-ihdr.onrender.com/evaluate', {
+        const response = await fetch('https://calculator-yzjs.onrender.com/evaluate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ expression: '1+1' }),

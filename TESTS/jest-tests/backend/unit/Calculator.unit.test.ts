@@ -1,4 +1,4 @@
-// TESTS/jest-tests/backend/unit/Calculator.test.ts
+// TESTS/jest-tests/backend/unit/Calculator.unit.test.ts
 // —— UNIT TESTS FOR Calculator.ts ——
 // Verifies both correct results and error handling, plus integration with helper modules
 
@@ -107,7 +107,7 @@ describe('Calculator.evaluate()', () => {
         });
     });
 
-// ERROR CONDITIONS
+    // ERROR CONDITIONS
     // Each of these inputs should trigger a specific error thrown by Calculator.evaluate()
     describe('error conditions', () => {
         test.each([
@@ -129,9 +129,9 @@ describe('Calculator.evaluate()', () => {
     });
 
     // COLLABORATION WITH HELPER MODULES
+    // Tests that evaluate() calls preprocess() with the raw input expression
     describe('collaboration with helper modules', () => {
         // Unit tests verifying that Calculator uses its helpers correctly
-
         test('calls preprocess exactly once with the raw input', () => {
             // Spy on the preprocess function
             const spy = jest.spyOn(prep, 'preprocess');
@@ -146,11 +146,12 @@ describe('Calculator.evaluate()', () => {
             spy.mockRestore();
         });
 
+        // Tests that evaluate() will throw an error if hasDivisionByZero() returns true
         test('short-circuits on division-by-zero via Validator', () => {
             // Force Validator.hasDivisionByZero() to return true, regardless of input
             const divZeroSpy = jest
-            .spyOn(Validator.prototype, 'hasDivisionByZero')
-            .mockReturnValue(true);
+                .spyOn(Validator.prototype, 'hasDivisionByZero')
+                .mockReturnValue(true);
 
             // Pick a safe expression that would normally return 2,
             // but should throw due to the spy
@@ -159,30 +160,33 @@ describe('Calculator.evaluate()', () => {
             divZeroSpy.mockRestore();
         });
 
+        // Tests that evaluate() will throw an error if endsWithOperator() returns true
         test('short-circuits on incomplete expression via Validator', () => {
             const incompleteSpy = jest
-            .spyOn(Validator.prototype, 'endsWithOperator')
-            .mockReturnValue(true);
+                .spyOn(Validator.prototype, 'endsWithOperator')
+                .mockReturnValue(true);
 
             expect(() => calculator.evaluate('1+1')).toThrow('Incomplete expression');
 
             incompleteSpy.mockRestore();
         });
 
+        // Tests that evaluate() will throw an error if hasUnmatchedParentheses() returns true
         test('short-circuits on unmatched parentheses via Validator', () => {
             const parenSpy = jest
-            .spyOn(Validator.prototype, 'hasUnmatchedParentheses')
-            .mockReturnValue(true);
+                .spyOn(Validator.prototype, 'hasUnmatchedParentheses')
+                .mockReturnValue(true);
 
             expect(() => calculator.evaluate('2*3')).toThrow('Unmatched parentheses');
 
             parenSpy.mockRestore();
         });
 
+        // Tests that evaluate() will throw an error if hasInvalidPercentUsage() returns true
         test('short-circuits on invalid percent usage via Validator', () => {
             const pctSpy = jest
-            .spyOn(Validator.prototype, 'hasInvalidPercentUsage')
-            .mockReturnValue(true);
+                .spyOn(Validator.prototype, 'hasInvalidPercentUsage')
+                .mockReturnValue(true);
 
             expect(() => calculator.evaluate('10+5')).toThrow('Misplaced percent sign');
 
@@ -192,4 +196,4 @@ describe('Calculator.evaluate()', () => {
 });
 
 
-// npx jest --selectProjects backend --testPathPatterns=Calculator.test.ts
+// npx jest --selectProjects backend --testPathPatterns=Calculator.unit.test.ts

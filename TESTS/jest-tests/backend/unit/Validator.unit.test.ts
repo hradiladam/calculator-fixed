@@ -1,4 +1,4 @@
-// TESTS/backend/jest-tests/Validator.test.ts
+// TESTS/backend/jest-tests/Validator.unit.test.ts
 //  —— UNIT TESTS FOR Validator.ts ——
 // These tests verify all validation methods used before evaluating math expressions.
 
@@ -70,7 +70,7 @@ describe('Validator', () => {
 });
 
 
-// npx jest --selectProjects backend --testPathPatterns=Validator.test.ts
+// npx jest --selectProjects backend --testPathPatterns=Validator.unit.test.ts
 
 
 

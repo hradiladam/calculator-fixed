@@ -1,4 +1,4 @@
-// TESTS/jest-tests/backend/unit/preprocessor.test.ts
+// TESTS/jest-tests/backend/unit/preprocessor.unit.test.ts
 // —— UNIT TESTS FOR preprocessor.ts ——
 // These tests verify correct transformation of expressions for math.js
 
@@ -60,4 +60,4 @@ describe('preprocess()', () => {
 });
 
 
-// npx jest --selectProjects backend --testPathPatterns=preprocessor.test.ts
+// npx jest --selectProjects backend --testPathPatterns=preprocessor.unit.test.ts
