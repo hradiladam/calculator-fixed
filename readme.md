@@ -16,6 +16,11 @@ This project includes:
 - Tests cover expression evaluation, button interaction, visual behavior (hover/active), theme switching, and error styling.
 - See /TESTS/playwright-tests/README.md for details.
 
+### Jest test suite(/TESTS/jest-tests)
+- **Jest** for test running, assertions, and mocking  
+- **Supertest** for end‑to‑end HTTP tests against our Express
+- See /TESTS/jest-tests/README.md for details.
+
 
 ## Project Structure
 
