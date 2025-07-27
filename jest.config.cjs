@@ -1,3 +1,4 @@
+// jest.config.js
 module.exports = {
     projects: [
         {
@@ -7,7 +8,7 @@ module.exports = {
             testMatch: ['<rootDir>/TESTS/jest-tests/backend/**/*.test.ts'],
             globals: {
                 'ts-jest': {
-                tsconfig: '<rootDir>/BACKEND/tsconfig.json'
+                    tsconfig: '<rootDir>/BACKEND/tsconfig.json'
                 }
             }
         },
@@ -17,7 +18,9 @@ module.exports = {
             testEnvironment: 'jsdom',
             testMatch: ['<rootDir>/TESTS/jest-tests/frontend/**/*.test.ts'],
             globals: {
-                'ts-jest': { tsconfig: '<rootDir>/tsconfig.json' },
+                'ts-jest': {
+                    tsconfig: '<rootDir>/tsconfig.json'
+                }
             },
             moduleFileExtensions: ['ts', 'js', 'json'],
             moduleNameMapper: {
@@ -30,8 +33,12 @@ module.exports = {
                 //   import State from './State.js'
                 // during tests becomes
                 //   import State from 'ts/modules/State.ts'
-                '^\\./(formatter|State|Evaluator|DisplayControl|KeyboardHandler|ThemeSwitch|InputHandler|config)\\.js$':
-                '<rootDir>/ts/modules/$1.ts',
+                '^\\./(formatter|State|Evaluator|DisplayControl|KeyboardHandler|ThemeSwitch|InputHandler)\\.js$':
+                    '<rootDir>/ts/modules/$1.ts',
+
+                // Map the import of "../config-api.js" (from ts/modules/Evaluator.ts)
+                // back to the TypeScript source at ts/config‑api.ts
+                '^\\.\\./config-api\\.js$': '<rootDir>/ts/config-api.ts',
             },
         },
     ],
