@@ -8,7 +8,7 @@ module.exports = {
             testMatch: ['<rootDir>/TESTS/jest-tests/backend/**/*.test.ts'],
             globals: {
                 'ts-jest': {
-                    tsconfig: '<rootDir>/BACKEND/tsconfig.json'
+                tsconfig: '<rootDir>/BACKEND/tsconfig.json'
                 }
             }
         },
@@ -19,27 +19,26 @@ module.exports = {
             testMatch: ['<rootDir>/TESTS/jest-tests/frontend/**/*.test.ts'],
             globals: {
                 'ts-jest': {
-                    tsconfig: '<rootDir>/tsconfig.json'
+                tsconfig: '<rootDir>/tsconfig.json'
                 }
             },
             moduleFileExtensions: ['ts', 'js', 'json'],
             moduleNameMapper: {
-                // We deliberately import "./*.js" in our TS source so that after `tsc` compiles TS files to `dist/`,
-                // the browser can load the compiled `.js` files directly.
-                // For Jest, this mapping rewrites those "./file.js" imports back to the original
-                // "ts/modules/file.ts" files so tests run against the TS source.
-                //
-                // Example:
-                //   import State from './State.js'
-                // during tests becomes
-                //   import State from 'ts/modules/State.ts'
+                // Rewrite imports of core modules in ts/modules
+                // e.g. import State from './State.js' → <rootDir>/ts/modules/State.ts
                 '^\\./(formatter|State|Evaluator|DisplayControl|KeyboardHandler|ThemeSwitch|InputHandler)\\.js$':
-                    '<rootDir>/ts/modules/$1.ts',
+                '<rootDir>/ts/modules/$1.ts',
 
-                // Map the import of "../config-api.js" (from ts/modules/Evaluator.ts)
-                // back to the TypeScript source at ts/config‑api.ts
-                '^\\.\\./config-api\\.js$': '<rootDir>/ts/config-api.ts',
-            },
-        },
-    ],
+                // Rewrite the config-api helper import
+                // e.g. import { getEvaluateUrl } from '../config-api.js'
+                '^\\.\\./config-api\\.js$':
+                '<rootDir>/ts/config-api.ts',
+
+                // Rewrite any deep‑relative import of ts/modules files
+                // e.g. import State from '../../../../ts/modules/State.js'
+                '^(?:\\.\\./)*ts/modules/(formatter|State|Evaluator|DisplayControl|KeyboardHandler|ThemeSwitch|InputHandler)\\.js$':
+                '<rootDir>/ts/modules/$1.ts'
+            }
+        }
+    ]
 };
