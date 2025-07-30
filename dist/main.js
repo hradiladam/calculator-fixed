@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const historyPanel = new HistoryPanel(toggleBtn, panelEl); // Manages history panel UI
     const evaluator = new Evaluator(state, displayControl, historyPanel); // Runs & formats calculations
     const inputHandler = new InputHandler(state, evaluator, displayControl); // Handles button inputs 
-    displayControl.update(); // Sets initial display to “0” / “No history” 
+    displayControl.update(); // Sets initial display to “0” / “No recent history” 
     // —— Wire up calculator buttons ——
     document.querySelectorAll('button[data-value]').forEach((button) => {
         button.addEventListener('click', () => {

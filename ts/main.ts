@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const evaluator      = new Evaluator(state, displayControl, historyPanel);                // Runs & formats calculations
     const inputHandler   = new InputHandler(state, evaluator, displayControl);                // Handles button inputs 
 
-    displayControl.update();   // Sets initial display to “0” / “No history” 
+    displayControl.update();   // Sets initial display to “0” / “No recent history” 
 
     // —— Wire up calculator buttons ——
     document.querySelectorAll<HTMLButtonElement>('button[data-value]').forEach((button) => {
