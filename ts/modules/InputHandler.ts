@@ -153,14 +153,14 @@ export default class InputHandler {
 
     // Function to handle button clicks
     handleButtons = async (value: string): Promise<void> => {
-        const resultElement = this.display.resultElement;
-        const wasError = resultElement.classList.contains('error-text');
+        const resultEl = this.display.resultElement;
+        const wasError = resultEl.classList.contains('error-text');
 
         // 1. If we're showing an error and "=" is pressed, do absolutely nothing
         if (wasError && value === '=') return;
 
         // 2. Always clear error styling on any button press
-        resultElement.classList.remove('error-text');
+        resultEl.classList.remove('error-text');
 
         // 3. If there was an error and it's not "=", reset state before continuing
         if (wasError) this.display.clearAll();
@@ -170,17 +170,21 @@ export default class InputHandler {
             case 'AC':
                 this.display.clearAll();
                 break;
+
             case '⌫':
                 this.display.backspace();
                 break;
+
             case '=':
+                // evaluate() now does its own this.display.update()
                 await this.evaluator.evaluate();
-                break;
+                return;  // <-- skip the extra update down below
+
             default:
                 this._appendValue(value);
         }
 
-        // Updates display
+        // For everything except "=" so display updates once
         this.display.update();
     }
 }

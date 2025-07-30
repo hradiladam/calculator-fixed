@@ -52,11 +52,20 @@
 		<button class="button operator" data-value="=" role="button" aria-label="Equals">=</button>
 	</div>
 
-	<!-- Button to trigger dark theme -->
+	<!-- Theme and History Toggle Buttons -->
 	<div id="theme-element">
+		<!-- Dark mode toggle -->
 		<button id="theme-switch" role="button" aria-label="Toggle dark mode">
 			<i class="fa-solid fa-moon"></i>
 		</button>
+
+		<!-- History log toggle -->
+		<button id="history-toggle" role="button" aria-label="Toggle history">
+			<i class="fa-solid fa-clock-rotate-left"></i>
+		</button>
+
+		<!-- Hidden history log panel -->
+		<div id="history-panel" role="region" aria-label="Full history log"></div>
 	</div>
 </body>
 </html>

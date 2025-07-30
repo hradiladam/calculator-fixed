@@ -5,30 +5,37 @@ import { getEvaluateUrl } from '../config-api.js';
 export default class Evaluator {
     state;
     display;
-    constructor(state, display) {
+    historyPanel;
+    constructor(state, display, historyPanel // ← now injected directly
+    ) {
         this.state = state;
         this.display = display;
+        this.historyPanel = historyPanel;
     }
     evaluate = async () => {
         const resultElement = this.display.resultElement;
         resultElement.classList.remove('error-text');
+        // … inside the success path, before your fetch …
+        const expr = formatForHistory(this.state.currentInput); // format input once for both history UIs
         try {
-            const API_URL = getEvaluateUrl();
-            const response = await fetch(API_URL, {
+            const response = await fetch(getEvaluateUrl(), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ expression: this.state.currentInput })
             });
             const data = await response.json();
-            // Always record what the user attempted
-            this.state.recentHistory = formatForHistory(this.state.currentInput) + ' =';
-            if (!response.ok) {
-                // Server‑reported error
+            // Always record what the user attempted, update the one‑line “recent history” display
+            this.state.recentHistory = `${expr} =`;
+            if (!response.ok || data.error) {
+                // Error path
                 this.state.currentInput = data.error ?? 'Error';
                 resultElement.classList.add('error-text');
+                this.state.lastButtonWasEquals = false;
             }
             else {
-                // Success
+                // Success path
+                this.historyPanel.append(expr, data.result ?? '');
+                // Then update main display state
                 this.state.currentInput = data.result ?? '';
                 this.state.lastButtonWasEquals = true;
             }
@@ -37,6 +44,9 @@ export default class Evaluator {
             // Network or CORS failure
             this.state.currentInput = 'Network Error';
             resultElement.classList.add('error-text');
+            this.state.lastButtonWasEquals = false;
         }
+        // Finally, refresh the one‑line display
+        this.display.update();
     };
 }
