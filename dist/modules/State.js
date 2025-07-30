@@ -9,7 +9,6 @@ export default class State {
         this.currentInput = '0';
         this.recentHistory = '';
         this.lastButtonWasEquals = false;
-        this.operators = ['+', '-', '×', '÷'];
     }
     reset() {
         this.currentInput = '0';
