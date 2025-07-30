@@ -17,26 +17,26 @@ describe('Calculator.evaluate()', () => {
     // BASIC ARITHMETIC OPERATIONS 
     describe('basic operations', () => {
         test.each([
-        ['5+3', '8', 'addition: 5 + 3 = 8'],
-        ['5-3', '2', 'subtraction: 5 - 3 = 2'],
-        ['5*3', '15', 'multiplication: 5 * 3 = 15'],
-        ['10/2', '5', 'division: 10 / 2 = 5'],
-        ['1+2-3*4/2', '-3', 'mixed operations: 1+2-3*4/2 = -3'],
-        ])('returns "%s" → "%s" — %s', (input, expected, description) => {
-        expect(calculator.evaluate(input)).toBe(expected);
+            ['5+3', '8', 'addition: 5 + 3 = 8'],
+            ['5-3', '2', 'subtraction: 5 - 3 = 2'],
+            ['5*3', '15', 'multiplication: 5 * 3 = 15'],
+            ['10/2', '5', 'division: 10 / 2 = 5'],
+            ['1+2-3*4/2', '-3', 'mixed operations: 1+2-3*4/2 = -3'],
+            ])('returns "%s" → "%s" — %s', (input, expected, description) => {
+            expect(calculator.evaluate(input)).toBe(expected);
         });
     });
 
     // PERCENTAGE BEHAVIOR
     describe('percentage calculations', () => {
         test.each([
-        ['100+20%', '120', 'addition: 100 + 20% = 120'],
-        ['100-20%', '80', 'subtraction: 100 - 20% = 80'],
-        ['200*10%', '20', 'multiplication: 200 * 10% = 20'],
-        ['200/10%', '2000', 'division: 200 / 10% = 2000'],
-        ['50%5', '2.5', 'implicit multiplication with percent: 50%5 = 2.5'], // 50% of 5 = 0.5 * 5 = 2.5
-        ])('returns "%s" → "%s" — %s', (input, expected, description) => {
-        expect(calculator.evaluate(input)).toBe(expected);
+            ['100+20%', '120', 'addition: 100 + 20% = 120'],
+            ['100-20%', '80', 'subtraction: 100 - 20% = 80'],
+            ['200*10%', '20', 'multiplication: 200 * 10% = 20'],
+            ['200/10%', '2000', 'division: 200 / 10% = 2000'],
+            ['50%5', '2.5', 'implicit multiplication with percent: 50%5 = 2.5'], // 50% of 5 = 0.5 * 5 = 2.5
+            ])('returns "%s" → "%s" — %s', (input, expected, description) => {
+            expect(calculator.evaluate(input)).toBe(expected);
         });
     });
 
@@ -44,22 +44,22 @@ describe('Calculator.evaluate()', () => {
     // Parentheses grouping 
     describe('valid parentheses', () => {
         test.each([
-        ['(2+3)*4', '20', 'simple grouping'],
-        ['((1+2)*3)+4', '13', 'nested grouping'],
-        ['(1+(2*(3+4)))', '15', 'multiple nested levels'],
-        ])('returns "%s" → "%s" — %s', (input, expected, description) => {
-        expect(calculator.evaluate(input)).toBe(expected);
+            ['(2+3)*4', '20', 'simple grouping'],
+            ['((1+2)*3)+4', '13', 'nested grouping'],
+            ['(1+(2*(3+4)))', '15', 'multiple nested levels'],
+            ])('returns "%s" → "%s" — %s', (input, expected, description) => {
+            expect(calculator.evaluate(input)).toBe(expected);
         });
     });
 
     // Implicit multiplication
     describe('implicit multiplication', () => {
         test.each([
-        ['5(2+3)', '25', 'number before parentheses: 5(2+3) = 25'],
-        ['(2+3)4', '20', 'closing parentheses before number: (2+3)4 = 20'],
-        ['(1+1)(2+2)', '8', 'parentheses back-to-back: (1+1)(2+2) = 8'],
-        ])('returns "%s" → "%s" — %s', (input, expected, description) => {
-        expect(calculator.evaluate(input)).toBe(expected);
+            ['5(2+3)', '25', 'number before parentheses: 5(2+3) = 25'],
+            ['(2+3)4', '20', 'closing parentheses before number: (2+3)4 = 20'],
+            ['(1+1)(2+2)', '8', 'parentheses back-to-back: (1+1)(2+2) = 8'],
+            ])('returns "%s" → "%s" — %s', (input, expected, description) => {
+            expect(calculator.evaluate(input)).toBe(expected);
         });
     });
 
@@ -86,24 +86,24 @@ describe('Calculator.evaluate()', () => {
     // DECIMAL POINT PRECISION AND FORMATTING
     describe('decimal point precision and formatting', () => {
         test('accurate precision', () => {
-        // 0.1 + 0.2 results in 0.3 and not 0.03000000000001
-        expect(calculator.evaluate('0.1+0.2')).toBe('0.3');
-        });
+            // 0.1 + 0.2 results in 0.3 and not 0.03000000000001
+            expect(calculator.evaluate('0.1+0.2')).toBe('0.3');
+            });
 
-        test('0.1 / 3 produces exactly 12 significant digits', () => {
-        // 0.1 / 3 ≈ 0.0333333333333333… → "0.033333333333"
-        expect(calculator.evaluate('0.1/3')).toBe('0.0333333333333');
-        });
+            test('0.1 / 3 produces exactly 12 significant digits', () => {
+            // 0.1 / 3 ≈ 0.0333333333333333… → "0.033333333333"
+            expect(calculator.evaluate('0.1/3')).toBe('0.0333333333333');
+            });
 
-        test('rounds numbers with more than 12 significant digits', () => {
-        // 2.3456789012345678 should be rounded to 12 digits: "2.34567890123"
-        expect(calculator.evaluate('2.3456789012345678')).toBe('2.34567890123');
-        });
+            test('rounds numbers with more than 12 significant digits', () => {
+            // 2.3456789012345678 should be rounded to 12 digits: "2.34567890123"
+            expect(calculator.evaluate('2.3456789012345678')).toBe('2.34567890123');
+            });
 
-        test('trims unnecessary trailing zeros', () => {
-        // "1.2300" → "1.23"; "1.0000" → "1"
-        expect(calculator.evaluate('1.2300')).toBe('1.23');
-        expect(calculator.evaluate('1.0000')).toBe('1');
+            test('trims unnecessary trailing zeros', () => {
+            // "1.2300" → "1.23"; "1.0000" → "1"
+            expect(calculator.evaluate('1.2300')).toBe('1.23');
+            expect(calculator.evaluate('1.0000')).toBe('1');
         });
     });
 

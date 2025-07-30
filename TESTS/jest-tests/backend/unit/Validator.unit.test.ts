@@ -13,9 +13,7 @@ describe('Validator', () => {
         validator = new Validator;
     });
 
-    // ———————————————————————————
-    // hasUnmatchedParentheses()
-    // ———————————————————————————
+    // Test of unmatched parentheses
     describe('hasUnmatchedParentheses', () => {
         test.each([
             ['(1+2', true, 'unmatched opening parenthesis'],
@@ -27,9 +25,7 @@ describe('Validator', () => {
         });
     });
 
-    // ———————————————————————————
-    // endsWithOperator()
-    // ———————————————————————————
+    // Test of invalid operator usage
     describe('endsWithOperator', () => {
         test.each([
             ['1 +', true, 'trailing "+" operator'],
@@ -40,9 +36,7 @@ describe('Validator', () => {
         });
     });
 
-    // ———————————————————————————
-    // hasInvalidPercentPlacement()
-    // ———————————————————————————
+    // Test of invalidf percentage placements
     describe('hasInvalidePercentUsage', () => {
         test.each([
             ['1+%', true, 'percent sign directly after operator'],
@@ -54,9 +48,8 @@ describe('Validator', () => {
         });
     });
     
-    // ———————————————————————————
-    // hasDivisionByZero()  
-    // ———————————————————————————
+
+    // Test of dividing by zero
     describe('hasDivisionByZero', () => {
         test.each([
             ['10 / 0', true, 'simple division by zero'],
