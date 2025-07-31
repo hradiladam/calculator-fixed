@@ -165,6 +165,7 @@ body {
 	right: 0;
 	width: 18rem;
 	max-height: 60vh;
+	min-height: 5rem;
 	overflow-y: auto;
 	background: #fff;
 	border: 1px solid rgba(0,0,0,0.15);
@@ -179,11 +180,15 @@ body {
 	pointer-events: none;
 }
 
-/* hide border/shadow immediately when empty */
-#history-panel:empty {
-    border: none !important;
-    box-shadow: none !important;
+.history-empty {
+	padding: 0.75rem;
+	font-size: 1rem;
+	text-align: left;
+	color: #666;
+	opacity: 0.8;
+	font-style: italic;
 }
+
 
 #history-panel.visible {
 	opacity: 1;
