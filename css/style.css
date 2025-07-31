@@ -211,7 +211,7 @@ body {
 	border-top: 1px solid rgba(0,0,0,0.1);
 }
 
-.history-expression {
+.history-expression, .history-empty {
 	color: #666;
 	font-size: 1rem;
 	margin-bottom: 0.5rem; /* slightly bigger gap */
@@ -321,7 +321,8 @@ body.dark-theme #history-panel.visible:not(:empty) {
 	border: 1px solid #555555;
 }
 
-body.dark-theme .history-expression {
+body.dark-theme .history-expression,
+body.dark-theme .history-empty {
 	color: #ccc;
 }
 
