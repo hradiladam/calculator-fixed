@@ -26,7 +26,7 @@ module.exports = {
             moduleNameMapper: {
                 // Rewrite imports of core modules in ts/modules
                 // e.g. import State from './State.js' → <rootDir>/ts/modules/State.ts
-                '^\\./(formatter|State|Evaluator|DisplayControl|KeyboardHandler|ThemeSwitch|InputHandler)\\.js$':
+                '^\\./(formatter|State|Evaluator|DisplayControl|KeyboardHandler|ThemeSwitch|InputHandler|HistoryPanel)\\.js$':
                 '<rootDir>/ts/modules/$1.ts',
 
                 // Rewrite the config-api helper import
@@ -36,7 +36,7 @@ module.exports = {
 
                 // Rewrite any deep‑relative import of ts/modules files
                 // e.g. import State from '../../../../ts/modules/State.js'
-                '^(?:\\.\\./)*ts/modules/(formatter|State|Evaluator|DisplayControl|KeyboardHandler|ThemeSwitch|InputHandler)\\.js$':
+                '^(?:\\.\\./)*ts/modules/(formatter|State|Evaluator|DisplayControl|KeyboardHandler|ThemeSwitch|InputHandler|HistoryPanel)\\.js$':
                 '<rootDir>/ts/modules/$1.ts'
             }
         }

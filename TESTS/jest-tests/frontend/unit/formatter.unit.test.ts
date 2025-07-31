@@ -36,6 +36,12 @@ describe('formatter', () => {
         test('inserts " × " between ")" and digit', () => {
             expect(formatForHistory('(1+1)9')).toBe('(1+1) × 9');
         });
+
+        // Formats negative numbers as unary, without extra space
+        test('formats negative numbers with unary minus (no space)', () => {
+            expect(formatForHistory('-5')).toBe('-5');
+            expect(formatForHistory('-123.45')).toBe('-123.45');
+        });
     });
 
     // ——— Tests for formatting expressions in the current result display (user-facing UI formatting)
@@ -63,6 +69,18 @@ describe('formatter', () => {
         // Removes unnecessary spaces at the start and end of input
         test('trims leading and trailing spaces', () => {
             expect(formatForDisplay('   9×9   ')).toBe('9 × 9');
+        });
+
+        // Prevents extra spaces in exponential notation like "1.2e+5"
+        test('preserves compact scientific notation (e+5) without extra spaces', () => {
+            expect(formatForDisplay('1.23e+5')).toBe('1.23e+5');
+            expect(formatForDisplay('-9.8e-7')).toBe('-9.8e-7');
+        });
+
+        // Formats negative numbers as unary, without extra space
+        test('formats negative numbers with unary minus (no space)', () => {
+            expect(formatForDisplay('-5')).toBe('-5');
+            expect(formatForDisplay('-123.45')).toBe('-123.45');
         });
     });
 });

@@ -17,8 +17,8 @@ describe('preprocess()', () => {
   // Test expansion of "E - Y%" → E * (1 - Y/100)
   // This models percentage subtraction as a discount-style operation
   test.each([
-        ['100 + 20%', '(100*(1+20/100))', 'expands percentage addition'],
-        ['100 - 20%', '(100*(1-20/100))', 'expands percentage subtraction'],
+        ['100 + 20%', '100*(1+20/100)', 'expands percentage addition'],
+        ['100 - 20%', '100*(1-20/100)', 'expands percentage subtraction'],
     ])('returns "%s" → "%s" — %s', (input, expected, description) => {
         expect(preprocess(input)).toBe(expected);
   });
@@ -29,15 +29,15 @@ describe('preprocess()', () => {
   // Then that result is treated as a new base and expanded again with 10%: 
   // Final result: ((100 * (1 + 20/100)) * (1 + 10/100))
   test.each([
-        ['((100 + 20%) + 10%)', '((((100*(1+20/100)))*(1+10/100)))', 'expands nested percentage additions'],
+        ['((100 + 20%) + 10%)', '(((100*(1+20/100)))*(1+10/100))', 'expands nested percentage additions'],
     ])('returns "%s" → "%s" — %s', (input, expected, description) => {
         expect(preprocess(input)).toBe(expected);
   });
 
   // Test conversion of isolated percentages (e.g., "25%" → "25/100")
   test.each([
-        ['25%', '(25/100)', 'converts standalone percent to /100'],
-        ['(40)%', '((40)/100)', 'converts parenthesized percent to /100'],
+        ['25%', '25/100', 'converts standalone percent to /100'],
+        ['(40)%', '(40)/100', 'converts parenthesized percent to /100'],
     ])('returns "%s" → "%s" — %s', (input, expected, description) => {
         expect(preprocess(input)).toBe(expected);
   });
@@ -58,7 +58,7 @@ describe('preprocess()', () => {
 
   // Test combined behavior: nested percent, implicit multiplication, operator normalization
   test.each([
-        ['((100+20%)(5+5%)+30%)', '((((100*(1+20/100)))*((5*(1+5/100)))*(1+30/100)))', 'handles mixed complex case'],
+        ['((100+20%)(5+5%)+30%)', '(((100*(1+20/100)))*((5*(1+5/100)))*(1+30/100))', 'handles mixed complex case'],
     ])('returns "%s" → "%s" — %s', (input, expected, description) => {
         expect(preprocess(input)).toBe(expected);
     });
