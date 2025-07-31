@@ -61,7 +61,7 @@ describe('DisplayControl', () => {
 
             display.update();
 
-            expect(historyElement.textContent).toBe('No history to show');
+            expect(historyElement.textContent).toBe('No recent history');
             expect(resultElement.textContent).toBe('0');
         });
 

@@ -6,6 +6,7 @@ import DisplayControl from '../../../../ts/modules/DisplayControl.js';
 import Evaluator from '../../../../ts/modules/Evaluator.js';
 import InputHandler from '../../../../ts/modules/InputHandler.js';
 import { formatForHistory } from '../../../../ts/modules/formatter.js';
+import HistoryPanel from '../../../../ts/modules/HistoryPanel';
 
 // ————— Helpers —————
 
@@ -29,6 +30,8 @@ async function press(input: InputHandler, ...buttons: string[]) {
 const HTML = `
 	<div id="recent-history"></div>
 	<div id="result"></div>
+	<button id="history-toggle"></button>
+	<div id="history-panel"></div>
 `;
 
 describe('Calculator integration (Jest + JSDOM)', () => {
@@ -38,15 +41,15 @@ describe('Calculator integration (Jest + JSDOM)', () => {
 		// Reset DOM
 		document.body.innerHTML = HTML;
 
-		// Wire up modules
-		const state     = new State();
-		const display   = new DisplayControl(
-			document.getElementById('recent-history')!,
-			document.getElementById('result')!,
-			state
-		);
-		const evaluator = new Evaluator(state, display);
-		input           = new InputHandler(state, evaluator, display);
+		const state        = new State();
+		const historyEl    = document.getElementById('recent-history')!;
+		const resultEl     = document.getElementById('result')!;
+		const toggleBtn    = document.getElementById('history-toggle')!;
+		const panelEl      = document.getElementById('history-panel')!;
+		const display      = new DisplayControl(historyEl, resultEl, state);
+		const historyPanel = new HistoryPanel(toggleBtn, panelEl);
+		const evaluator    = new Evaluator(state, display, historyPanel);
+		input              = new InputHandler(state, evaluator, display);
 
 		display.update();
 	});

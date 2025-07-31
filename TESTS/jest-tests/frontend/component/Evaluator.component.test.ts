@@ -6,23 +6,33 @@ import Evaluator from '../../../../ts/modules/Evaluator';
 import State from '../../../../ts/modules/State';
 import DisplayControl from '../../../../ts/modules/DisplayControl';
 import { formatForHistory } from '../../../../ts/modules/formatter';
+import HistoryPanel from '../../../../ts/modules/HistoryPanel';
 
 describe('Evaluator component behavior', () => {
     let state: State;
     let display: jest.Mocked<DisplayControl>;
     let evaluator: Evaluator;
     let originalFetch: typeof fetch;
+    let historyPanel: jest.Mocked<HistoryPanel>;
 
     beforeEach(() => {
         state = new State();
+
         display = {
             resultElement: document.createElement('div'),
             historyElement: document.createElement('div'),
             clearAll: jest.fn(),
             backspace: jest.fn(),
             update: jest.fn(),
+            appendToHistoryLog: jest.fn(), 
         } as unknown as jest.Mocked<DisplayControl>;
-        evaluator = new Evaluator(state, display);
+
+        historyPanel = {
+            append: jest.fn(),
+            clear: jest.fn(),
+        } as unknown as jest.Mocked<HistoryPanel>;
+
+        evaluator = new Evaluator(state, display, historyPanel);
         originalFetch = global.fetch;
     });
 
@@ -64,8 +74,14 @@ describe('Evaluator component behavior', () => {
         const historyEl = document.createElement('div');
         const resultEl = document.createElement('div');
         state.currentInput = '3 + 4';
+
         display = new DisplayControl(historyEl, resultEl, state) as any;
-        evaluator = new Evaluator(state, display);
+        historyPanel = {
+            append: jest.fn(),
+            clear: jest.fn(),
+        } as unknown as jest.Mocked<HistoryPanel>;
+
+        evaluator = new Evaluator(state, display, historyPanel);
 
         // Run evaluation and update
         await evaluator.evaluate();

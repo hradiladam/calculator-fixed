@@ -7,15 +7,20 @@
 import Evaluator from '../../../../ts/modules/Evaluator';
 import State from '../../../../ts/modules/State';
 import DisplayControl from '../../../../ts/modules/DisplayControl';
+import HistoryPanel from '../../../../ts/modules/HistoryPanel';
+
 
 describe('Evaluator.evaluate() – unit tests', () => {
     let state: State;
     let display: jest.Mocked<DisplayControl>;
     let evaluator: Evaluator;
     let originalFetch: typeof fetch;
+    let historyPanel: jest.Mocked<HistoryPanel>;
+
 
     beforeEach(() => {
         state = new State();
+
         display = {
             resultElement: document.createElement('div'),
             historyElement: document.createElement('div'),
@@ -23,7 +28,13 @@ describe('Evaluator.evaluate() – unit tests', () => {
             backspace: jest.fn(),
             update: jest.fn(),
         } as unknown as jest.Mocked<DisplayControl>;
-        evaluator = new Evaluator(state, display);
+
+        historyPanel = {
+            clear: jest.fn(),
+            append: jest.fn()
+        } as unknown as jest.Mocked<HistoryPanel>;
+        
+        evaluator = new Evaluator(state, display, historyPanel);
         originalFetch = global.fetch;
     });
 
