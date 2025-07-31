@@ -6,6 +6,11 @@ export default class HistoryPanel {
     constructor(toggleBtn, panelEl) {
         this.toggleBtn = toggleBtn;
         this.panelEl = panelEl;
+        // Makes sure the panel is never empty, there is default message in case of no results from evaluator
+        const emptyMsg = document.createElement('div');
+        emptyMsg.classList.add('history-empty');
+        emptyMsg.textContent = 'No history to show.';
+        this.panelEl.appendChild(emptyMsg);
         // Wire up the toggle button
         this.toggleBtn.addEventListener('click', this.toggle);
     }
@@ -15,6 +20,12 @@ export default class HistoryPanel {
     };
     // —— Append one “expression = result” line ——
     append = (expression, result) => {
+        // Hide the "no history" message if it exists
+        const placeholder = this.panelEl.querySelector('.history-empty');
+        if (placeholder) {
+            placeholder.remove();
+        }
+        ;
         // Create container for this entry
         const wrapper = document.createElement('div');
         wrapper.classList.add('history-entry');
@@ -41,5 +52,9 @@ export default class HistoryPanel {
     */
     clear = () => {
         this.panelEl.innerHTML = '';
+        const emptyMsg = document.createElement('div');
+        emptyMsg.classList.add('history-empty');
+        emptyMsg.textContent = 'No history to show.';
+        this.panelEl.appendChild(emptyMsg);
     };
 }
