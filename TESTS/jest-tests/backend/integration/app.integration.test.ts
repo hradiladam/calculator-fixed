@@ -12,7 +12,7 @@ describe('POST /evaluate', () => {
             ['1/3', '0.333333333333', 'rounds to 12 significant digits by default'], // 1/3 → 0.333333333333
             ['2×3÷2', '3', 'normalizes × and ÷ operators'], // 2×3=6, 6÷2=3
             ['2(3+4)', '14', 'handles implicit multiplication'], // 2*(3+4)=14
-            ])('returns "%s" → "%s" — %s', async (expression, expected, description) => {
+        ])('returns "%s" → "%s" — %s', async (expression, expected, description) => {
             const res = await request(app)
                 .post('/evaluate')
                 .send({ expression })
@@ -40,7 +40,7 @@ describe('POST /evaluate', () => {
 
             // A percent sign immediately after operator is invalid
             ['5+%', 400, 'Misplaced percent sign', 'rejects misplaced percent sign'],
-            ])('returns %d for "%s" — %s', async (expression, status, errorMsg, description) => {
+        ])('returns %d for "%s" — %s', async (expression, status, errorMsg, description) => {
             const res = await request(app)
                 .post('/evaluate')
                 .send({ expression })

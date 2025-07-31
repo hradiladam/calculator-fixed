@@ -1,4 +1,4 @@
-// TESTS/jest-tests/frontend/component/Calculator.integration.test.ts
+// TESTS/jest-tests/frontend/component/calculator-with-history.integration.test
 
 
 import State from '../../../../ts/modules/State.js';
@@ -6,7 +6,8 @@ import DisplayControl from '../../../../ts/modules/DisplayControl.js';
 import Evaluator from '../../../../ts/modules/Evaluator.js';
 import InputHandler from '../../../../ts/modules/InputHandler.js';
 import { formatForHistory } from '../../../../ts/modules/formatter.js';
-import HistoryPanel from '../../../../ts/modules/HistoryPanel';
+import HistoryPanel from '../../../../ts/modules/HistoryPanel.js';
+import ThemeSwitch from '../../../../ts/modules/ThemeSwitch.js'; 
 
 // ————— Helpers —————
 
@@ -32,25 +33,28 @@ const HTML = `
 	<div id="result"></div>
 	<button id="history-toggle"></button>
 	<div id="history-panel"></div>
+	<button id="theme-switch" aria-label="Toggle theme"></button>
 `;
 
 describe('Calculator integration (Jest + JSDOM)', () => {
 	let input: InputHandler;
 
 	beforeEach(() => {
-		// Reset DOM
 		document.body.innerHTML = HTML;
 
-		const state        = new State();
-		const historyEl    = document.getElementById('recent-history')!;
-		const resultEl     = document.getElementById('result')!;
-		const toggleBtn    = document.getElementById('history-toggle')!;
-		const panelEl      = document.getElementById('history-panel')!;
-		const display      = new DisplayControl(historyEl, resultEl, state);
-		const historyPanel = new HistoryPanel(toggleBtn, panelEl);
-		const evaluator    = new Evaluator(state, display, historyPanel);
-		input              = new InputHandler(state, evaluator, display);
+		const state = new State();
+		const historyEl = document.getElementById('recent-history')!;
+		const resultEl = document.getElementById('result')!;
+		const toggleBtn = document.getElementById('history-toggle')!;
+		const panelEl = document.getElementById('history-panel')!;
+		const themeButton = document.getElementById('theme-switch')!;
 
+		const display = new DisplayControl(historyEl, resultEl, state);
+		const historyPanel = new HistoryPanel(toggleBtn, panelEl);
+		const evaluator = new Evaluator(state, display, historyPanel);
+
+		input  = new InputHandler(state, evaluator, display);
+    	new ThemeSwitch(themeButton).init(); // initialize theme switch
 		display.update();
 	});
 
@@ -121,7 +125,68 @@ describe('Calculator integration (Jest + JSDOM)', () => {
 			})
 		);
 	});
+
+	test('history panel shows the computed entry after success', async () => {
+		// Stub network to return "5"
+		stubFetchSuccess('5');
+
+		// Press "2 + 3 ="
+		await press(input, '2', '+', '3', '=');
+
+		// Sanity: recent-history and result are correct already
+		expect(document.getElementById('result')!.textContent).toBe('5');
+		expect(document.getElementById('recent-history')!.textContent).toBe('2 + 3 =');
+
+		// —— Open history panel ——
+		const toggleBtn = document.getElementById('history-toggle')!;
+    	const panelElement = document.getElementById('history-panel')!;
+
+		// Initially hidden
+		expect(panelElement.classList.contains('visible')).toBe(false);
+		toggleBtn.click();
+		expect(panelElement.classList.contains('visible')).toBe(true);
+
+		// It should have one history entry: expression = result
+		const entry = panelElement.querySelector<HTMLElement>('.history-entry');
+		expect(entry).not.toBeNull();
+
+		const expressionElement = entry!.querySelector<HTMLElement>('.history-expression')!;
+		const resultElement = entry!.querySelector<HTMLElement>('.history-result')!;
+
+		expect(expressionElement.textContent).toBe('2 + 3 =');
+		expect(resultElement.textContent).toBe('5');
+	});
+
+	test('toggling theme does not clear history panel log', async () => {
+		// Stub network to return "5"
+		stubFetchSuccess('5');
+
+		// Perform a calculation so there is something in history panel
+		await press(input, '2', '+', '3', '=');
+
+		// Sanity: recent history populated
+		expect(document.getElementById('recent-history')!.textContent).toBe('2 + 3 =');
+
+		const toggleBtn = document.getElementById('history-toggle')!;
+		const panelEl = document.getElementById('history-panel')!;
+
+		// Open history panel and capture entry
+		toggleBtn.click();
+		expect(panelEl.classList.contains('visible')).toBe(true);
+		const entryBefore = panelEl.querySelector<HTMLElement>('.history-entry');
+		expect(entryBefore).not.toBeNull();
+
+		// Toggle theme
+		const themeButton = document.getElementById('theme-switch')!;
+		themeButton.click();
+		expect(document.body.classList.contains('dark-theme')).toBe(true);
+
+		// History panel should still contain the same entry
+		const entryAfter = panelEl.querySelector<HTMLElement>('.history-entry');
+		expect(entryAfter).not.toBeNull();
+		expect(entryAfter!.innerHTML).toBe(entryBefore!.innerHTML);
+	});
 });
 
 
-// npx jest TESTS/jest-tests/frontend/integration/Calculator.integration.test.ts
+// npx jest TESTS/jest-tests/frontend/integration/calculator-with-history.integration.test
