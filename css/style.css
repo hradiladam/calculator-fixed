@@ -8,7 +8,7 @@ body {
 	align-items: center;
 	min-height: 100vh;
 	margin: 0;
-	background: linear-gradient(145deg, #ffffff, #d1dae0);
+	background: linear-gradient(145deg, #ffffff, #f4fbff);
 }
 
 .calculator {
@@ -16,10 +16,10 @@ body {
 	gap: 0.8rem;
 	grid-template-columns: repeat(4, 4.7rem);
 	grid-auto-rows: 5.1rem;
-	background: linear-gradient(145deg, #d1dae0, #d1dae0);
+	background: linear-gradient(145deg, #999999, #969696);
 	padding: 1.3rem;
 	border-radius: 8px;
-	box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.35);
 }
 
 #display {
@@ -30,7 +30,7 @@ body {
 	flex-direction: column;
 	justify-content: space-between;
 	background-color: #ffffff;
-	color: #5a5a5a;
+	color: #2e3c50;
 	font-size: 2rem;
 	text-align: right;
 	border-radius: 6px;
@@ -52,7 +52,7 @@ body {
 
 #recent-history {
 	font-size: 1rem;
-	color: #7a8a97;
+	color: #5f6d7e;
 	white-space: normal;
 	word-break: break-all;
 	overflow-y: auto;
@@ -70,14 +70,14 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	color: #5a5a5a;
-	background-color: #f6f7f8;
+	color: #2e3c50;
+	background-color: #eef4fa;
 	box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 	transition: background-color 0.2s ease, outline 0.2s ease;
 }
 
 .button:hover {
-	background-color: #eff2f5;
+	background-color: #e0e0e0;
 }
 
 .button:active,
@@ -87,33 +87,33 @@ body {
 }
 
 .operator {
-	background-color: #6fb3e0;
+	background-color: #53b5f7;
 	color: #ffffff;
 	font-weight: 500;
 }
 
 .operator:hover {
-	background-color: #92c8ed;
+	background-color: #41a5e7;
 }
 
 .additional {
-	background-color: #57d6a4;
+	background-color: #3cdaa5;
 	color: #ffffff;
 	font-weight: 500;
 }
 
 .additional:hover {
-	background-color: #7ee6b8;
+	background-color: #33d39e;
 }
 
 .button:nth-child(21) {
-	background: linear-gradient(120deg, #6fb3e0, #3289c4);
+	background: linear-gradient(120deg, #53b5f7, #40a0e0);
 	color: #ffffff;
 	font-size: 1.8rem;
 }
 
 .button:nth-child(21):hover {
-	background: linear-gradient(120deg, #92c8ed, #3289c4);
+	background: linear-gradient(120deg, #46a5e4, #3194d6);
 }
 
 /* Theme & History Toggle Buttons */
@@ -136,7 +136,7 @@ body {
 	cursor: pointer;
 	border: none;
 	border-radius: 50%;
-	background-color: rgba(245, 250, 255, 0.3);
+	background-color: rgba(99, 99, 99, 0.15);
 	color: #424242;
 	font-size: 2rem;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -147,7 +147,7 @@ body {
 
 #theme-switch:hover,
 #history-toggle:hover {
-	background-color: rgba(245, 250, 255, 0.5);
+	background-color: rgba(255, 255, 255, 0.7);
 	transform: scale(1.1);
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
@@ -158,14 +158,14 @@ body {
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Slide‑out History Panel */
+/* Slide-out History Panel */
 #history-panel {
 	position: absolute;
 	top: calc(100% + 1.5rem); 
 	right: 0;
 	width: 18rem;
 	max-height: 60vh;
-	min-height: 5rem;
+	min-height: 4rem;
 	overflow-y: auto;
 	background: #fff;
 	border: 1px solid rgba(0,0,0,0.15);
@@ -201,7 +201,7 @@ body {
 	box-shadow: none;
 }
 
-/* then only re‑add them when .visible AND NOT empty */
+/* then only re-add them when .visible AND NOT empty */
 #history-panel.visible:not(:empty) {
     border: 1px solid rgba(0,0,0,0.15);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -228,7 +228,7 @@ body {
 }
 
 /*─────────────────────────────────────────────────────────────*/
-/* Dark‑Mode Overrides                                         */
+/* Dark-Mode Overrides                                         */
 /*─────────────────────────────────────────────────────────────*/
 body.dark-theme {
 	background: linear-gradient(145deg, #292929, #0e0e0e);
@@ -243,6 +243,10 @@ body.dark-theme #display {
 	background-color: #353535;
 	color: #e0e0e0;
 	box-shadow: 0 2px 4px rgba(255,255,255,0.2);
+}
+
+body.dark-theme #recent-history {
+	color: #c9c9c9
 }
 
 body.dark-theme #result {
@@ -314,7 +318,7 @@ body.dark-theme #history-toggle:active {
 	box-shadow: 0 2px 6px rgba(255,255,255,0.15);
 }
 
-/* Dark‑mode history panel */
+/* Dark-mode history panel */
 body.dark-theme #history-panel {
 	background: #353535;
 	border: 1px solid #555555;
@@ -328,7 +332,7 @@ body.dark-theme #history-panel.visible:not(:empty) {
 
 body.dark-theme .history-expression,
 body.dark-theme .history-empty {
-	color: #ccc;
+	color: #dfdfdf;
 }
 
 body.dark-theme .history-result {
@@ -342,31 +346,38 @@ body.dark-theme .history-result {
 	width: 8px;
 	height: 8px;
 }
+
 ::-webkit-scrollbar-track {
-	background: #e1e4e8;
+	background: #d0d9e2;
 }
+
 ::-webkit-scrollbar-thumb {
-	background-color: #c1c4c8;
+	background-color: #9aa6b3;
 	border-radius: 4px;
-	border: 2px solid #e1e4e8;
+	border: 2px solid #d0d9e2;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-	background-color: #a8aab0;
+	background-color: #7f8fa2;
 }
+
 * {
 	scrollbar-width: thin;
-	scrollbar-color: #c1c4c8 #e1e4e8;
+	scrollbar-color: #9aa6b3 #d0d9e2;
 }
 body.dark-theme ::-webkit-scrollbar-track {
 	background: #2b2b2b;
 }
+
 body.dark-theme ::-webkit-scrollbar-thumb {
 	background-color: #4d4d4d;
 	border: 2px solid #2b2b2b;
 }
+
 body.dark-theme ::-webkit-scrollbar-thumb:hover {
 	background-color: #666666;
 }
+
 body.dark-theme * {
 	scrollbar-color: #4d4d4d #2b2b2b;
 }
@@ -374,11 +385,13 @@ body.dark-theme * {
 /*─────────────────────────────────────────────────────────────*/
 /* Responsive                                                  */
 /*─────────────────────────────────────────────────────────────*/
+
 @media (max-width: 600px) {
 	body {
 		flex-direction: column;
 		justify-content: flex-start;
 	}
+
 	.calculator {
 		margin-top: 1.7rem;
 		grid-template-columns: repeat(4, 4.3rem);
@@ -387,49 +400,102 @@ body.dark-theme * {
 		gap: 0.5rem;
 		border-radius: 3px;
 	}
+
 	#display {
 		font-size: 1.9rem;
 		padding: 0.5rem;
 		margin-bottom: 0.5rem;
 	}
+
 	#recent-history {
 		font-size: 1.1rem;
 	}
+
 	.button {
 		font-size: 1.4rem;
 		width: 100%;
 		border-radius: 3px;
 	}
-	#theme-element {
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: 4.2rem;
-		background: #c0cbd3;
-		gap: 1rem;
-	}
-	#theme-switch,
-	#history-toggle {
-		width: 4.4rem;
-		height: 4.4rem;
-		background: transparent;
-		box-shadow: none;
-	}
-}
 
-@media (max-width: 400px) {
-	.calculator {
-		margin-top: 1.5rem;
-		grid-template-columns: repeat(4, 3.6rem);
-		grid-auto-rows: 3.6rem;
-		padding: 0.8rem;
-		gap: 0.45rem;
-	}
-	#theme-switch,
-	#history-toggle {
-		width: 3.8rem;
-		height: 3.8rem;
-		font-size: 1rem;
+	#theme-element {
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        left: 0;
+        width: 100%;
+        height: 4rem;
+        background: #d0e2f5;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0.5rem 1rem 0.5rem 0.5rem; /* top, right, bottom, left */
+        gap: 0.75rem;
+        z-index: 100;
+        box-sizing: border-box; /* <— ensure padding is inside the 100% width */
+    }
+
+    #theme-switch,
+    #history-toggle {
+        width: 3.2rem;
+        height: 3.2rem;
+        box-shadow: none;
+        font-size: 1.7rem;
+    }
+
+    /* remove the hover “circle” effect */
+    #theme-switch:hover,
+    #history-toggle:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    #history-panel {
+        top: auto !important;
+        bottom: calc(100% + 0.5rem);
+        right: 0;
+        left: auto;
+        width: 90%;
+        max-width: 18rem;
+        transform: translateY(0.5rem) scaleY(0.8);
+        transform-origin: bottom right;
+    }
+
+    #history-panel.visible {
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+        pointer-events: auto;
+    }
+
+	body.dark-theme #theme-element {
+        background: #0e0e0e;
+    }
+
+	@media (max-width: 400px) {
+		#theme-element {
+			gap: 0.5rem;
+		}
+
+		#theme-switch,
+		#history-toggle {
+			width: 3.4rem;
+			height: 3.4rem;
+			font-size: 1.4rem;
+		}
+
+		/* History panel slides up from below, centered under the buttons */
+		#history-panel {
+			width: 95%;
+			max-width: none;
+			right: 50%;
+			transform: translate(50%, 0.5rem) scaleY(0.8);
+			transform-origin: bottom center;
+			bottom: calc(100% + 0.5rem);
+			top: auto !important;
+		}
+		#history-panel.visible {
+			opacity: 1;
+			transform: translate(50%, 0) scaleY(1);
+			pointer-events: auto;
+		}
 	}
 }
