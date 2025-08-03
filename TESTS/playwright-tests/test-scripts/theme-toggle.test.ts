@@ -73,14 +73,14 @@ test.describe('Theme Toggle', () => {
         await calculator.switchTheme();
 
         // C. Check the icon: it should now be the SUN icon (means "click to return to light")
-        const iconHtmlAfterSwitchingDark = await calculator.themeToggle.innerHTML();
+        const iconHtmlAfterSwitchingDark = await calculator.themeToggleBtn.innerHTML();
         expect(iconHtmlAfterSwitchingDark).toContain('fa-sun'); // because we are now in dark mode
 
         // D. Second click — disables dark mode again
         await calculator.switchTheme();
 
         // Check the icon again: should be the MOON icon (means "click to go to dark mode")
-        const iconHtmlAfterSwitchingLight = await calculator.themeToggle.innerHTML();
+        const iconHtmlAfterSwitchingLight = await calculator.themeToggleBtn.innerHTML();
         expect(iconHtmlAfterSwitchingLight).toContain('fa-moon'); // because we are now in light mode
     });
 

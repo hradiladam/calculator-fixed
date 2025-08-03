@@ -16,11 +16,11 @@ test.describe('Expression Evaluation (End-to-End)', async () => {
     // 100 + 25% = → should yield 125 in 'discount style' % logic for + and -
     test('100 + 25% = 125', async () => {
         await test.step('enter expression', async () => {
-        await calculator.pressSequence('100+25%=');
+            await calculator.pressSequence('100+25%=');
         });
 
         await test.step('check result is 125', async () => {
-        await expect(calculator.result).toHaveText('125');
+            await expect(calculator.result).toHaveText('125');
         });
     }); 
         
@@ -28,11 +28,11 @@ test.describe('Expression Evaluation (End-to-End)', async () => {
     // 100 × 25% = → should yield 25 in 'traditional' % logic for * and /
     test('100 × 25% = 25', async () => {
         await test.step('enter expression', async () => {
-        await calculator.pressSequence('100×25%=');
+            await calculator.pressSequence('100×25%=');
         });
 
         await test.step('check result is 25', async () => {
-        await expect(calculator.result).toHaveText('25');
+            await expect(calculator.result).toHaveText('25');
         });
     });
 
