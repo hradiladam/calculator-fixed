@@ -46,24 +46,25 @@ npx playwright test --config=TESTS/playwright-tests/playwright.config.ts --proje
 
 
 ### Directory Structure
-/playwright-tests/
-- page/ 
-    - CalculatorPage.ts
-- test-scripts/
-    - theme-toggle.test.ts
-    - basic-inputs.test
-    - operator-inputs.test.ts
-    - functional-buttons-behaviour.test.ts
-    - ui-behavior.test.ts
-    - expression-evaluation.test.ts
-    - error-handling.testts
-- playwright.config.ts
-- globalSetup.ts
-- package.json
-- package-lock.json
-- .gitignore
-- README.md
+
+```
+calculator/
+└── TESTS/
+    └── playeright-tests/
+        ├── page/  
+        │   └──CalculatorPage.ts
+        ├── test-scripts/
+        │    ├──unit/
+        │    ├── DisplayControl.unit.test.ts
+        │    ├── Evaluator.unit.test.ts
+        │    ├── formatter.unit.test.ts
+        │    ├── InputHandler.unit.test.ts
+        │    ├── State.unit.test.ts
+        │    └── ThemeSwitch.unit.test.ts
+        ├──playwright.config.ts
+        ├──globalSetup.ts
+        └──README.md
+```
 
 
-
-This test suite is a work in progess. More tests will be added soon.
+This test suite is a work in progess. More tests will be added in the future.

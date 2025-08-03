@@ -10,24 +10,26 @@ calculator/
 ├── TESTS/
 │   └── jest-tests/
 │       ├── backend/  # Backend tests
-│       │   └──unit/
+│       │   ├──unit/
 │       │   │   ├── Calculator.test.ts
 │       │   │   ├── preprocessor.test.ts           
 │       │   │   └── Validator.test.ts
 │       │   └──integration/
 │       │       └── app.integration.test.ts
 │       └── frontend/  # Frontend tests
-│           └──unit/
+│            ├──unit/
 │            │  ├── DisplayControl.unit.test.ts
 │            │  ├── Evaluator.unit.test.ts
 │            │  ├── formatter.unit.test.ts
 │            │  ├── InputHandler.unit.test.ts
 │            │  ├── State.unit.test.ts
 │            │  └── ThemeSwitch.unit.test.ts
+│            ├──integration/
+│            │  └──calculator-with-history.integration.test.ts
 │            └──component/
 │               ├──Evaluator.component.test.ts
 │               ├──InputHandler.component.test.ts
-│               └──KeyboardHandler.component.test.ts  
+│               └──KeyboardHandler.component.test.ts 
 └── jest-config.cjs  # Root Jest config (multi-project setup)
 ```
 
