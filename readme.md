@@ -57,9 +57,6 @@ calculator/
 │   ├── package.json
 │   └── tsconfig.json
 └── TESTS/
-    ├── jest-tests/
-    ├── postman-tests/
-    └── playwright-tests/
 ```
 
 ## Technologies Used
