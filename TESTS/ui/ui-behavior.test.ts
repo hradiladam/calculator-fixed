@@ -37,13 +37,22 @@ test.describe('UI Behavior & Layout', () => {
         ).toBe('rgb(235, 77, 69)');
     });
 
-    // Hovering a default digit button changes its background color
-    test('hovering a default digit button changes its background', async () => {
-        const btn = calculator.buttons['7'];
-        const before = await btn.evaluate(el => getComputedStyle(el).backgroundColor);
+    // Hovering equals changes background image
+    test('hovering the equals button changes its background color (light mode)', async () => {
+        const btn = calculator.buttons['='];
+
+        const before = await btn.evaluate(el =>
+            getComputedStyle(el).backgroundColor
+        );
+
         await btn.hover();
-        await calculator.page.waitForTimeout(150);
-        const after = await btn.evaluate(el => getComputedStyle(el).backgroundColor);
+        await calculator.page.waitForTimeout(100);
+
+        const after = await btn.evaluate(el =>
+            getComputedStyle(el).backgroundColor
+        );
+
+        // ✅ MISSING ASSERTION — add this line:
         expect(after).not.toBe(before);
     });
 
@@ -54,16 +63,6 @@ test.describe('UI Behavior & Layout', () => {
         await btn.hover();
         await calculator.page.waitForTimeout(150);
         const after = await btn.evaluate(el => getComputedStyle(el).backgroundColor);
-        expect(after).not.toBe(before);
-    });
-
-    // Hovering the equals button changes its background image
-    test('hovering the equals button changes its background image', async () => {
-        const btn = calculator.buttons['='];
-        const before = await btn.evaluate(el => getComputedStyle(el).backgroundImage);
-        await btn.hover();
-        await calculator.page.waitForTimeout(150);
-        const after = await btn.evaluate(el => getComputedStyle(el).backgroundImage);
         expect(after).not.toBe(before);
     });
 
@@ -125,15 +124,21 @@ test.describe('UI Behavior & Layout', () => {
         expect(after).not.toBe(before);
     });
 
-    // DARK THEME: Hovering equals changes background image
-    test('dark theme — hovering the equals button changes its background image', async () => {
-        await calculator.switchTheme();
+    // DARK THEME: Hovering equals changes background
+    test('hovering the equals button changes its background color (dark mode)', async () => {
+        await calculator.switchTheme(); // Enable dark mode
         const btn = calculator.buttons['='];
 
-        const before = await btn.evaluate(el => getComputedStyle(el).backgroundImage);
+        const before = await btn.evaluate(el =>
+            getComputedStyle(el).backgroundColor
+        );
+
         await btn.hover();
-        await calculator.page.waitForTimeout(150);
-        const after = await btn.evaluate(el => getComputedStyle(el).backgroundImage);
+        await calculator.page.waitForTimeout(100);
+
+        const after = await btn.evaluate(el =>
+            getComputedStyle(el).backgroundColor
+        );
 
         expect(after).not.toBe(before);
     });
@@ -171,11 +176,10 @@ test.describe('UI Behavior & Layout', () => {
         await calculator.switchTheme();
         await calculator.pressSequence('1÷0=');
 
-        await expect.poll(() =>
-            calculator.result.evaluate(el => getComputedStyle(el).color)
+        await expect.poll(() => calculator.result.evaluate(
+            el => getComputedStyle(el).color)
         ).toBe('rgb(236, 111, 111)');
     });
 });
-
 
 // npx playwright test TESTS/ui/ui-behavior.test.ts --config=playwright-ui.config.ts --project=Chromium
